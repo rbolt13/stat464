@@ -1,0 +1,14 @@
+---
+name: "stat464"
+output_dir: "docs"
+output:
+  html_document:
+    theme: spacelab
+navbar:
+  title: "STAT-464 : Applied Regression Analysis"
+  left:
+    - text: "Notes"
+      href: index.html
+    - text: "Contact"
+      href: contact.html
+---

@@ -1,0 +1,81 @@
+---
+title: "Notes"
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
+output:
+  html_document:
+    toc: true
+    toc_float: TRUE
+    theme: spacelab
+---
+
+```{r,echo=F, message=F}
+library(dplyr)
+library(kableExtra)
+```
+
+# About
+
+These are class notes and R code for Professor Ge Zhao's STAT-464 : Applied Regression Analysis for Fall term 2021 at Portland State University. 
+
+# D1 : Monday September 27, 2021
+
+- will ask around for a bigger room 
+
+- assume we have basic understanding of R 
+
+## Introduction : Chapter 1 
+
+- We want to know if the data matches (1-1), (1-Many), (Many - Many) and such 
+
+- We call the data we are interested in the response $Y$ or sometimes the independet variable 
+
+  - want to see what happens to y and the change of Y (predict Y)
+  
+  - examples : price of bitcoin, or price of house 
+
+- We call the $X$ the predictor(s)
+
+- want to use prediction to predict a response 
+
+  - view of the model 
+  
+  - annalyze a model 
+  
+  - example (bitcoin) : day 1 = \$50, day 2 = \$100, day 3 = \$1,000
+  
+- math model is a statistical model, and to firgue out $Y=f(x)+\epsilon$ where $\epsilon$ is random error
+
+  - in math model everything is fixed except for the $\epsilon$
+  
+  - this is a very general problem (tells almost nothing)
+  
+```{r, echo=F}
+X <- c("continuous", "categrorical : ordinal data and nominal data")
+Y <- c("continuous", "categorical : ordinal data and nominal data")
+
+data.frame(X,Y) %>% kable() %>% kable_paper
+```
+- ordinal data (can be ordered) and nominal data (different types of data)"
+
+- in regression class most of the time we are focuses on X=Y : Continuous vs Continuous 
+
+- in experimental design we are focused on Y=X : Continuous vs Categorical 
+
+- special case (in later chapters) Y=X : Ordinal vs. continuous 
+
+- later (in other classes) we may see (double line) experimental design looks at every combination of categorical vs. categrorical .
+
+### Summary / Thoughts
+
+We are focusing on data, and relations between $X$ and $Y$. 
+
+Regressions would have continuous vs. continuous. This reminds me graphically of physics problems. How far does something go in a certain amount of time. 
+
+Experimental design would have a continuous $Y$ vs. a Categorical $X$. Graphically I think of histograms. 
+
+Some of the special cases I would need to think about. 
+
