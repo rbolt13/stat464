@@ -67,7 +67,7 @@ data.frame(X,Y) %>% kable() %>% kable_paper
 
 - special case (in later chapters) Y=X : Ordinal vs. continuous 
 
-- later (in other classes) we may see (double line) experimental design looks at every combination of categorical vs. categrorical .
+- later (in other classes) we may see (double line) experimental design looks at every combination of categorical vs. categorical .
 
 ### Summary / Thoughts
 
@@ -78,4 +78,85 @@ Regressions would have continuous vs. continuous. This reminds me graphically of
 Experimental design would have a continuous $Y$ vs. a Categorical $X$. Graphically I think of histograms. 
 
 Some of the special cases I would need to think about. 
+
+# D2 : Wednesday September 29, 2021
+
+- If you cannot attend in person use zoom number in D2L link 
+
+### Simple Linear Regression Model 
+
+A model with a single regressor (predictor) x that has a relationship with a response y that is a straight line line. $$y=\beta _{0}+\beta _{1}x+\epsilon$$
+
+- $x$ is the data, $\beta _{0}$ is the intercept, $\beta _{1}$ is the slope, and $\epsilon$ is a random error component. 
+
+  - $\beta$ unknown constants (parameters)
+  
+  - x is independent variable (predictor or regressor) and y is dependent variable (response).
+  
+  - simple because there is only one regressor (x).
+  
+  - the slope $\beta_{1}$ is the change in the mean of the distribution of y produced by a unit change in x.
+
+- data points don't fall on a straight line so we can quantify the distances between each point and the best fit line
+
+- $\epsilon$ is assumed to have an expectation or mean of 0 and an unknown variance $\sigma ^{2}$.
+
+Why can you make the assumption that the expectation of $\epsilon$ is zero? 
+
+- The expectation of a random variable must be a fixed random variable (number) whose derivative would be 0.
+
+- can always absorb +c into $\beta$
+
+### Mean and Variance of SLR
+
+$$E(y|x)=\mu_{x|y}=E(\beta _{0}+\beta _{1}x+\epsilon)=\beta _{0}+\beta_{1}x$$
+
+$$Var(y|x)=\sigma^{2}_{y|x}=Var(\beta _{0}+\beta _{1}x+\epsilon)=\sigma^{2}$$
+
+### Least-Square Estimation 
+
+Suppose we have $n$ pairs of data : $(y_{1},x_{1}),(y_{2},x_{2}),...,(y_{n},x_{n})$. Then for a single point $$y_{i}=(\beta _{0}+\beta _{1}x+\epsilon_{i})$$
+
+<center>
+
+OR
+
+</center>
+
+$$\epsilon_{i}=y_{i}-\beta _{0}-\beta _{1}x$$
+
+The idea is to minimize variations (the size of $\epsilon_{i}$), by taking the minimum : 
+
+$$\min\limits_{\beta_{0},\beta{1}}=\sum_{i=1}^n[y_{i}-\beta _{0}-\beta _{1}x_{i}]^{2}$$
+
+$$S(\beta_{0},\beta{1})=\sum_{i=1}^n[y_{i}-\beta _{0}-\beta _{1}x_{i}]^{2}$$
+
+- when the value is squared it will not be canceled with itself 
+
+Optimize by taking the derivative, set that to zero, and solve
+
+$\Rightarrow$ Take partial derivatives
+
+$$\frac{\partial S}{\partial \beta_{0}}=\sum_{i=1}^{n}-2[y_{i}-\beta _{0}-\beta _{1}x_{i}]$$
+
+$$\frac{\partial S}{\partial \beta_{1}}=\sum_{i=1}^{n}-2x_{i}[y_{i}-\beta _{0}-\beta _{1}x_{i}]$$
+
+$\Rightarrow$ set both equations equal to 0
+
+$$\sum_{i=1}^{n}y_{i}-\sum_{i=1}^{n}\beta _{0}-\sum_{i=1}^{n}\beta _{1}x_{i}=0$$
+
+$$\sum_{i=1}^{n}y_{i}x_{i}-\sum_{i=1}^{n}\beta _{0}x_{i}-\sum_{i=1}^{n}\beta _{1}x_{i}^{2}=0$$
+
+### Summary 
+
+- Class notes are difficult to see and hear, but follow the online notes from another student from a past term. Will try to stay in front of reading both textbook and old notes before class period. Will need to spend some time everyday on this class. 
+
+- Data = Model + Error , where error is a deviation from the model 
+
+- Discussed Simple Linear Regression Model, Expectation (mean), and variance, as well as the least squares estimate
+
+# D3 : Friday October 1st, 2021
+
+### Properties of least squares estimates
+
 

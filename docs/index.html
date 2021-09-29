@@ -409,7 +409,7 @@ categorical : ordinal data and nominal data
 <li><p>in regression class most of the time we are focuses on X=Y : Continuous vs Continuous</p></li>
 <li><p>in experimental design we are focused on Y=X : Continuous vs Categorical</p></li>
 <li><p>special case (in later chapters) Y=X : Ordinal vs. continuous</p></li>
-<li><p>later (in other classes) we may see (double line) experimental design looks at every combination of categorical vs. categrorical .</p></li>
+<li><p>later (in other classes) we may see (double line) experimental design looks at every combination of categorical vs. categorical .</p></li>
 </ul>
 <div id="summary-thoughts" class="section level3">
 <h3>Summary / Thoughts</h3>
@@ -418,6 +418,72 @@ categorical : ordinal data and nominal data
 <p>Experimental design would have a continuous <span class="math inline">\(Y\)</span> vs. a Categorical <span class="math inline">\(X\)</span>. Graphically I think of histograms.</p>
 <p>Some of the special cases I would need to think about.</p>
 </div>
+</div>
+</div>
+<div id="d2-wednesday-september-29-2021" class="section level1">
+<h1>D2 : Wednesday September 29, 2021</h1>
+<ul>
+<li>If you cannot attend in person use zoom number in D2L link</li>
+</ul>
+<div id="simple-linear-regression-model" class="section level3">
+<h3>Simple Linear Regression Model</h3>
+<p>A model with a single regressor (predictor) x that has a relationship with a response y that is a straight line line. <span class="math display">\[y=\beta _{0}+\beta _{1}x+\epsilon\]</span></p>
+<ul>
+<li><p><span class="math inline">\(x\)</span> is the data, <span class="math inline">\(\beta _{0}\)</span> is the intercept, <span class="math inline">\(\beta _{1}\)</span> is the slope, and <span class="math inline">\(\epsilon\)</span> is a random error component.</p>
+<ul>
+<li><p><span class="math inline">\(\beta\)</span> unknown constants (parameters)</p></li>
+<li><p>x is independent variable (predictor or regressor) and y is dependent variable (response).</p></li>
+<li><p>simple because there is only one regressor (x).</p></li>
+<li><p>the slope <span class="math inline">\(\beta_{1}\)</span> is the change in the mean of the distribution of y produced by a unit change in x.</p></li>
+</ul></li>
+<li><p>data points don’t fall on a straight line so we can quantify the distances between each point and the best fit line</p></li>
+<li><p><span class="math inline">\(\epsilon\)</span> is assumed to have an expectation or mean of 0 and an unknown variance <span class="math inline">\(\sigma ^{2}\)</span>.</p></li>
+</ul>
+<p>Why can you make the assumption that the expectation of <span class="math inline">\(\epsilon\)</span> is zero?</p>
+<ul>
+<li><p>The expectation of a random variable must be a fixed random variable (number) whose derivative would be 0.</p></li>
+<li><p>can always absorb +c into <span class="math inline">\(\beta\)</span></p></li>
+</ul>
+</div>
+<div id="mean-and-variance-of-slr" class="section level3">
+<h3>Mean and Variance of SLR</h3>
+<p><span class="math display">\[E(y|x)=\mu_{x|y}=E(\beta _{0}+\beta _{1}x+\epsilon)=\beta _{0}+\beta_{1}x\]</span></p>
+<p><span class="math display">\[Var(y|x)=\sigma^{2}_{y|x}=Var(\beta _{0}+\beta _{1}x+\epsilon)=\sigma^{2}\]</span></p>
+</div>
+<div id="least-square-estimation" class="section level3">
+<h3>Least-Square Estimation</h3>
+<p>Suppose we have <span class="math inline">\(n\)</span> pairs of data : <span class="math inline">\((y_{1},x_{1}),(y_{2},x_{2}),...,(y_{n},x_{n})\)</span>. Then for a single point <span class="math display">\[y_{i}=(\beta _{0}+\beta _{1}x+\epsilon_{i})\]</span></p>
+<center>
+<p>OR</p>
+</center>
+<p><span class="math display">\[\epsilon_{i}=y_{i}-\beta _{0}-\beta _{1}x\]</span></p>
+<p>The idea is to minimize variations (the size of <span class="math inline">\(\epsilon_{i}\)</span>), by taking the minimum :</p>
+<p><span class="math display">\[\min\limits_{\beta_{0},\beta{1}}=\sum_{i=1}^n[y_{i}-\beta _{0}-\beta _{1}x_{i}]^{2}\]</span></p>
+<p><span class="math display">\[S(\beta_{0},\beta{1})=\sum_{i=1}^n[y_{i}-\beta _{0}-\beta _{1}x_{i}]^{2}\]</span></p>
+<ul>
+<li>when the value is squared it will not be canceled with itself</li>
+</ul>
+<p>Optimize by taking the derivative, set that to zero, and solve</p>
+<p><span class="math inline">\(\Rightarrow\)</span> Take partial derivatives</p>
+<p><span class="math display">\[\frac{\partial S}{\partial \beta_{0}}=\sum_{i=1}^{n}-2[y_{i}-\beta _{0}-\beta _{1}x_{i}]\]</span></p>
+<p><span class="math display">\[\frac{\partial S}{\partial \beta_{1}}=\sum_{i=1}^{n}-2x_{i}[y_{i}-\beta _{0}-\beta _{1}x_{i}]\]</span></p>
+<p><span class="math inline">\(\Rightarrow\)</span> set both equations equal to 0</p>
+<p><span class="math display">\[\sum_{i=1}^{n}y_{i}-\sum_{i=1}^{n}\beta _{0}-\sum_{i=1}^{n}\beta _{1}x_{i}=0\]</span></p>
+<p><span class="math display">\[\sum_{i=1}^{n}y_{i}x_{i}-\sum_{i=1}^{n}\beta _{0}x_{i}-\sum_{i=1}^{n}\beta _{1}x_{i}^{2}=0\]</span></p>
+</div>
+<div id="summary" class="section level3">
+<h3>Summary</h3>
+<ul>
+<li><p>Class notes are difficult to see and hear, but follow the online notes from another student from a past term. Will try to stay in front of reading both textbook and old notes before class period. Will need to spend some time everyday on this class.</p></li>
+<li><p>Data = Model + Error , where error is a deviation from the model</p></li>
+<li><p>Discussed Simple Linear Regression Model, Expectation (mean), and variance, as well as the least squares estimate</p></li>
+</ul>
+</div>
+</div>
+<div id="d3-friday-october-1st-2021" class="section level1">
+<h1>D3 : Friday October 1st, 2021</h1>
+<div id="properties-of-least-squares-estimates" class="section level3">
+<h3>Properties of least squares estimates</h3>
 </div>
 </div>
 
