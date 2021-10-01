@@ -435,6 +435,7 @@ categorical : ordinal data and nominal data
 <li><p>x is independent variable (predictor or regressor) and y is dependent variable (response).</p></li>
 <li><p>simple because there is only one regressor (x).</p></li>
 <li><p>the slope <span class="math inline">\(\beta_{1}\)</span> is the change in the mean of the distribution of y produced by a unit change in x.</p></li>
+<li><p>example might be <span class="math inline">\(x_1\)</span> = pulse rate (rest rate), and <span class="math inline">\(y\)</span> might be oxygen consumption rate (oxygen rate)</p></li>
 </ul></li>
 <li><p>data points don’t fall on a straight line so we can quantify the distances between each point and the best fit line</p></li>
 <li><p><span class="math inline">\(\epsilon\)</span> is assumed to have an expectation or mean of 0 and an unknown variance <span class="math inline">\(\sigma ^{2}\)</span>.</p></li>
@@ -443,12 +444,19 @@ categorical : ordinal data and nominal data
 <ul>
 <li><p>The expectation of a random variable must be a fixed random variable (number) whose derivative would be 0.</p></li>
 <li><p>can always absorb +c into <span class="math inline">\(\beta\)</span></p></li>
+<li><p><span class="math inline">\(\epsilon _{i}\)</span> are uncorrelated from observation to observation</p></li>
 </ul>
 </div>
 <div id="mean-and-variance-of-slr" class="section level3">
 <h3>Mean and Variance of SLR</h3>
 <p><span class="math display">\[E(y|x)=\mu_{x|y}=E(\beta _{0}+\beta _{1}x+\epsilon)=\beta _{0}+\beta_{1}x\]</span></p>
+<ul>
+<li><span class="math inline">\(E(y|x)\)</span> referes to the mean <em>y</em> conditional on a specific value of <em>x</em>.</li>
+</ul>
 <p><span class="math display">\[Var(y|x)=\sigma^{2}_{y|x}=Var(\beta _{0}+\beta _{1}x+\epsilon)=\sigma^{2}\]</span></p>
+<ul>
+<li>homogenous variance assumption</li>
+</ul>
 </div>
 <div id="least-square-estimation" class="section level3">
 <h3>Least-Square Estimation</h3>
@@ -477,6 +485,7 @@ categorical : ordinal data and nominal data
 <li><p>Class notes are difficult to see and hear, but follow the online notes from another student from a past term. Will try to stay in front of reading both textbook and old notes before class period. Will need to spend some time everyday on this class.</p></li>
 <li><p>Data = Model + Error , where error is a deviation from the model</p></li>
 <li><p>Discussed Simple Linear Regression Model, Expectation (mean), and variance, as well as the least squares estimate</p></li>
+<li><p><span class="math inline">\(\beta_{0}\)</span> is the intercept, and <span class="math inline">\(\beta_{1}\)</span> is the slope</p></li>
 </ul>
 </div>
 </div>

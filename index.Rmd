@@ -96,6 +96,8 @@ A model with a single regressor (predictor) x that has a relationship with a res
   - simple because there is only one regressor (x).
   
   - the slope $\beta_{1}$ is the change in the mean of the distribution of y produced by a unit change in x.
+  
+  - example might be $x_1$ = pulse rate (rest rate), and $y$ might be oxygen consumption rate (oxygen rate)
 
 - data points don't fall on a straight line so we can quantify the distances between each point and the best fit line
 
@@ -107,11 +109,17 @@ Why can you make the assumption that the expectation of $\epsilon$ is zero?
 
 - can always absorb +c into $\beta$
 
+- $\epsilon _{i}$ are uncorrelated from observation to observation 
+
 ### Mean and Variance of SLR
 
 $$E(y|x)=\mu_{x|y}=E(\beta _{0}+\beta _{1}x+\epsilon)=\beta _{0}+\beta_{1}x$$
 
+- $E(y|x)$ referes to the mean _y_ conditional on a specific value of _x_. 
+
 $$Var(y|x)=\sigma^{2}_{y|x}=Var(\beta _{0}+\beta _{1}x+\epsilon)=\sigma^{2}$$
+
+- homogenous variance assumption 
 
 ### Least-Square Estimation 
 
@@ -154,6 +162,8 @@ $$\sum_{i=1}^{n}y_{i}x_{i}-\sum_{i=1}^{n}\beta _{0}x_{i}-\sum_{i=1}^{n}\beta _{1
 - Data = Model + Error , where error is a deviation from the model 
 
 - Discussed Simple Linear Regression Model, Expectation (mean), and variance, as well as the least squares estimate
+
+- $\beta_{0}$ is the intercept, and $\beta_{1}$ is the slope
 
 # D3 : Friday October 1st, 2021
 
