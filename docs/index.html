@@ -493,7 +493,85 @@ categorical : ordinal data and nominal data
 <h1>D3 : Friday October 1st, 2021</h1>
 <div id="properties-of-least-squares-estimates" class="section level3">
 <h3>Properties of least squares estimates</h3>
+<p>Today we will prove ???</p>
+<p>This is the SSR form</p>
+<p><span class="math display">\[\min\limits_{\beta_{0},\beta{1}}=\sum_{i=1}^n[y_{i}-\beta _{0}-\beta _{1}x_{i}]^{2}\]</span></p>
+<p><span class="math inline">\(\overline{xy}\)</span> is <strong>not</strong> <span class="math inline">\(x*y\)</span> but the area</p>
+<ul>
+<li>rewrite solutions :
+<ul>
+<li>cancle out n’s</li>
+<li>multiple <span class="math inline">\(\overline{x}^{2}\)</span><br />
+</li>
+<li>cancle the terms with beta 0</li>
+</ul></li>
+</ul>
+<p><span class="math inline">\(\beta_{1}\{\overline{x}^2-\{\overline{x}\}^{2}\}=\overline{xy}-\overline{x} \cdot\overline{y}\)</span></p>
+<p>From (1) we can have relationship <span class="math inline">\(\beta_{0}=\overline{y}-\beta_{1}\overline{x}\)</span></p>
+<p>…</p>
+<p>12:03</p>
+<p><span class="math inline">\(\hat{\beta}=\frac{\overline{xy}-\overline{x} \cdot\overline{y}}{\overline{x}^{2}-\{\overline{x}\}^{2}}=\frac{\sum}{\sum}\)</span></p>
 </div>
+<div id="summary-1" class="section level3">
+<h3>Summary</h3>
+<ul>
+<li><p>Trying to follow along with proofs that I can’t see isn’t working.</p></li>
+<li><p>If time this term, it wouldn’t hurt to revist these lectures and try to fill out these notes.</p></li>
+<li><p><a href="http://web.pdx.edu/~gibson25/564/564-lecture-notes.html#12_-_october_1,_2020">October 1</a> should be the proof we did today.</p></li>
+</ul>
+</div>
+</div>
+<div id="d4-monday-october-4th-2021" class="section level1">
+<h1>D4 : Monday October 4th, 2021</h1>
+<ul>
+<li><p>class is very difficult to follow along to, so these are more reflective of what’s in the book and from notes of students from last year.</p></li>
+<li><p>it seems like we work through proofs in class, but I do not think that is knowledge I am required to know to pass this class so … oh well. Typical PSU.</p></li>
+<li><p>do not hand write homework</p></li>
+<li><p>rmarkdown file is hell, and will take me a couple hours to clean up before I can use it</p></li>
+<li><p>Final / Midterm will be in the form of an official report</p></li>
+</ul>
+<div id="properties-of-least-squares-estimates-1" class="section level3">
+<h3>Properties of least squares estimates</h3>
+<ol style="list-style-type: decimal">
+<li><p><span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span> are linear combinations of of the observations <span class="math inline">\(y_{i}\)</span></p></li>
+<li><p><span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span> are unbiased estimators of <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_0\)</span></p></li>
+</ol>
+<ul>
+<li><p>the expectation of <span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span> are unbias estimators</p></li>
+<li><p>this means estimators are good because if we repeat test many times, the model will show very close to the truth.</p></li>
+</ul>
+</div>
+<div id="proof-that-expectations-of-estimators-equals-parameters" class="section level3">
+<h3>Proof that expectations of estimators equals parameters</h3>
+<p>We need to prove that <span class="math inline">\(E[\hat{\beta}_{0}]=\beta_{0}\)</span> and <span class="math inline">\(E[\hat{\beta}_{1}]=\beta_{1}\)</span></p>
+<p>First assume that <span class="math inline">\(E[\hat{\beta}_{1}]=\beta_{1}\)</span>.</p>
+<p><span class="math display">\[\begin{equation}\label{estimators expectation proof}
+\begin{split}
+E[\hat{\beta}_{0}] &amp; = E[\overline{Y}-\hat{\beta}_{1}\overline{x}]\\
+&amp; = E[\overline{Y}]-\overline{x}E[\hat{\beta}_{1}]\\
+&amp; = \frac{1}{n}\sum_{i=1}^{n}E[\overline{Y}]-\overline{x}\hat{\beta}_{1}\\
+&amp; = \frac{1}{n}\sum_{i=1}^{n}(\beta_{0} +\beta_{1}x_{i})-\overline{x}\hat{\beta}_{1}\\
+&amp; = \beta_{0} +\overline{x}\hat{\beta}_{1}-\overline{x}\hat{\beta}_{1}\\
+&amp; = \beta_0
+\end{split}
+\end{equation}\]</span></p>
+<p>Therefore by the proof of equalities <span class="math inline">\(E[\hat{\beta}_{0}]=\beta_{0}\)</span>. QED.</p>
+<ul>
+<li><p>y : not random, Y : random</p></li>
+<li><p>E(ax+bY)=aE(x)+bE(Y)</p></li>
+<li><p>cannot assume x to be random because it is apart of the observed data</p></li>
+</ul>
+</div>
+<div id="summary-2" class="section level3">
+<h3>Summary</h3>
+<ul>
+<li><p>cancellation is tricky, will revisit on Wednesday</p></li>
+<li><p>nothing in the homework has really been covered in class. Not sure what that’s about, and I don’t care. Heavily considering ditching class notes just to follow along with the textbook. seems more applicable to what I will need to do / know for the test and future, as opposed to whatever it is the professor spends all of lecture doing (which is think is mostly just algebra?).</p></li>
+</ul>
+</div>
+</div>
+<div id="d5-wednesday-october-6th-2021" class="section level1">
+<h1>D5 : Wednesday October 6th, 2021</h1>
 </div>
 
 

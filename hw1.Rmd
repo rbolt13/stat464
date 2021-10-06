@@ -1,0 +1,65 @@
+---
+title: "homework1"
+author: "Randi Bolt"
+date: "10/4/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# libraries
+library(readxl)
+```
+
+## Problem 2.1
+
+```{r}
+team <- c("Washington", "Minnesota", "New England", "Oakland", "Pittsburgh", "Baltimore", "Los Angeles", "Dallas",
+          "Atlanta", "Buffalo", "Chicago", "Cinncinnati", "Cleveland", "Denver", "Detroit", "Green Bay", "Houston",
+          "Kansas City", "Miami", "New Orleans", "New York Giants", "New York Jets", "Philadelphia", "St.Louis", 
+          "San Diego", "San Francisco", "Seattle", "Tampa Bay")
+# y : games won (per 14 game season)
+y <- c(10, 11, 11, 13, 10, 11, 10, 11, 4, 2, 7, 10, 9, 9, 6, 5, 5, 5, 6, 4, 3, 3, 4, 10, 6, 8, 2, 0)
+# x8 : Opponents' rushing yards (season)
+x8 <- c(2205, 1575, 2175, 2476, 1866, 2339, 2092, 1909, 2001, 2254, 2217, 1758, 2032, 2025,
+        1686, 1835, 1914, 2496, 2670, 2202, 1988, 2324, 2550, 2110, 2628, 1776, 2524, 2241)
+NFL76 <- data.frame(team, y, x8)
+head(NFL76)
+plot(x8, y)
+```
+
+Our model is
+\[
+Y = \beta_0+\beta_1 X+\epsilon.
+\]
+
+Here, $Y$ is *Games Won (per 14 game season)* and $X$ is *Rushing Yards (season). We can compute what we want directly from definitions
+\[
+S_{xx} = \sum_{i=1}^n(x_i-\bar{x})^2\\
+S_{xy} = \sum_{i = 1}^ny_i(x_i-\bar{x})=\sum_{i=1}^nx_iy_i-\bar{x}\sum_{i=1}^ny_i\\
+\hat{\beta}_1 = \frac{S_{xy}}{S_{xx}}\\
+\hat{\beta}_0 = \bar{y}-\hat{\beta}_1\bar{x}.
+\]
+
+```{r}
+x <- x8
+n <- length(x)
+sxx = sum(x^2)-sum(x)^2/n;sxx
+sxy = sum(x*y)-sum(x)*sum(y)/n;sxy
+beta1 = sxy/sxx;beta1
+beta0 = mean(y)-beta1*mean(x)
+c(beta0,beta1)
+error = y-(beta0+beta1*x)
+plot(error);hist(error)
+```
+
+
+```{r}
+model1 = lm(y ~ x8,data = NFL76)
+summary(model1)
+```
+
+

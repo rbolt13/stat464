@@ -169,4 +169,99 @@ $$\sum_{i=1}^{n}y_{i}x_{i}-\sum_{i=1}^{n}\beta _{0}x_{i}-\sum_{i=1}^{n}\beta _{1
 
 ### Properties of least squares estimates
 
+Today we will prove ??? 
+
+
+This is the SSR form 
+
+$$\min\limits_{\beta_{0},\beta{1}}=\sum_{i=1}^n[y_{i}-\beta _{0}-\beta _{1}x_{i}]^{2}$$
+
+
+
+$\overline{xy}$ is **not** $x*y$ but the area
+
+
+- rewrite solutions :
+  - cancle out n's
+  - multiple $\overline{x}^{2}$  
+  - cancle the terms with beta 0 
+  
+$\beta_{1}\{\overline{x}^2-\{\overline{x}\}^{2}\}=\overline{xy}-\overline{x} \cdot\overline{y}$
+
+From (1) we can have relationship $\beta_{0}=\overline{y}-\beta_{1}\overline{x}$
+
+
+...
+
+12:03
+
+$\hat{\beta}=\frac{\overline{xy}-\overline{x} \cdot\overline{y}}{\overline{x}^{2}-\{\overline{x}\}^{2}}=\frac{\sum}{\sum}$
+
+### Summary
+
+- Trying to follow along with proofs that I can't see isn't working. 
+
+- If time this term, it wouldn't hurt to revist these lectures and try to fill out these notes. 
+
+- [October 1](http://web.pdx.edu/~gibson25/564/564-lecture-notes.html#12_-_october_1,_2020) should be the proof we did today. 
+
+# D4 : Monday October 4th, 2021
+
+- class is very difficult to follow along to, so these are more reflective of what's in the book and from notes of students from last year. 
+
+- it seems like we work through proofs in class, but I do not think that is knowledge I am required to know to pass this class so ... oh well. Typical PSU. 
+
+- do not hand write homework 
+
+- rmarkdown file  is hell, and will take me a couple hours to clean up before I can use it
+
+- Final / Midterm will be in the form of an official report 
+
+### Properties of least squares estimates
+
+1. $\hat{\beta}_1$ and $\hat{\beta}_0$ are linear combinations of of the observations $y_{i}$
+
+2. $\hat{\beta}_1$ and $\hat{\beta}_0$ are unbiased estimators of $\beta_1$ and $\beta_0$ 
+
+- the expectation of $\hat{\beta}_1$ and $\hat{\beta}_0$ are unbias estimators 
+
+- this means estimators are good because if we repeat test many times, the model will show very close to the truth. 
+
+### Proof that expectations of estimators equals parameters 
+
+
+We need to prove that $E[\hat{\beta}_{0}]=\beta_{0}$ and $E[\hat{\beta}_{1}]=\beta_{1}$
+
+First assume that $E[\hat{\beta}_{1}]=\beta_{1}$. 
+
+\begin{equation}\label{estimators expectation proof}
+\begin{split}
+E[\hat{\beta}_{0}] & = E[\overline{Y}-\hat{\beta}_{1}\overline{x}]\\
+& = E[\overline{Y}]-\overline{x}E[\hat{\beta}_{1}]\\
+& = \frac{1}{n}\sum_{i=1}^{n}E[\overline{Y}]-\overline{x}\hat{\beta}_{1}\\
+& = \frac{1}{n}\sum_{i=1}^{n}(\beta_{0} +\beta_{1}x_{i})-\overline{x}\hat{\beta}_{1}\\
+& = \beta_{0} +\overline{x}\hat{\beta}_{1}-\overline{x}\hat{\beta}_{1}\\
+& = \beta_0
+\end{split}
+\end{equation}
+
+Therefore by the proof of equalities $E[\hat{\beta}_{0}]=\beta_{0}$. QED. 
+
+- y : not random, Y : random 
+
+- E(ax+bY)=aE(x)+bE(Y)
+
+- cannot assume x to be random because it is apart of the observed data 
+
+
+### Summary 
+
+- cancellation is tricky, will revisit on Wednesday 
+
+- nothing in the homework has really been covered in class. Not sure what that's about, and I don't care. Heavily considering ditching class notes just to follow along with the textbook. seems more applicable to what I will need to do / know for the test and future, as opposed to whatever it is the professor spends all of lecture doing (which is think is mostly just algebra?). 
+
+# D5 : Wednesday October 6th, 2021
+
+
+
 

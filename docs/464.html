@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Ge Zhao" />
+
+
+<title>STAT564 Applied Regression Analysis</title>
+
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">STAT-464 : Applied Regression Analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Notes</a>
+</li>
+<li>
+  <a href="contact.html">Contact</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">STAT564 Applied Regression Analysis</h1>
+<h4 class="author">Ge Zhao</h4>
+<h4 class="date">9/26/2020</h4>
+
+</div>
+
+
+<div id="introduction-of-r" class="section level2">
+<h2>Introduction of R</h2>
+<p>I am using R Studio for class examples which is more user friendly. The computation core is still R. It is okay if you want to use and familiar with others, but I may not provide full assistance. R can be downloaded from <em><a href="https://www.r-project.org/" class="uri">https://www.r-project.org/</a></em>. RStudio is from <em><a href="https://rstudio.com/" class="uri">https://rstudio.com/</a></em>.</p>
+<pre class="r"><code># setwd(&quot;G:/Desktop/rsite/stat464&quot;) # set working directory
+# install.packages(&quot;MPV&quot;)
+library(MPV) # data in the appendix</code></pre>
+<pre><code>## Loading required package: lattice</code></pre>
+<pre><code>## Loading required package: KernSmooth</code></pre>
+<pre><code>## KernSmooth 2.23 loaded
+## Copyright M. P. Wand 1997-2009</code></pre>
+<pre class="r"><code># install.packages(&quot;scatterplot3d&quot;) # Install
+library(&quot;scatterplot3d&quot;) # load
+# install.packages(&quot;installr&quot;)
+library(installr) </code></pre>
+<pre><code>## 
+## Welcome to installr version 0.23.2
+## 
+## More information is available on the installr project website:
+## https://github.com/talgalili/installr/
+## 
+## Contact: &lt;tal.galili@gmail.com&gt;
+## Suggestions and bug-reports can be submitted at: https://github.com/talgalili/installr/issues
+## 
+##          To suppress this message use:
+##          suppressPackageStartupMessages(library(installr))</code></pre>
+<pre class="r"><code>#install.packages(&quot;xlsx&quot;)
+library(readxl)
+p2.7</code></pre>
+<pre><code>##    purity hydro
+## 1   86.91  1.02
+## 2   89.85  1.11
+## 3   90.28  1.43
+## 4   86.34  1.11
+## 5   92.58  1.01
+## 6   87.33  0.95
+## 7   86.29  1.11
+## 8   91.86  0.87
+## 9   95.61  1.43
+## 10  89.86  1.02
+## 11  96.73  1.46
+## 12  99.42  1.55
+## 13  98.66  1.55
+## 14  96.07  1.55
+## 15  93.65  1.40
+## 16  87.31  1.15
+## 17  95.00  1.01
+## 18  96.85  0.99
+## 19  85.20  0.95
+## 20  90.56  0.98</code></pre>
+<pre class="r"><code>head(p2.7)</code></pre>
+<pre><code>##   purity hydro
+## 1  86.91  1.02
+## 2  89.85  1.11
+## 3  90.28  1.43
+## 4  86.34  1.11
+## 5  92.58  1.01
+## 6  87.33  0.95</code></pre>
+</div>
+<div id="simple-linear-regression" class="section level1">
+<h1>Simple Linear Regression</h1>
+<div id="regression-and-inference" class="section level2">
+<h2>Regression and Inference</h2>
+<pre class="r"><code>example21 = read_excel(&quot;data/Chapter 2/Examples/data-ex-2-1 (Rocket Prop).xls&quot;) # read .xls file from local directory
+colnames(example21) = c(&quot;Observation&quot;,&quot;Shear_Strength_psi&quot;,&quot;Age_of_Propellant_weeks&quot;)
+example21</code></pre>
+<pre><code>## # A tibble: 20 x 3
+##    Observation Shear_Strength_psi Age_of_Propellant_weeks
+##          &lt;dbl&gt;              &lt;dbl&gt;                   &lt;dbl&gt;
+##  1           1              2159.                   15.5 
+##  2           2              1678.                   23.8 
+##  3           3              2316                     8   
+##  4           4              2061.                   17   
+##  5           5              2208.                    5.5 
+##  6           6              1708.                   19   
+##  7           7              1785.                   24   
+##  8           8              2575                     2.5 
+##  9           9              2358.                    7.5 
+## 10          10              2257.                   11   
+## 11          11              2165.                   13   
+## 12          12              2400.                    3.75
+## 13          13              1780.                   25   
+## 14          14              2337.                    9.75
+## 15          15              1765.                   22   
+## 16          16              2054.                   18   
+## 17          17              2414.                    6   
+## 18          18              2200.                   12.5 
+## 19          19              2654.                    2   
+## 20          20              1754.                   21.5</code></pre>
+<pre class="r"><code>head(example21)</code></pre>
+<pre><code>## # A tibble: 6 x 3
+##   Observation Shear_Strength_psi Age_of_Propellant_weeks
+##         &lt;dbl&gt;              &lt;dbl&gt;                   &lt;dbl&gt;
+## 1           1              2159.                    15.5
+## 2           2              1678.                    23.8
+## 3           3              2316                      8  
+## 4           4              2061.                    17  
+## 5           5              2208.                     5.5
+## 6           6              1708.                    19</code></pre>
+<pre class="r"><code>attach(example21)
+y = example21$Shear_Strength_psi
+x = example21$Age_of_Propellant_weeks
+n = length(x)
+plot(Age_of_Propellant_weeks,Shear_Strength_psi,pch = 16)</code></pre>
+<p><img src="464_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Our model is <span class="math display">\[
+Y = \beta_0+\beta_1 X+\epsilon.
+\]</span></p>
+<p>Here, <span class="math inline">\(Y\)</span> is <em>Shear_Strength_psi</em> and <span class="math inline">\(X\)</span> is <em>Age_of_Propellant_weeks</em>. We can compute what we want directly from definitaions <span class="math display">\[
+S_{xx} = \sum_{i=1}^n(x_i-\bar{x})^2\\
+S_{xy} = \sum_{i = 1}^ny_i(x_i-\bar{x})=\sum_{i=1}^nx_iy_i-\bar{x}\sum_{i=1}^ny_i\\
+\hat{\beta}_1 = \frac{S_{xy}}{S_{xx}}\\
+\hat{\beta}_0 = \bar{y}-\hat{\beta}_1\bar{x}.
+\]</span></p>
+<pre class="r"><code>sxx = sum(x^2)-sum(x)^2/n;sxx</code></pre>
+<pre><code>## [1] 1106.559</code></pre>
+<pre class="r"><code>sxy = sum(x*y)-sum(x)*sum(y)/n;sxy</code></pre>
+<pre><code>## [1] -41112.65</code></pre>
+<pre class="r"><code>beta1 = sxy/sxx;beta1</code></pre>
+<pre><code>## [1] -37.15359</code></pre>
+<pre class="r"><code>beta0 = mean(y)-beta1*mean(x)
+c(beta0,beta1)</code></pre>
+<pre><code>## [1] 2627.82236  -37.15359</code></pre>
+<pre class="r"><code>error = y-(beta0+beta1*x)
+plot(error);hist(error)</code></pre>
+<p><img src="464_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="464_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<p>We can use R packages to do most of the work in the future. Most softwares have packages for linear model. In <em>lm</em> function, we have everything we want in the output summary.</p>
+<pre class="r"><code>model1 = lm(Shear_Strength_psi ~ Age_of_Propellant_weeks,data = example21)
+summary(model1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Shear_Strength_psi ~ Age_of_Propellant_weeks, data = example21)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -215.98  -50.68   28.74   66.61  106.76 
+## 
+## Coefficients:
+##                         Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)             2627.822     44.184   59.48  &lt; 2e-16 ***
+## Age_of_Propellant_weeks  -37.154      2.889  -12.86 1.64e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 96.11 on 18 degrees of freedom
+## Multiple R-squared:  0.9018, Adjusted R-squared:  0.8964 
+## F-statistic: 165.4 on 1 and 18 DF,  p-value: 1.643e-10</code></pre>
+<p>For example, we know the variance of slope <span class="math inline">\(\beta_0\)</span> is <span class="math display">\[Var(\hat{\beta_1})=\frac{\sigma^2}{S_{xx}}\]</span>. The test statistic of <span class="math inline">\(\beta_0\)</span> is <span class="math display">\[
+t_0 = \frac{\hat{\beta_0}-\beta_{00}}{\sqrt{MS_{Res}(1/n+\bar{x}^2/S_{xx})}}.
+\]</span> <em>p-value</em> is given by <span class="math display">\[P(T&gt;t_0).\]</span> Let’s do it by hand.</p>
+<pre class="r"><code>sst = sum((y-mean(y))^2);sst</code></pre>
+<pre><code>## [1] 1693738</code></pre>
+<pre class="r"><code>ssres = sum(error^2);ssres</code></pre>
+<pre><code>## [1] 166254.9</code></pre>
+<pre class="r"><code>varBeta1 = (ssres/(n-2))/sxx;sqrt(varBeta1) # variance of \beta_1</code></pre>
+<pre><code>## [1] 2.889107</code></pre>
+<pre class="r"><code>sdOfBeta1 = sqrt(ssres/(n-2)*(1/sxx))
+sdOfBeta0 = sqrt(ssres/(n-2)*(1/n+mean(x)^2/sxx))
+t0 = (beta0-0)/sdOfBeta0;t0</code></pre>
+<pre><code>## [1] 59.47464</code></pre>
+<pre class="r"><code>pt(-t0,n-2)</code></pre>
+<pre><code>## [1] 2.03178e-22</code></pre>
+<p>Similarly, <em>lm</em> returns everything else as we want. (We will meet <em>Adjusted R-squared</em> later).</p>
+<p>Let <span class="math inline">\(\alpha = 0.05\)</span>, the <span class="math inline">\((1-\alpha)100\%=95\%\)</span> confidence interval (C.I.) of <span class="math inline">\(\beta_1\)</span> is <span class="math inline">\((-43.22 -31.08)\)</span>, given by</p>
+<pre class="r"><code>c(beta1+qt(0.025,n-2)*sdOfBeta1,beta1-qt(0.025,n-2)*sdOfBeta1)</code></pre>
+<pre><code>## [1] -43.22338 -31.08380</code></pre>
+</div>
+<div id="prediction" class="section level2">
+<h2>Prediction</h2>
+<p>We predict the average response at point <span class="math inline">\(x_0\)</span> with its corresponding confidence interval. For all <span class="math inline">\(x_i,i=1,...,n\)</span>, we can create a confidence band.</p>
+<pre class="r"><code>yhat = beta0+beta1*x
+plot(x,y,pch=16)
+lines(x,yhat)
+x0 = 15;yhat0 = beta0+beta1*x0
+ciPoint = c(yhat0-qt(0.025,n-2)*sqrt(ssres/(n-2)*(1+1/n+(x0-mean(x))^2/sxx)),
+            yhat0+qt(0.025,n-2)*sqrt(ssres/(n-2)*(1+1/n+(x0-mean(x))^2/sxx)))
+points(x0,yhat0,pch=2,cex=2);points(c(x0,x0),ciPoint,pch = 8)</code></pre>
+<p><img src="464_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code>yhatSort = beta0+beta1*sort(x)
+ciBand = cbind(yhatSort-qt(0.025,n-2)*sqrt(ssres/(n-2)*(1/n+(sort(x)-mean(x))^2/sxx)),
+            yhatSort+qt(0.025,n-2)*sqrt(ssres/(n-2)*(1/n+(sort(x)-mean(x))^2/sxx)))
+ciPredBand = cbind(yhatSort-qt(0.025,n-2)*sqrt(ssres/(n-2)*(1+1/n+(sort(x)-mean(x))^2/sxx)),
+            yhatSort+qt(0.025,n-2)*sqrt(ssres/(n-2)*(1+1/n+(sort(x)-mean(x))^2/sxx)))
+plot(x,y,pch=16)
+lines(x,yhat,lwd = 2)
+lines(sort(x),ciBand[,1],type = &#39;l&#39;,lty = &#39;dashed&#39;,lwd = 2)
+lines(sort(x),ciBand[,2],type = &#39;l&#39;,lty = &#39;dashed&#39;,lwd = 2)
+lines(sort(x),ciPredBand[,1],type = &#39;l&#39;,lty = &#39;dotted&#39;,lwd = 2)
+lines(sort(x),ciPredBand[,2],type = &#39;l&#39;,lty = &#39;dotted&#39;,lwd = 2)</code></pre>
+<p><img src="464_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<p>Of course, we have simple way.</p>
+<pre class="r"><code>confint(model1)</code></pre>
+<pre><code>##                              2.5 %    97.5 %
+## (Intercept)             2534.99540 2720.6493
+## Age_of_Propellant_weeks  -43.22338  -31.0838</code></pre>
+<pre class="r"><code>newData = data.frame(Age_of_Propellant_weeks = sort(Age_of_Propellant_weeks))
+bandOfConf = predict(model1, newdata = newData, interval = &#39;confidence&#39;)# &quot;confidence&quot;
+bandOfPred = predict(model1, newdata = newData, interval = &#39;prediction&#39;)# &quot;confidence&quot;
+xOrdered = newData$Age_of_Propellant_weeks
+plot(x,y)
+abline(model1, col = &quot;red&quot;)
+lines(xOrdered,bandOfConf[,2],type = &#39;l&#39;,lty = &#39;dashed&#39;,lwd = 2)
+lines(xOrdered,bandOfConf[,3],type = &#39;l&#39;,lty = &#39;dashed&#39;,lwd = 2)
+lines(xOrdered,bandOfPred[,2],type = &#39;l&#39;,lty = &#39;dotted&#39;,lwd = 2)
+lines(xOrdered,bandOfPred[,3],type = &#39;l&#39;,lty = &#39;dotted&#39;,lwd = 2)</code></pre>
+<p><img src="464_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>If we want to estimate the line through the origin, we can do the following</p>
+</div>
+</div>
+<div id="r-example22-read_exceldatachapter-2problemsdata-prob-2-10.xls-example22-headexample22-attachexample22-y-example22times-x-example22cases_stocked-n-lengthx-plotcases_stockedtimespch-16-model2-lmtimes-0-cases_stockeddata-example22-summarymodel2-yhat-predictmodel2newdata-example22-plotxypch16-linesxyhat-model2-lmtimes-1-cases_stockeddata-example22-summarymodel2-yhat-predictmodel2newdata-example22-plotxypch16-linesxyhat" class="section level1">
+<h1><code>{r} # example22 = read_excel("data/Chapter 2/Problems/data-prob-2-10.XLS")  # example22 # head(example22) # attach(example22) # y = example22$Times # x = example22$Cases_Stocked # n = length(x) # plot(Cases_Stocked,Times,pch = 16) # model2 = lm(Times ~ 0+ Cases_Stocked,data = example22) # summary(model2) # yhat = predict(model2,newdata = example22) # plot(x,y,pch=16) # lines(x,yhat) # model2 = lm(Times ~ 1+ Cases_Stocked,data = example22) # summary(model2) # yhat = predict(model2,newdata = example22) # plot(x,y,pch=16) # lines(x,yhat) #</code></h1>
+</div>
+<div id="multiple-linear-regression" class="section level1">
+<h1>Multiple Linear Regression</h1>
+<div id="simple-investigation" class="section level2">
+<h2>Simple investigation</h2>
+</div>
+</div>
+<div id="rechofinclude-f-libraryplotly-librarytidyr-librarydplyr-librarycar-libraryreshape2-libraryscatterplot3d-libraryqpcr-librarymass-librarynlme-libraryolsrr" class="section level1">
+<h1><code>{r,echo=F,include = F} # library(plotly) # library(tidyr) # library(dplyr) # library(car) # library(reshape2) # library(scatterplot3d) # library(qpcR) # library(MASS) # library(nlme) # library(olsrr) #</code></h1>
+</div>
+<div id="section" class="section level1">
+<h1></h1>
+</div>
+<div id="r-example31-read.tabletable3_2.txtheader-t-read-.txt-file-from-local-directory-x-cbind1example31number_of_casesexample31distance-y-example31delivery_time-pairsexample31-scatterplot3dexample31number_of_casesexample31distanceexample31delivery_timepch-16-colorsteelbluetypeh-plot_lyexample31-x-number_of_cases-y-distance-z-delivery_time-type-scatter3d-mode-markers-layouttitle-delivery-cases-distance" class="section level1">
+<h1><code>{r} # example31 = read.table("Table3_2.txt",header = T) # read .txt file from local directory # x = cbind(1,example31$Number_Of_Cases,example31$Distance) # y = example31$Delivery_Time # pairs(example31) # scatterplot3d(example31$Number_Of_Cases,example31$Distance,example31$Delivery_Time,pch = 16, color="steelblue",type="h") # plot_ly(example31, x = ~Number_Of_Cases, y = ~Distance, z = ~Delivery_Time, #         type = "scatter3d", mode   = 'markers') %&gt;% layout(title = "Delivery = Cases + Distance") #</code></h1>
+</div>
+<div id="section-1" class="section level1">
+<h1></h1>
+</div>
+<div id="model-estimation" class="section level1">
+<h1>## Model estimation</h1>
+</div>
+<div id="section-2" class="section level1">
+<h1></h1>
+</div>
+<div id="r-attachexample31-model31-lmdelivery_time-distance-number_of_cases-data-example31-summarymodel31-anovamodel31-anovamodel31" class="section level1">
+<h1><code>{r} # attach(example31) # model31 = lm(Delivery_Time ~  Distance +Number_Of_Cases, data = example31) # summary(model31) # anova(model31) # Anova(model31) #</code></h1>
+</div>
+<div id="section-3" class="section level1">
+<h1></h1>
+</div>
+<div id="hypothesis-test" class="section level1">
+<h1>## Hypothesis test</h1>
+</div>
+<div id="partial-f-test-and-simultaneous-test" class="section level1">
+<h1>### Partial F test and simultaneous test</h1>
+</div>
+<div id="section-4" class="section level1">
+<h1></h1>
+</div>
+<div id="r-model31.1-lmdelivery_time-number_of_cases-data-example31-anovamodel31.1model31-model31.2-lmdelivery_time-distance-data-example31-anovamodel31.2model31" class="section level1">
+<h1><code>{r} # model31.1 = lm(Delivery_Time ~ Number_Of_Cases , data = example31) # anova(model31.1,model31) # model31.2 = lm(Delivery_Time ~ Distance , data = example31) # anova(model31.2,model31) #</code></h1>
+</div>
+<div id="section-5" class="section level1">
+<h1></h1>
+</div>
+<div id="we-can-test-general-linear-hypothesis.-for-example-we-are-interested-in-testing" class="section level1">
+<h1>We can test general linear hypothesis. For example, we are interested in testing</h1>
+</div>
+<div id="h_02beta_2-beta_1quad-v.s.quad-h_12beta_2nebeta_1." class="section level1">
+<h1><span class="math display">\[
+# H_0:2\beta_2 = \beta_1\quad v.s.\quad H_1:2\beta_2\ne\beta_1.
+# \]</span></h1>
+</div>
+<div id="section-6" class="section level1">
+<h1></h1>
+</div>
+<div id="r-linearhypothesismodel312distance-number_of_cases-testmatrix-c01-2-rhs-c0-linearhypothesismodel31testmatrixrhs-rhs-testmatrix-matrixc10-110-123-testmatrix-rhs-c00" class="section level1">
+<h1><code>{r} # linearHypothesis(model31,"2*Distance = Number_Of_Cases") # testMatrix = c(0,1,-2) # rhs = c(0) # linearHypothesis(model31,testMatrix,rhs = rhs) # testMatrix = matrix(c(1,0,-1,1,0,-1),2,3) # testMatrix # rhs = c(0,0) #</code></h1>
+<p>This indicates the following test setting <span class="math display">\[
+\begin{pmatrix}
+1 &amp; -1 &amp; 0\\
+0 &amp; 1 &amp; -1
+\end{pmatrix}
+\begin{pmatrix}
+\beta_0\\
+\beta_1\\
+\beta_2
+\end{pmatrix}=
+\begin{pmatrix}
+0\\
+0
+\end{pmatrix}.
+\]</span> This is also equivalent to <span class="math display">\[
+\begin{matrix}
+\beta_0-\beta_1 = 0\\
+\beta_1-\beta_2 = 0
+\end{matrix}.
+\]</span></p>
+</div>
+<div id="r-linearhypothesismodel31testmatrixrhs-rhs" class="section level1">
+<h1><code>{r} # linearHypothesis(model31,testMatrix,rhs = rhs) #</code></h1>
+</div>
+<div id="section-7" class="section level1">
+<h1></h1>
+</div>
+<div id="confidence-interval" class="section level1">
+<h1>## Confidence Interval</h1>
+</div>
+<div id="if-you-install-librarycar-you-have-a-simple-way-to-compute-the-joint-confidence-region.-you-will-observe-huge-difference-when-investigating-categorical-data." class="section level1">
+<h1>If you install <code>library(car)</code>, you have a simple way to compute the joint confidence region. You will observe huge difference when investigating categorical data.</h1>
+</div>
+<div id="section-8" class="section level1">
+<h1></h1>
+</div>
+<div id="r-confintmodel31level-0.95-confidenceellipsemodel31-confintmodel31level-1-0.052-newdata-data.framenumber_of_cases-number_of_casesdistance-distance-pred1-predictmodel31newdata-newdatainterval-confidence" class="section level1">
+<h1><code>{r} # confint(model31,level = 0.95) # confidenceEllipse(model31) # confint(model31,level = 1-0.05/(2)) # newData = data.frame(Number_Of_Cases = Number_Of_Cases,Distance = Distance)  # pred1 = predict(model31,newdata = newData,interval = "confidence") #</code></h1>
+</div>
+<div id="section-9" class="section level1">
+<h1></h1>
+</div>
+<div id="fancy-plot" class="section level1">
+<h1>## Fancy plot</h1>
+</div>
+<div id="section-10" class="section level1">
+<h1></h1>
+</div>
+<div id="rechofwarningf-axx-seqfrom-1-to-32-length.out-10-axy-seqfrom-40-to-1500length.out-10-newdatamesh-data.framenumber_of_cases-repaxx10distance-repaxyeach-10-confmesh-predictmodel31newdata-newdatameshinterval-confidence-predmesh-predictmodel31newdata-newdatameshinterval-prediction-meshdata-cbindnewdatameshconfmeshpredmesh-meshplotdata-as.matrixmeshdatac3578-dimmeshplotdata-c10105-fig-plot_lyshowscale-f-fig-fig-add_surfacex-axx-y-axyz-meshplotdata1colorscale-listc0-1-cblue-blueopacity-0.8-fig-fig-add_surfacex-axx-y-axyz-meshplotdata2colorscale-listc0-1-cgreen-greenopacity-0.7-fig-fig-add_surfacex-axx-y-axyz-meshplotdata3colorscale-listc0-1-cgreen-greenopacity-0.7-fig-fig-add_surfacex-axx-y-axyz-meshplotdata4colorscale-listc0-1-cyellow-yellowopacity-0.7-fig-fig-add_surfacex-axx-y-axyz-meshplotdata5colorscale-listc0-1-cyellow-yellowopacity-0.7-fig-fig-add_markersx-example31number_of_cases-y-example31distance-z-example31delivery_timeshowlegend-f-fig-fig-layoutscene-listxaxis-listtitle-number-of-cases-yaxis-listtitle-distance-ft-zaxis-listtitle-delivery-time-min-fig" class="section level1">
+<h1><code>{r,echo=F,warning=F} # axx = seq(from = 1, to = 32, length.out = 10) # axy = seq(from = 40, to = 1500,length.out = 10) # newDataMesh = data.frame(Number_Of_Cases = rep(axx,10),Distance = rep(axy,each = 10))  # confMesh = predict(model31,newdata = newDataMesh,interval = "confidence") # predMesh = predict(model31,newdata = newDataMesh,interval = "prediction") # meshData = cbind(newDataMesh,confMesh,predMesh) # meshPlotData = as.matrix(meshData[,c(3:5,7,8)]) # dim(meshPlotData) = c(10,10,5) # fig = plot_ly(showscale = F) # fig = fig %&gt;% add_surface(x = ~axx, y = ~axy,z = ~meshPlotData[,,1],colorscale = list(c(0, 1), c("blue", "blue")),opacity = 0.8) # fig = fig %&gt;% add_surface(x = ~axx, y = ~axy,z = ~meshPlotData[,,2],colorscale = list(c(0, 1), c("green", "green")),opacity = 0.7) # fig = fig %&gt;% add_surface(x = ~axx, y = ~axy,z = ~meshPlotData[,,3],colorscale = list(c(0, 1), c("green", "green")),opacity = 0.7) # fig = fig %&gt;% add_surface(x = ~axx, y = ~axy,z = ~meshPlotData[,,4],colorscale = list(c(0, 1), c("yellow", "yellow")),opacity = 0.7) # fig = fig %&gt;% add_surface(x = ~axx, y = ~axy,z = ~meshPlotData[,,5],colorscale = list(c(0, 1), c("yellow", "yellow")),opacity = 0.7) # fig = fig %&gt;% add_markers(x = ~example31$Number_Of_Cases, y = ~example31$Distance, z = ~example31$Delivery_Time,showlegend = F) # fig = fig %&gt;% layout(scene = list(xaxis = list(title = 'Number of Cases'), #                       yaxis = list(title = 'Distance (ft)'), #                       zaxis = list(title = 'Delivery Time (min)'))) # fig #</code></h1>
+<div id="extrapolation-standardize-and-vif" class="section level2">
+<h2>Extrapolation, Standardize, and VIF</h2>
+</div>
+</div>
+<div id="r-extrapolation-x-cbind1example31number_of_casesexample31distance-newpoint-c115500-newpoint-hmax-maxdiagxsolvetxxtx-tnewpointsolvetxxnewpointtnewpointsolvetxxnewpointhmax-influence.measuresmodel31-standardize-scalexcenter-tscale-t-x---matrix1251applyx2meanmatrix1251applyx2sdsqrt25-1-vif-from-car-package-vifmodel31-bpdata-read.tablebloodpress.txtheader-t-pairsbpdata-corbpdata-1-model41.1-lmbp-bsadata-bpdata-summarymodel41.1-model41.2-lmbp-.---ptdata-bpdata-summarymodel41.2-vifmodel41.2-model41.3-lmbp-.---pt--bsadata-bpdata-summarymodel41.3-vifmodel41.3" class="section level1">
+<h1><code>{r} # # Extrapolation # x = cbind(1,example31$Number_Of_Cases,example31$Distance) # newPoint = c(1,15,500) # newPoint # hmax = max(diag(x%*%solve(t(x)%*%x))%*%t(x)) # t(newPoint)%*%solve(t(x)%*%x)%*%(newPoint);t(newPoint)%*%solve(t(x)%*%x)%*%(newPoint)&lt;=hmax # influence.measures(model31) # # Standardize # scale(x,center = T,scale = T) # (x - matrix(1,25,1)%*%apply(x,2,mean))/(matrix(1,25,1)%*%apply(x,2,sd)*sqrt(25-1)) # # VIF, from car package # vif(model31) # bpData = read.table("bloodpress.txt",header = T) # pairs(bpData) # cor(bpData[,-1]) # model41.1 = lm(BP ~ BSA,data = bpData) # summary(model41.1) # model41.2 = lm(BP ~ . - Pt,data = bpData) # summary(model41.2) # vif(model41.2) # model41.3 = lm(BP ~ . - Pt -BSA,data = bpData) # summary(model41.3) # vif(model41.3) #</code></h1>
+</div>
+<div id="model-diagnosis" class="section level1">
+<h1>Model Diagnosis</h1>
+<div id="model-adequacy" class="section level2">
+<h2>Model Adequacy</h2>
+</div>
+</div>
+<div id="r-plotmodel31-residmodel31-rstudentmodel31-rstandardmodel31-studresmodel31-from-mass-package-stdresmodel31-ols_plot_resid_studmodel31-from-olsrr-package-qqnormresidmodel31qqlineresidmodel31-qqnormrstudentmodel31qqlinerstudentmodel31-qqnormrstandardmodel31qqlinerstandardmodel31-qqnormstudresmodel31qqlinestudresmodel31-added-variable-plots-partial-regression-plot-avplotsmodel31-distance-avplotsmodel31-number_of_cases-component-residual-plots-partial-residual-plot-crplotsmodel31-distance-crplotsmodel31-number_of_cases-press-statistic-qpcr-package-pressmodel31-sumresidmodel311---lm.influencemodel31hat2-outliers-plotfittedmodel31residmodel31pch-16abline0-0lty-2-plotfittedmodel31rstudentmodel31pch-16abline0-0lty-2-plotfittedmodel31rstandardmodel31pch-16abline0-0lty-2" class="section level1">
+<h1><code>{r} # plot(model31) # resid(model31) # rstudent(model31) # rstandard(model31) # studres(model31) # from MASS package # stdres(model31)  # ols_plot_resid_stud(model31) # from olsrr package # qqnorm(resid(model31));qqline(resid(model31)) # qqnorm(rstudent(model31));qqline(rstudent(model31)) # qqnorm(rstandard(model31));qqline(rstandard(model31)) # qqnorm(studres(model31));qqline(studres(model31)) # # Added variable plots, Partial regression plot # avPlots(model31, 'Distance') # avPlots(model31, 'Number_Of_Cases') # # Component + residual plots, Partial residual plot # crPlots(model31, 'Distance') # crPlots(model31, 'Number_Of_Cases') # # PRESS statistic, qpcR package # PRESS(model31) # sum((resid(model31)/(1 - lm.influence(model31)$hat))^2) # # outliers # plot(fitted(model31),resid(model31),pch = 16);abline(0, 0,lty = 2) # plot(fitted(model31),rstudent(model31),pch = 16);abline(0, 0,lty = 2) # plot(fitted(model31),rstandard(model31),pch = 16);abline(0, 0,lty = 2) #</code></h1>
+<div id="transformation" class="section level2">
+<h2>Transformation</h2>
+</div>
+</div>
+<div id="r-example51-read.tabletable5_1.txtheader-t-read-.txt-file-from-local-directory-model51-lmy-x-data-example51-plotfittedmodel51residmodel51pch-16abline0-0lty-2-example51ystar-sqrtexample51y-model51.1-lmystar-x-data-example51-plotfittedmodel51.1residmodel51.1pch-16abline0-0lty-2" class="section level1">
+<h1><code>{r} # example51 = read.table("Table5_1.txt",header = T) # read .txt file from local directory # model51 = lm(y ~ x, data = example51) # plot(fitted(model51),resid(model51),pch = 16);abline(0, 0,lty = 2) # example51$ystar = sqrt(example51$y) # model51.1 = lm(ystar ~ x, data = example51) # plot(fitted(model51.1),resid(model51.1),pch = 16);abline(0, 0,lty = 2) #</code></h1>
+</div>
+<div id="section-11" class="section level1">
+<h1></h1>
+</div>
+<div id="we-did-transformation-y-sqrty.-the-residual-v.s.-fitted-value-has-less-pattern-than-before-transformating." class="section level1">
+<h1>We did transformation <span class="math inline">\(Y^* = \sqrt(Y)\)</span>. The residual v.s. fitted value has less pattern than before transformating.</h1>
+</div>
+<div id="section-12" class="section level1">
+<h1></h1>
+</div>
+<div id="r-example52-read.tabletable5_2.txtheader-t-read-.txt-file-from-local-directory-model52-lmdc_output-wind_velocity-data-example52-plotfittedmodel52residmodel52pch-16abline0-0lty-2-im-using-boxcox-function-from-mass-package.-there-is-also-a-function-in-car-package-boxcoxresult-boxcoxdc_output-wind_velocity-data-example52-lambda-seq-250.5-boxcoxdc_output-wind_velocity-data-example52-lambda-seq-250.5-lambda-boxcoxresultxwhich.maxboxcoxresulty-example52yboxcox-example52dc_outputlambda-1lambda-model52.1-lmyboxcox-wind_velocity-data-example52-plotfittedmodel52.1residmodel52.1pch-16abline0-0lty-2-example52x2-example52wind_velocity2-model52.2-lmdc_output-wind_velocity-x2-data-example52-plotfittedmodel52.2residmodel52.2pch-16abline0-0lty-2-model52.3-lmdc_output-wind_velocity-data-example52-example52w-example52wind_velocitylogexample52wind_velocity-example52xstar-example52wind_velocity1-model52.4-lmdc_output-0-xstar-w-data-example52-alphahat-model52.4coefficients2model52.3coefficients21" class="section level1">
+<h1><code>{r} # example52 = read.table("Table5_2.txt",header = T) # read .txt file from local directory # model52 = lm(DC_Output ~ Wind_Velocity, data = example52) # plot(fitted(model52),resid(model52),pch = 16);abline(0, 0,lty = 2) # # I'm using boxcox function from MASS package. There is also a function in car package # boxcoxResult = boxcox(DC_Output ~ Wind_Velocity, data = example52, lambda = seq(-2,5,0.5)) # boxcox(DC_Output ~ Wind_Velocity, data = example52, lambda = seq(-2,5,0.5)) # lambda = boxcoxResult$x[which.max(boxcoxResult$y)] # example52$yboxcox = (example52$DC_Output^lambda-1)/lambda # model52.1 = lm(yboxcox ~ Wind_Velocity, data = example52) # plot(fitted(model52.1),resid(model52.1),pch = 16);abline(0, 0,lty = 2) # example52$x2 = example52$Wind_Velocity^2 # model52.2 = lm(DC_Output ~ Wind_Velocity + x2, data = example52) # plot(fitted(model52.2),resid(model52.2),pch = 16);abline(0, 0,lty = 2) # model52.3 = lm(DC_Output ~ Wind_Velocity, data = example52) # example52$w = example52$Wind_Velocity*log(example52$Wind_Velocity) # example52$xstar = (example52$Wind_Velocity+1) # model52.4 = lm(DC_Output ~ 0 + xstar + w, data = example52) # alphaHat = model52.4$coefficients[2]/model52.3$coefficients[2]+1 #</code></h1>
+<p>The dashed line defines the 95% confidence interval of <span class="math inline">\(\lambda\)</span>.</p>
+<p>Next we show GLS and WLS.</p>
+</div>
+<div id="r-fit-ols-example53-read.tabletable5_9.txtheader-t-model53-lmincome-advertising_expensedata-example53-plotfittedmodel53residmodel53pch-16abline0-0lty-2-investigate-variance-change-example53group-crep13rep223rep45rep56rep66rep728rep94-example53.1-aggregateexample53advertising_expenseby-listexample53group-mean-plotexample53advertising_expenseexample53incomepch-16ablinev-example53.1xlty-3col-blue-ysd-aggregateexample53incomeby-listexample53group-sd-example53.1yvar-ysdx2-fit-weight-model53.variance-lmyvar-xdata-example53.1-plotfittedmodel53.varianceresidmodel53.variancepch-16abline0-0lty-2-weight-1predictmodel53.variancenewdata-data.framexexample53advertising_expense-fit-wls-model53.2-lmincome-advertising_expensedata-example53-weights-weight-plotxexample53advertising_expense-yexample53income-panel.last-clinessortexample53advertising_expense-fittedmodel53orderexample53advertising_expense-colblue-linessortexample53advertising_expense-fittedmodel53.2orderexample53advertising_expensecolred-legendtopleft-colcbluered-lty1-inset0.02-legendcols-wls-plotfittedmodel53.2sqrtweightresidmodel53.2sqrtweightpch-16abline0-0lty-2-summarymodel53-summarymodel53.2-straightforward-way-when-we-have-other-variance-structure-gls-in-nlme-packages-model53.3-glsincome-advertising_expensedata-example53correlation-corar1form-1-summarymodel53.3" class="section level1">
+<h1><code>{r} # # Fit OLS # example53 = read.table("Table5_9.txt",header = T) # model53 = lm(Income ~ Advertising_Expense,data = example53) # plot(fitted(model53),resid(model53),pch = 16);abline(0, 0,lty = 2); # # Investigate variance change # example53$group = c(rep(1,3),rep(2,2),3,rep(4,5),rep(5,6),rep(6,6),rep(7,2),8,rep(9,4)) # example53.1 = aggregate(example53$Advertising_Expense,by = list(example53$group), mean) # plot(example53$Advertising_Expense,example53$Income,pch = 16);abline(v = example53.1$x,lty = 3,col = 'blue') # ysd = aggregate(example53$Income,by = list(example53$group), sd) # example53.1$yvar = ysd$x^2 # # Fit weight # model53.variance = lm(yvar ~ x,data = example53.1) # plot(fitted(model53.variance),resid(model53.variance),pch = 16);abline(0, 0,lty = 2); # weight = 1/predict(model53.variance,newdata = data.frame(x=example53$Advertising_Expense)) # # Fit WLS # model53.2 = lm(Income ~ Advertising_Expense,data = example53, weights = weight) # plot(x=example53$Advertising_Expense, y=example53$Income, #      panel.last = c(lines(sort(example53$Advertising_Expense), #                           fitted(model53)[order(example53$Advertising_Expense)], col="blue"), #                     lines(sort(example53$Advertising_Expense), #                           fitted(model53.2)[order(example53$Advertising_Expense)],col="red"))) # legend("topleft", col=c("blue","red"), lty=1, #        inset=0.02, legend=c("OLS", "WLS")) # plot(fitted(model53.2)*sqrt(weight),resid(model53.2)*sqrt(weight),pch = 16);abline(0, 0,lty = 2); # summary(model53) # summary(model53.2) # # Straightforward way when we have other variance structure (gls in nlme packages) # model53.3 = gls(Income ~ Advertising_Expense,data = example53,correlation = corAR1(form = ~ 1 )) # summary(model53.3) #</code></h1>
+</div>
+<div id="section-13" class="section level1">
+<h1></h1>
+</div>
+<div id="leverage-and-influence-of-observations" class="section level1">
+<h1>## Leverage and Influence of Observations</h1>
+</div>
+<div id="section-14" class="section level1">
+<h1></h1>
+</div>
+<div id="r-plothatvaluesmodel31abline0.30lty-2-plotcooks.distancemodel31abline0.10lty-2-plotdffitsmodel31pch-16abline0.50lty-2-plotdfbetasmodel31abline10lty-2-plotcovratiomodel31-plotmodel31" class="section level1">
+<h1><code>{r} # plot(hatvalues(model31));abline(0.3,0,lty = 2) # plot(cooks.distance(model31));abline(0.1,0,lty = 2) # plot(dffits(model31),pch = 16);abline(0.5,0,lty = 2) # plot(dfbetas(model31));abline(1,0,lty = 2) # plot(covratio(model31)) # plot(model31) #</code></h1>
+</div>
+<div id="section-15" class="section level1">
+<h1></h1>
+</div>
+<div id="polynomial-regression-model" class="section level1">
+<h1># Polynomial regression model</h1>
+</div>
+<div id="r-orthogonal-polynomial-example71-read.tabletable7_1.txtheader-t-example71hardwood_concentration_centered-example71hardwood_concentration-meanexample71hardwood_concentration-plotexample71hardwood_concentrationexample71tensile_strengthpch-16-model7.1-lmtensile_strength-hardwood_concentration-ihardwood_concentration2-data-example71-summarymodel7.1-model7.1.centered-lmtensile_strength-hardwood_concentration_centered-ihardwood_concentration_centered2-data-example71-summarymodel7.1.centered-orthogonal-polynomial-orthpoly-polyexample71hardwood_concentration-degree-3-model7.1---lmtensile_strength-polyhardwood_concentration2-data-example71" class="section level1">
+<h1><code>{r} # # orthogonal polynomial # example71 = read.table("Table7_1.txt",header = T) # example71$Hardwood_Concentration_centered = example71$Hardwood_Concentration-mean(example71$Hardwood_Concentration) # plot(example71$Hardwood_Concentration,example71$Tensile_Strength,pch = 16) # model7.1 = lm(Tensile_Strength ~ Hardwood_Concentration + I(Hardwood_Concentration^2), data = example71) # summary(model7.1) # model7.1.centered = lm(Tensile_Strength ~ Hardwood_Concentration_centered + I(Hardwood_Concentration_centered^2), data = example71) # summary(model7.1.centered) # # orthogonal polynomial # orthPoly = poly(example71$Hardwood_Concentration, degree = 3) # model7.1 &lt;- lm(Tensile_Strength ~ poly(Hardwood_Concentration,2), data = example71) #</code></h1>
+<div id="transfer-from-orthogonal-back-to-original-polynomial" class="section level3">
+<h3>Transfer from orthogonal back to original polynomial</h3>
+<p>Notice that <span class="math display">\[
+X^\star = X^TW,
+\]</span> where <span class="math inline">\(W\)</span> is the <span class="math inline">\(k+1\)</span>-by-<span class="math inline">\(k+1\)</span> transfer matrix given by <span class="math display">\[\begin{align}
+F_0(x) &amp;= \frac{1}{\sqrt{n_2}}\\
+F_1(x) &amp;= \frac{x-a_1}{\sqrt{n_3}}\\
+...\\
+F_k(x) &amp;= \frac{(x-a_k) * \sqrt{n_{k+1}} * F_{k-1}(x) - n_{k+1} / \sqrt{n_k} * F_{k-2}(x)}{\sqrt{n_{k+2}}},
+\end{align}\]</span> <span class="math inline">\(X^\star\)</span> is the matrix of <span class="math inline">\(k+1\)</span> orthogonal polynomials and $X=[1X<sup>2X</sup>3…X^k] $ is the original polynomial. The goal is to find <span class="math inline">\(W\)</span> and <span class="math display">\[
+\beta = W\alpha, \text{ or } \alpha = W^{-1}\beta.
+\]</span></p>
+</div>
+</div>
+<div id="indicator-variables" class="section level1">
+<h1>Indicator Variables</h1>
+</div>
+<div id="r-libraryggplot2-example81-as.data.frameread.tabletable8_1.txtheader-t-ggplotexample81-geom_pointaesy-hours-x-rpm-group-as.factortool-color-toolsize-6-model8.1.nogroup-lmhours-rpm-data-example81-summarymodel8.1.nogroup-model8.1.linear-lmhours-rpm-factortool-data-example81-summarymodel8.1.linear-model8.1.interaction-lmhours-rpm-factortool-data-example81-you-can-try-ab-summarymodel8.1.interaction-test-the-difference-between-groups-anovamodel8.1.nogroupmodel8.1.interaction-anovamodel8.1.linearmodel8.1.interaction-multi-level-indicators-iris-ggplotiris-geom_pointaesy-sepal.length-x-petal.length-group-species-color-speciessize-6-model8.2-lmsepal.length-petal.length-species-data-iris-summarymodel8.2" class="section level1">
+<h1><code>{r} # library(ggplot2) # example81 = as.data.frame(read.table("Table8_1.txt",header = T)) # ggplot(example81) + #   geom_point(aes(y = hours, x = rpm, group = as.factor(tool), color = tool),size = 6) # model8.1.nogroup = lm(hours ~ rpm, data = example81) # summary(model8.1.nogroup) # model8.1.linear = lm(hours ~ rpm + factor(tool), data = example81) # summary(model8.1.linear) # model8.1.interaction = lm(hours ~ rpm * factor(tool), data = example81) # you can try a:b # summary(model8.1.interaction) # # test the difference between groups # anova(model8.1.nogroup,model8.1.interaction) # anova(model8.1.linear,model8.1.interaction) # # multi level indicators # iris # ggplot(iris) + #   geom_point(aes(y = Sepal.Length, x = Petal.Length, group = Species, color = Species),size = 6) # model8.2 = lm(Sepal.Length ~ Petal.Length * Species, data = iris) # summary(model8.2) #</code></h1>
+</div>
+<div id="multicollinearity" class="section level1">
+<h1>Multicollinearity</h1>
+<div id="diagnostic" class="section level2">
+<h2>Diagnostic</h2>
+</div>
+</div>
+<div id="r-optionswidth-1300-example91-data.frameread.tabletable9_1.txtheader-t-pairsexample91-example91temperature-example91temperature-1212.580.623-example91ratio_of_h2-example91ratio_of_h2-12.445.662-example91time-example91time-0.04030.03164-model9.1-lmconversion-polymtemperature-ratio_of_h2-time-degree2-rawtrue-data-example91-summarymodel9.1-xx-xmatrix-scalepolymexample91temperature-example91ratio_of_h2-example91time-degree2-rawtruecenter-tscale-t-covxmatrix-vif-example91.all-data.framecbindexample911xmatrix-colnamesexample91.all1-conversion-model9.1.another-lmconversion-.-data-example91.all-vifmodel9.1.another-eigensystem-libraryklar-cond.indexconversion-.-data-example91.all-ols_eigen_cindexmodel9.1.another-xmatrix-polymexample91temperature-example91ratio_of_h2-example91time-degree2-rawtrue-eigenvalues-eigencorscalexmatrixcenter-fscale-fvalues-maxeigenvalueseigenvalues-determinant-detcovxmatrix" class="section level1">
+<h1><code>{r} # options(width = 1300) # example91 = data.frame(read.table("Table9_1.txt",header = T)) # pairs(example91) # example91$temperature = (example91$temperature-1212.5)/80.623 # example91$ratio_of_H2 = (example91$ratio_of_H2-12.44)/5.662 # example91$time = (example91$time-0.0403)/0.03164 # model9.1 = lm(conversion ~ polym(temperature, ratio_of_H2, time, degree=2, raw=TRUE), data = example91) # summary(model9.1) # # X'X # xMatrix = scale(polym(example91$temperature, example91$ratio_of_H2, example91$time, degree=2, raw=TRUE),center = T,scale = T) # cov(xMatrix) # # VIF # example91.all = data.frame(cbind(example91[,1],xMatrix)) # colnames(example91.all)[1] = "conversion" # model9.1.another = lm(conversion ~ ., data = example91.all) # vif(model9.1.another) # # eigensystem # library(klaR) # cond.index(conversion ~ ., data = example91.all) # ols_eigen_cindex(model9.1.another) # xMatrix = polym(example91$temperature, example91$ratio_of_H2, example91$time, degree=2, raw=TRUE) # eigenValues = eigen(cor(scale(xMatrix,center = F,scale = F)))$values # max(eigenValues)/eigenValues # # determinant # det(cov(xMatrix)) #</code></h1>
+</div>
+<div id="section-16" class="section level1">
+<h1></h1>
+</div>
+<div id="address-multicollinearity" class="section level1">
+<h1>## Address Multicollinearity</h1>
+</div>
+<div id="section-17" class="section level1">
+<h1></h1>
+</div>
+<div id="r-libraryglmnet-libraryreshape2-lambdas-10seq2--3-by--.1-model9.1.ridge-glmnetxmatrix-example91conversion-nlambda-25-alpha-0-family-gaussian-lambda-lambdas-ridge.par-as.data.frameas.matrixcbindlambdastmodel9.1.ridgebeta-ridge.plotdata-meltridge.parid-lambdasmeasure.vars-colnamesridge.par210-ggplotridge.plotdata-geom_lineaesy-value-x-lambdas-group-variable-color-variablesize-1-geom_pointaesy-value-x-lambdas-group-variable-color-variablesize-2-labstitleridge-select-a-good-lambda-model9.1.cvridge-cv.glmnetxmatrix-example91conversion-alpha-0-lambda-lambdas-plotmodel9.1.cvridge-model9.1.cvridgelambda.min-model9.1.ridge.opt-glmnetxmatrix-example91conversion-nlambda-25-alpha-0-family-gaussian-lambda-model9.1.cvridgelambda.min-summarymodel9.1.ridge.opt-model9.1.ridge.optbeta-librarylmridge-published-2018-model9.1.ridge2-lmridgeconversion-.-data-example91.all-k-model9.1.cvridgelambda.min-summarymodel9.1.ridge2-pcr-librarypls-model9.1.pcr-pcrconversion.-data-example91.all-ncomp-4-validation-cv-summarymodel9.1.pcr-model9.1.pcrprojection-validationplotmodel9.1.pcrval.type-r2-ablinev19lty-3-lwd-0.2" class="section level1">
+<h1><code>{r} # library(glmnet) # library(reshape2) # lambdas = 10^seq(2, -3, by = -.1) # model9.1.ridge = glmnet(xMatrix, example91$conversion, nlambda = 25, alpha = 0, family = 'gaussian', lambda = lambdas) # ridge.Par = as.data.frame(as.matrix(cbind(lambdas,t(model9.1.ridge$beta)))) # ridge.plotData = melt(ridge.Par,id = "lambdas",measure.vars = colnames(ridge.Par)[2:10]) # ggplot(ridge.plotData) + #   geom_line(aes(y = value, x = lambdas, group = variable, color = variable),size = 1) + #   geom_point(aes(y = value, x = lambdas, group = variable, color = variable),size = 2) + #   labs(title="Ridge") # # select a good lambda # model9.1.cvRidge = cv.glmnet(xMatrix, example91$conversion, alpha = 0, lambda = lambdas) # plot(model9.1.cvRidge) # model9.1.cvRidge$lambda.min # model9.1.ridge.opt = glmnet(xMatrix, example91$conversion, nlambda = 25, alpha = 0, family = 'gaussian', lambda = model9.1.cvRidge$lambda.min) # summary(model9.1.ridge.opt) # model9.1.ridge.opt$beta # library(lmridge) # published 2018 # model9.1.ridge2 = lmridge(conversion ~ ., data = example91.all, K = model9.1.cvRidge$lambda.min) # summary(model9.1.ridge2) # # PCR # library(pls) # model9.1.pcr = pcr(conversion~., data = example91.all, ncomp = 4, validation = "CV") # summary(model9.1.pcr) # model9.1.pcr$projection # validationplot(model9.1.pcr,val.type = "R2") # abline(v=1:9,lty = 3, lwd = 0.2) #</code></h1>
+</div>
+<div id="variable-selection" class="section level1">
+<h1>Variable Selection</h1>
+</div>
+<div id="r-example101-data.frameread.tableb21.txtheader-t-model10.1.full-lmy-.-data-example101-aicmodel10.1.fullbicmodel10.1.fullols_mallows_cpmodel10.1.fullmodel10.1.full-all.regression-ols_step_all_possiblemodel10.1.full-package-olsrr-plotall.regression-data.frameaic-all.regressionaicpress-all.regressionpredrsqbic-all.regressionsbic-best-subset-libraryleaps-bestsubset-regsubsetsy-.-data-example101-nvmax-4-summarybestsubset-res-summarybestsubset-ols_step_best_subsetmodel10.1.full-stepwise-bestsubset.forward-regsubsetsy-.-data-example101-nvmax-4-methodbackward-summarybestsubset.forward-model10.1.step.forward-stepaicmodel10.1.full-direction-backward-trace-t-model10.1.step.forward-steplmy-x1-data-example101-directionforward-scopemodel10.1.full-model10.1.step.backward-stepmodel10.1.full-directionbackward-scopelmy-1-data-example101-model10.1.step.both-stepmodel10.1.full-directionboth-scopemodel10.1.full-ols_step_forward_pmodel10.1.full-details-t-ols_step_backward_pmodel10.1.full-details-t-ols_step_both_pmodel10.1.full-details-t-ols_step_both_aicmodel10.1.full-details-t-lasso-libraryglmnet-lambdas-10seq1--3-by--.05-model9.1.lasso-cv.glmnetxmatrix-example91conversion-alpha-1-lambda-lambdas-plotmodel9.1.lasso-lasso.par-as.data.frameas.matrixcbindlambdastmodel9.1.lassoglmnet.fitbeta-lasso.plotdata-meltlasso.parid-lambdasmeasure.vars-colnameslasso.par210-ggplotlasso.plotdata-geom_lineaesy-value-x-lambdas-group-variable-color-variablesize-1-geom_pointaesy-value-x-lambdas-group-variable-color-variablesize-2-labstitlelasso-elastic-net-model9.1.enet-cv.glmnetxmatrix-example91conversion-alpha-0.5-lambda-lambdas-plotmodel9.1.enet-enet.par-as.data.frameas.matrixcbindlambdastmodel9.1.enetglmnet.fitbeta-enet.plotdata-meltenet.parid-lambdasmeasure.vars-colnamesenet.par210-ggplotenet.plotdata-geom_lineaesy-value-x-lambdas-group-variable-color-variablesize-1-geom_pointaesy-value-x-lambdas-group-variable-color-variablesize-2-labstitleelastic-net" class="section level1">
+<h1><code>{r} # example101 = data.frame(read.table("b21.txt",header = T)) # model10.1.full = lm(y ~ ., data = example101) # AIC(model10.1.full);BIC(model10.1.full);ols_mallows_cp(model10.1.full,model10.1.full) # all.regression = ols_step_all_possible(model10.1.full) #package olsrr # plot(all.regression) # data.frame(AIC = all.regression$aic,PRESS = all.regression$predrsq,BIC = all.regression$sbic) # # best subset # library(leaps) # bestSubset = regsubsets(y ~ ., data = example101, nvmax = 4) # summary(bestSubset) # res = summary(bestSubset) # ols_step_best_subset(model10.1.full) # # stepwise # bestSubset.forward = regsubsets(y ~ ., data = example101, nvmax = 4, method="backward") # summary(bestSubset.forward) # model10.1.step.forward = stepAIC(model10.1.full, direction = "backward", trace = T) # model10.1.step.forward = step(lm(y ~ x1, data = example101), direction="forward", scope=model10.1.full) # model10.1.step.backward = step(model10.1.full, direction="backward", scope=lm(y ~ 1, data = example101)) # model10.1.step.both = step(model10.1.full, direction="both", scope=model10.1.full) # ols_step_forward_p(model10.1.full, details = T) # ols_step_backward_p(model10.1.full, details = T) # ols_step_both_p(model10.1.full, details = T) # ols_step_both_aic(model10.1.full, details = T) # # LASSO # library(glmnet) # lambdas = 10^seq(1, -3, by = -.05) # model9.1.LASSO = cv.glmnet(xMatrix, example91$conversion, alpha = 1, lambda = lambdas) # plot(model9.1.LASSO) # lasso.Par = as.data.frame(as.matrix(cbind(lambdas,t(model9.1.LASSO$glmnet.fit$beta)))) # lasso.plotData = melt(lasso.Par,id = "lambdas",measure.vars = colnames(lasso.Par)[2:10]) # ggplot(lasso.plotData) + #   geom_line(aes(y = value, x = lambdas, group = variable, color = variable),size = 1) + #   geom_point(aes(y = value, x = lambdas, group = variable, color = variable),size = 2) + #   labs(title="LASSO") # # Elastic Net # model9.1.eNet = cv.glmnet(xMatrix, example91$conversion, alpha = 0.5, lambda = lambdas) # plot(model9.1.eNet) # eNet.Par = as.data.frame(as.matrix(cbind(lambdas,t(model9.1.eNet$glmnet.fit$beta)))) # eNet.plotData = melt(eNet.Par,id = "lambdas",measure.vars = colnames(eNet.Par)[2:10]) # ggplot(eNet.plotData) + #   geom_line(aes(y = value, x = lambdas, group = variable, color = variable),size = 1) + #   geom_point(aes(y = value, x = lambdas, group = variable, color = variable),size = 2) + #   labs(title="Elastic Net") #</code></h1>
+</div>
+<div id="glm" class="section level1">
+<h1>GLM</h1>
+<div id="binary-response" class="section level2">
+<h2>Binary Response</h2>
+</div>
+</div>
+<div id="r-pneumoconiosis-data-example131-data.frameread.tabletable13_1.txtheader-t-example131no_other_cases-roundexample131no_severe_casesexample131proportion_of_severe_cases-example131no_severe_cases-example131no_other_cases1-98-ggplotexample131-geom_lineaesy-proportion_of_severe_cases-x-no_years_of_exposuresize-1-geom_pointaesy-proportion_of_severe_cases-x-no_years_of_exposuresize-2-stat_smoothaesy-proportion_of_severe_cases-x-no_years_of_exposure-method-loessformula-y-x-se-false-color-2-stat_smoothaesy-proportion_of_severe_cases-x-no_years_of_exposure-method-lmformula-y-polyx3-se-false-color-4-model13.1-glmcbindno_severe_casesno_other_cases-no_years_of_exposure-familybinomial-data-example131-summarymodel13.1-expcoefmodel13.1-odds-expconfintmodel13.1-c.i.-of-odds-ratio-vcovmodel13.1-variance-covariance-matrix-residualsmodel13.1-typedeviance-pearson-working-response-example132-data.frameread.tablebreastcancer.txtheader-t-model13.2.two-glmcase.control-weight-age-familybinomial-data-example132-model13.2.one-glmcase.control-age-familybinomial-data-example132-anovamodel13.2.onemodel13.2.twotest-chisqlrtcpfrao" class="section level1">
+<h1><code>{r} # # Pneumoconiosis Data # example131 = data.frame(read.table("Table13_1.txt",header = T)) # example131$No_Other_Cases = round(example131$No_Severe_Cases/example131$Proportion_of_Severe_Cases-example131$No_Severe_Cases) # example131$No_Other_Cases[1] = 98 # ggplot(example131) + #   geom_line(aes(y = Proportion_of_Severe_Cases, x = No_Years_of_Exposure),size = 1) + #   geom_point(aes(y = Proportion_of_Severe_Cases, x = No_Years_of_Exposure),size = 2) + #   stat_smooth(aes(y = Proportion_of_Severe_Cases, x = No_Years_of_Exposure),  #               method = "loess",formula = y ~ x, se = FALSE, color = 2) + #   stat_smooth(aes(y = Proportion_of_Severe_Cases, x = No_Years_of_Exposure),  #               method = "lm",formula = y ~ poly(x,3), se = FALSE, color = 4)  # model13.1 = glm(cbind(No_Severe_Cases,No_Other_Cases) ~ No_Years_of_Exposure,  #                 family=binomial, data = example131) # summary(model13.1) # exp(coef(model13.1))# odds # exp(confint(model13.1))# C.I. of Odds ratio # vcov(model13.1)# variance-covariance matrix # residuals(model13.1, type="deviance")# pearson, working, response # example132 = data.frame(read.table("breastCancer.txt",header = T)) # model13.2.two = glm(case.control ~ weight + age,  #                 family=binomial, data = example132) # model13.2.one = glm(case.control ~ age,  #                 family=binomial, data = example132) # anova(model13.2.one,model13.2.two,test = "Chisq")#"LRT,Cp,F,Rao" #</code></h1>
+<div id="count-response" class="section level2">
+<h2>Count Response</h2>
+</div>
+</div>
+<div id="r-example133-data.frameread.tablepatent.txtheader-t-ggplotexample133-geom_lineaesy-patent-x-x3size-1-geom_pointaesy-patent-x-x3size-2-stat_smoothaesy-patent-x-x3-method-loessformula-y-x-se-false-color-2-stat_smoothaesy-patent-x-x3-method-lmformula-y-polyx3-se-false-color-4-model13.3-glmpatent-x1-x2-x3-familypoisson-data-example133-summarymodel13.3" class="section level1">
+<h1><code>{r} # example133 = data.frame(read.table("patent.txt",header = T)) # ggplot(example133) + #   geom_line(aes(y = patent, x = x3),size = 1) + #   geom_point(aes(y = patent, x = x3),size = 2) + #   stat_smooth(aes(y = patent, x = x3),  #               method = "loess",formula = y ~ x, se = FALSE, color = 2) + #   stat_smooth(aes(y = patent, x = x3),  #               method = "lm",formula = y ~ poly(x,3), se = FALSE, color = 4) # model13.3 = glm(patent ~ x1 + x2 + x3,  #                 family=poisson, data = example133) # summary(model13.3) #</code></h1>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
