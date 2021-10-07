@@ -268,58 +268,122 @@ $(document).ready(function () {
 
 
 <pre class="r"><code># libraries
-library(readxl)</code></pre>
+library(readxl)
+library(tidyr)
+library(magrittr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;magrittr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     extract</code></pre>
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
 <div id="problem-2.1" class="section level2">
 <h2>Problem 2.1</h2>
-<pre class="r"><code>team &lt;- c(&quot;Washington&quot;, &quot;Minnesota&quot;, &quot;New England&quot;, &quot;Oakland&quot;, &quot;Pittsburgh&quot;, &quot;Baltimore&quot;, &quot;Los Angeles&quot;, &quot;Dallas&quot;,
-          &quot;Atlanta&quot;, &quot;Buffalo&quot;, &quot;Chicago&quot;, &quot;Cinncinnati&quot;, &quot;Cleveland&quot;, &quot;Denver&quot;, &quot;Detroit&quot;, &quot;Green Bay&quot;, &quot;Houston&quot;,
-          &quot;Kansas City&quot;, &quot;Miami&quot;, &quot;New Orleans&quot;, &quot;New York Giants&quot;, &quot;New York Jets&quot;, &quot;Philadelphia&quot;, &quot;St.Louis&quot;, 
-          &quot;San Diego&quot;, &quot;San Francisco&quot;, &quot;Seattle&quot;, &quot;Tampa Bay&quot;)
-# y : games won (per 14 game season)
-y &lt;- c(10, 11, 11, 13, 10, 11, 10, 11, 4, 2, 7, 10, 9, 9, 6, 5, 5, 5, 6, 4, 3, 3, 4, 10, 6, 8, 2, 0)
-# x1 : Rushing yards (season)
-x1 &lt;- c(2113, 2003, 2957, 2285, 2971, 2309, 2528, 2147, 1689, 2566, 2363, 2109, 2295, 1932, 2213, 1722, 1498, 
-        1873, 2118, 1775, 1904, 1929, 2080, 2301, 2040, 2447, 1416, 1503)
-NFL76 &lt;- data.frame(team, y, x1)
-head(NFL76)</code></pre>
-<pre><code>##          team  y   x1
-## 1  Washington 10 2113
-## 2   Minnesota 11 2003
-## 3 New England 11 2957
-## 4     Oakland 13 2285
-## 5  Pittsburgh 10 2971
-## 6   Baltimore 11 2309</code></pre>
-<pre class="r"><code>plot(x1, y)</code></pre>
+<pre class="r"><code>problem2.1 = read_excel(&quot;data/Appendices/data-table-B1.XLS&quot;)
+head(problem2.1)</code></pre>
+<pre><code>## # A tibble: 6 x 10
+##       y    x1    x2    x3    x4    x5    x6    x7    x8    x9
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1    10  2113  1985  38.9  64.7     4   868  59.7  2205  1917
+## 2    11  2003  2855  38.8  61.3     3   615  55    2096  1575
+## 3    11  2957  1737  40.1  60      14   914  65.6  1847  2175
+## 4    13  2285  2905  41.6  45.3    -4   957  61.4  1903  2476
+## 5    10  2971  1666  39.2  53.8    15   836  66.1  1457  1866
+## 6    11  2309  2927  39.7  74.1     8   786  61    1848  2339</code></pre>
+<pre class="r"><code>y &lt;- problem2.1$y
+x &lt;- problem2.1$x8
+n &lt;- length(x)
+plot(problem2.1$x8, problem2.1$y, pch = 16)</code></pre>
 <p><img src="hw1_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>Our model is <span class="math display">\[
 Y = \beta_0+\beta_1 X+\epsilon.
 \]</span></p>
-<p>Here, <span class="math inline">\(Y\)</span> is <em>Games Won (per 14 game season)</em> and <span class="math inline">\(X\)</span> is *Rushing Yards (season). We can compute what we want directly from definitions <span class="math display">\[
+<p>Here, <span class="math inline">\(Y\)</span> is <em>Games Won (per 14 game season)</em> and <span class="math inline">\(X\)</span> is *Rushing Yards (season). We can compute what we want directly from definitions : <span class="math display">\[
 S_{xx} = \sum_{i=1}^n(x_i-\bar{x})^2\\
 S_{xy} = \sum_{i = 1}^ny_i(x_i-\bar{x})=\sum_{i=1}^nx_iy_i-\bar{x}\sum_{i=1}^ny_i\\
 \hat{\beta}_1 = \frac{S_{xy}}{S_{xx}}\\
 \hat{\beta}_0 = \bar{y}-\hat{\beta}_1\bar{x}.
 \]</span></p>
-<pre class="r"><code>model1 = lm(y ~ x1,data = NFL76)
+<pre class="r"><code>sxx = sum(x^2)-sum(x)^2/n;sxx</code></pre>
+<pre><code>## [1] 3608611</code></pre>
+<pre class="r"><code>sxy = sum(x*y)-sum(x)*sum(y)/n;sxy</code></pre>
+<pre><code>## [1] -25350.86</code></pre>
+<pre class="r"><code>beta1 = sxy/sxx;beta1</code></pre>
+<pre><code>## [1] -0.0070251</code></pre>
+<pre class="r"><code>beta0 = mean(y)-beta1*mean(x)
+c(beta0,beta1)</code></pre>
+<pre><code>## [1] 21.7882509 -0.0070251</code></pre>
+<pre class="r"><code>error = y-(beta0+beta1*x)
+plot(error);hist(error)</code></pre>
+<p><img src="hw1_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="hw1_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<pre class="r"><code>model1 = lm(problem2.1$y ~ problem2.1$x8,data = problem2.1)
 summary(model1)</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = y ~ x1, data = NFL76)
+## lm(formula = problem2.1$y ~ problem2.1$x8, data = problem2.1)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -7.4037 -1.3665 -0.6416  2.2539  5.1002 
+##    Min     1Q Median     3Q    Max 
+## -3.804 -1.591 -0.647  2.032  4.580 
 ## 
 ## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -4.330015   3.053809  -1.418 0.168093    
-## x1           0.005352   0.001424   3.758 0.000877 ***
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   21.788251   2.696233   8.081 1.46e-08 ***
+## problem2.1$x8 -0.007025   0.001260  -5.577 7.38e-06 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 2.855 on 26 degrees of freedom
-## Multiple R-squared:  0.3519, Adjusted R-squared:  0.327 
-## F-statistic: 14.12 on 1 and 26 DF,  p-value: 0.000877</code></pre>
+## Residual standard error: 2.393 on 26 degrees of freedom
+## Multiple R-squared:  0.5447, Adjusted R-squared:  0.5272 
+## F-statistic:  31.1 on 1 and 26 DF,  p-value: 7.381e-06</code></pre>
+<p>For example, we know the variance of slope <span class="math inline">\(\beta_0\)</span> is <span class="math display">\[Var(\hat{\beta_1})=\frac{\sigma^2}{S_{xx}}\]</span>. The test statistic of <span class="math inline">\(\beta_0\)</span> is <span class="math display">\[
+t_0 = \frac{\hat{\beta_0}-\beta_{00}}{\sqrt{MS_{Res}(1/n+\bar{x}^2/S_{xx})}}.
+\]</span> <em>p-value</em> is given by <span class="math display">\[P(T&gt;t_0).\]</span> Let’s do it by hand.</p>
+<pre class="r"><code>sst = sum((y-mean(y))^2);sst</code></pre>
+<pre><code>## [1] 326.9643</code></pre>
+<pre class="r"><code>ssres = sum(error^2);ssres</code></pre>
+<pre><code>## [1] 148.872</code></pre>
+<pre class="r"><code>varBeta1 = (ssres/(n-2))/sxx;sqrt(varBeta1) # variance of \beta_1</code></pre>
+<pre><code>## [1] 0.00125965</code></pre>
+<pre class="r"><code>sdOfBeta1 = sqrt(ssres/(n-2)*(1/sxx))
+sdOfBeta0 = sqrt(ssres/(n-2)*(1/n+mean(x)^2/sxx))
+t0 = (beta0-0)/sdOfBeta0;t0</code></pre>
+<pre><code>## [1] 8.080996</code></pre>
+<pre class="r"><code>pt(-t0,n-2)</code></pre>
+<pre><code>## [1] 7.318447e-09</code></pre>
+<p>Similarly, <em>lm</em> returns everything else as we want. (We will meet <em>Adjusted R-squared</em> later).</p>
+<p>Let <span class="math inline">\(\alpha = 0.05\)</span>, the <span class="math inline">\((1-\alpha)100\%=95\%\)</span> confidence interval (C.I.) of <span class="math inline">\(\beta_1\)</span> is <span class="math inline">\((-43.22 -31.08)\)</span>, given by</p>
+<pre class="r"><code>c(beta1+qt(0.025,n-2)*sdOfBeta1,beta1-qt(0.025,n-2)*sdOfBeta1)</code></pre>
+<pre><code>## [1] -0.009614347 -0.004435854</code></pre>
+<p>We predict the average response at point <span class="math inline">\(x_0\)</span> with its corresponding confidence interval. For all <span class="math inline">\(x_i,i=1,...,n\)</span>, we can create a confidence band.</p>
+<pre class="r"><code>yhat = beta0+beta1*x
+plot(x,y,pch=16)
+lines(x,yhat)
+x0 = 15;yhat0 = beta0+beta1*x0
+ciPoint = c(yhat0-qt(0.025,n-2)*sqrt(ssres/(n-2)*(1+1/n+(x0-mean(x))^2/sxx)),
+            yhat0+qt(0.025,n-2)*sqrt(ssres/(n-2)*(1+1/n+(x0-mean(x))^2/sxx)))
+points(x0,yhat0,pch=2,cex=2);points(c(x0,x0),ciPoint,pch = 8)</code></pre>
+<p><img src="hw1_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code>yhatSort = beta0+beta1*sort(x)
+ciBand = cbind(yhatSort-qt(0.025,n-2)*sqrt(ssres/(n-2)*(1/n+(sort(x)-mean(x))^2/sxx)),
+            yhatSort+qt(0.025,n-2)*sqrt(ssres/(n-2)*(1/n+(sort(x)-mean(x))^2/sxx)))
+ciPredBand = cbind(yhatSort-qt(0.025,n-2)*sqrt(ssres/(n-2)*(1+1/n+(sort(x)-mean(x))^2/sxx)),
+            yhatSort+qt(0.025,n-2)*sqrt(ssres/(n-2)*(1+1/n+(sort(x)-mean(x))^2/sxx)))
+plot(x,y,pch=16)
+lines(x,yhat,lwd = 2)
+lines(sort(x),ciBand[,1],type = &#39;l&#39;,lty = &#39;dashed&#39;,lwd = 2)
+lines(sort(x),ciBand[,2],type = &#39;l&#39;,lty = &#39;dashed&#39;,lwd = 2)
+lines(sort(x),ciPredBand[,1],type = &#39;l&#39;,lty = &#39;dotted&#39;,lwd = 2)
+lines(sort(x),ciPredBand[,2],type = &#39;l&#39;,lty = &#39;dotted&#39;,lwd = 2)</code></pre>
+<p><img src="hw1_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
 </div>
 
 

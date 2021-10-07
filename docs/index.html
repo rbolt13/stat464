@@ -323,6 +323,9 @@ div.tocify {
   <a href="index.html">Notes</a>
 </li>
 <li>
+  <a href="code.html">Code</a>
+</li>
+<li>
   <a href="contact.html">Contact</a>
 </li>
       </ul>
@@ -346,8 +349,8 @@ div.tocify {
 <h1>About</h1>
 <p>These are class notes and R code for Professor Ge Zhao’s STAT-464 : Applied Regression Analysis for Fall term 2021 at Portland State University.</p>
 </div>
-<div id="d1-monday-september-27-2021" class="section level1">
-<h1>D1 : Monday September 27, 2021</h1>
+<div id="d1-mon.-september-27-2021" class="section level1">
+<h1>D1 : Mon. September 27, 2021</h1>
 <ul>
 <li><p>will ask around for a bigger room</p></li>
 <li><p>assume we have basic understanding of R</p></li>
@@ -420,8 +423,8 @@ categorical : ordinal data and nominal data
 </div>
 </div>
 </div>
-<div id="d2-wednesday-september-29-2021" class="section level1">
-<h1>D2 : Wednesday September 29, 2021</h1>
+<div id="d2-wed.-september-29-2021" class="section level1">
+<h1>D2 : Wed. September 29, 2021</h1>
 <ul>
 <li>If you cannot attend in person use zoom number in D2L link</li>
 </ul>
@@ -489,8 +492,8 @@ categorical : ordinal data and nominal data
 </ul>
 </div>
 </div>
-<div id="d3-friday-october-1st-2021" class="section level1">
-<h1>D3 : Friday October 1st, 2021</h1>
+<div id="d3-fri.-october-1st-2021" class="section level1">
+<h1>D3 : Fri. October 1st, 2021</h1>
 <div id="properties-of-least-squares-estimates" class="section level3">
 <h3>Properties of least squares estimates</h3>
 <p>Today we will prove ???</p>
@@ -521,11 +524,11 @@ categorical : ordinal data and nominal data
 </ul>
 </div>
 </div>
-<div id="d4-monday-october-4th-2021" class="section level1">
-<h1>D4 : Monday October 4th, 2021</h1>
+<div id="d4-mon.-october-4th-2021" class="section level1">
+<h1>D4 : Mon. October 4th, 2021</h1>
 <ul>
 <li><p>class is very difficult to follow along to, so these are more reflective of what’s in the book and from notes of students from last year.</p></li>
-<li><p>it seems like we work through proofs in class, but I do not think that is knowledge I am required to know to pass this class so … oh well. Typical PSU.</p></li>
+<li><p>it seems like we work through proofs in class, but I do not think that is knowledge I am required to know to pass this class so … oh well.</p></li>
 <li><p>do not hand write homework</p></li>
 <li><p>rmarkdown file is hell, and will take me a couple hours to clean up before I can use it</p></li>
 <li><p>Final / Midterm will be in the form of an official report</p></li>
@@ -566,12 +569,128 @@ E[\hat{\beta}_{0}] &amp; = E[\overline{Y}-\hat{\beta}_{1}\overline{x}]\\
 <h3>Summary</h3>
 <ul>
 <li><p>cancellation is tricky, will revisit on Wednesday</p></li>
-<li><p>nothing in the homework has really been covered in class. Not sure what that’s about, and I don’t care. Heavily considering ditching class notes just to follow along with the textbook. seems more applicable to what I will need to do / know for the test and future, as opposed to whatever it is the professor spends all of lecture doing (which is think is mostly just algebra?).</p></li>
+<li><p>nothing in the homework has really been covered in class. Not sure what that’s about, and I don’t care. Heavily considering ditching class notes just to follow along with the textbook. seems more applicable to what I will need to do / know for the test and future, as opposed to whatever it is the professor spends all of lecture doing (which I think is mostly just algebra?).</p></li>
 </ul>
 </div>
 </div>
-<div id="d5-wednesday-october-6th-2021" class="section level1">
-<h1>D5 : Wednesday October 6th, 2021</h1>
+<div id="d5-wed.-october-6th-2021" class="section level1">
+<h1>D5 : Wed. October 6th, 2021</h1>
+<ul>
+<li><p>there is a 300 level version of this course</p></li>
+<li><p>next we show we can compute the variance of <span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span>.</p></li>
+</ul>
+<div id="properties-of-least-squares-estimates-2" class="section level3">
+<h3>Properties of least squares estimates</h3>
+<ol start="3" style="list-style-type: decimal">
+<li>The variance of <span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span></li>
+</ol>
+<p><strong><span style="color: violet;">Assumptions</span></strong></p>
+<p><span class="math inline">\(E(\epsilon )=0\)</span></p>
+<p><span class="math inline">\(Var(\epsilon)=\sigma^2\)</span></p>
+<p><span class="math inline">\(\epsilon_i\)</span> and <span class="math inline">\(\epsilon_j\)</span> are independent. (<span class="math inline">\(\epsilon_i \ne \epsilon_j\)</span>)</p>
+<p><span class="math inline">\(E(\epsilon_i\cdot\epsilon_j)=0\)</span></p>
+<p><span class="math inline">\(Cov(\epsilon_i\cdot\epsilon_j)=0\)</span></p>
+<p>Note : the only term with randomness is <span class="math inline">\(\hat{y}\)</span></p>
+</div>
+<div id="variance-of-least-squares-estimates" class="section level3">
+<h3>Variance of least squares estimates</h3>
+<p><span class="math display">\[\begin{equation}\label{var of slope estimate}
+\begin{split}
+Var[\hat{\beta}_{1}] &amp; = Var\{\sum_{i=1}^{n}\frac{x_{i}-\overline{x}}{S_{xx}}Y_{i}\}^2\\
+&amp; = \sum_{i=1}^{n}Var\{\frac{x_{i}-\overline{x}}{S_{xx}}Y_{i}\}^2+0(\text{Cov.})\\
+&amp; = \sum_{i=1}^{n}\{\frac{x_{i}-\overline{x}}{S_{xx}}\}^{2}Var(Y_{i})^2\\
+&amp; = \sum_{i=1}^{n}\{\frac{x_{i}-\overline{x}}{S_{xx}}\}^{2}\sigma^2\\
+&amp; = \frac{\sigma^2}{S_{xx}^2}\sum_{i=1}^{n}(x_{i}-\overline{x})
+\end{split}
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}\label{var of intercept estimate}
+\begin{split}
+Var[\hat{\beta}_{0}] &amp; = Var(\overline{Y}-\hat{\beta}_1\overline{x})\\
+&amp; = Var\{\frac{1}{n}\sum_{i=1}^{n}Y_{i}-\overline{x}\sum_{i=1}^{n}\frac{x_{i}-\overline{x}}{S_{xx}}Y_i\}^2\\
+&amp; = Var[\sum_{i=1}^{n}\{\frac{1}{n}-\overline{x}\frac{x_{i}-\overline{x}}{S_{xx}}\}Y_i]^2\\
+&amp; = \sum_{i=1}^{n}Var\{\frac{1}{n}-\overline{x}\frac{x_{i}-\overline{x}}{S_{xx}}\}^2Y_i\\
+&amp; = \sum_{i=1}^{n}\{\frac{1}{n}-\overline{x}\frac{x_{i}-\overline{x}}{S_{xx}}\}^2\sigma^2
+\end{split}
+\end{equation}\]</span></p>
+<ul>
+<li>remember that <span class="math inline">\(\beta_{0}\)</span> is y intercept</li>
+</ul>
+</div>
+<div id="sum-of-residuals-is-zero" class="section level3">
+<h3>Sum of residuals is zero</h3>
+<ol start="4" style="list-style-type: decimal">
+<li><span class="math inline">\(e_{i}=y_i+\hat{y}_i\)</span></li>
+</ol>
+<blockquote>
+<p><span class="math inline">\(\sum_{i=1}^{n}e_i=0\)</span></p>
+<p><span class="math inline">\(\sum_{i=1}^{n}u=\hat{y}_i\)</span></p>
+</blockquote>
+<ul>
+<li><p>proof is simple (and will be added to homework) : just plug in <span class="math inline">\(\hat{y}_i\)</span> and things will cancel</p></li>
+<li><p>make sure to show results of one to be true before using it to prove the other</p></li>
+</ul>
+</div>
+<div id="least-squares-goes-through-the-centroid-of-the-data" class="section level3">
+<h3>Least Squares goes through the centroid of the data</h3>
+<ol start="5" style="list-style-type: decimal">
+<li><span class="math inline">\(\overline{y}=\hat{\beta}_0+\hat{\beta}_1\overline{x}\)</span></li>
+</ol>
+<ul>
+<li><p>centroid is <span class="math inline">\((x_i,y_i)_{i=1}^n\)</span></p></li>
+<li><p>proof is simple just plug in estimator</p></li>
+</ul>
+</div>
+<div id="ls-weighted-by-the-corresponding-fitted-value-equals-zero" class="section level3">
+<h3>LS Weighted by the corresponding fitted value equals zero</h3>
+<ol start="6" style="list-style-type: decimal">
+<li><span class="math inline">\(\sum_{i=1}^{n}x_ie_i=0\)</span> and <span class="math inline">\(\sum_{i=1}^{n}\hat{y}_ie_i=0\)</span></li>
+</ol>
+<blockquote>
+<p><span class="math inline">\(\sum_{i=1}^{n}x_ie_i=0\)</span></p>
+<p><span class="math inline">\(\sum_{i=1}^{n}\hat{y}_ie_i=0\)</span></p>
+</blockquote>
+<ul>
+<li><p>need to expand to prove</p></li>
+<li><p>will be additional homework problem</p></li>
+<li><p>residual is particular to x</p></li>
+<li><p>residual is particular to <span class="math inline">\(\hat{y}\)</span></p></li>
+<li><p><span class="math inline">\(x_i\)</span> and <span class="math inline">\(\hat{y}_i\)</span> are 1 dimennsional vectors</p></li>
+</ul>
+</div>
+<div id="is-this-the-correct-line" class="section level3">
+<h3>Is this the correct line?</h3>
+<ul>
+<li><p>Original problem : When we assume a linear model how do we know we are using the correct line?</p></li>
+<li><p>Is our assumption correct?</p></li>
+<li><p>Is the model useful?</p></li>
+<li><p>We do not know the parameters (<span class="math inline">\(beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>) (intercept and slope) so we estimated them</p></li>
+<li><p>The answer will be an inference, but before we can make that inference we neet to estimate <span class="math inline">\(\sigma^2\)</span></p></li>
+<li><p>In most real life cases we do not know <span class="math inline">\(\sigma^2\)</span></p></li>
+</ul>
+</div>
+<div id="estimating-sigma-squared" class="section level3">
+<h3>Estimating sigma squared</h3>
+</div>
+<div id="summary-3" class="section level3">
+<h3>Summary</h3>
+<ul>
+<li>There are 6 properties of our least squares estimators <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span></li>
+</ul>
+<ol style="list-style-type: decimal">
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ol>
+<ul>
+<li>dont do one of the homework problems</li>
+</ul>
+</div>
+</div>
+<div id="d6-fri.-october-8th-2021" class="section level1">
+<h1>D6 : Fri. October 8th, 2021</h1>
 </div>
 
 

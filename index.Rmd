@@ -21,7 +21,7 @@ library(kableExtra)
 
 These are class notes and R code for Professor Ge Zhao's STAT-464 : Applied Regression Analysis for Fall term 2021 at Portland State University. 
 
-# D1 : Monday September 27, 2021
+# D1 : Mon. September 27, 2021
 
 - will ask around for a bigger room 
 
@@ -79,7 +79,7 @@ Experimental design would have a continuous $Y$ vs. a Categorical $X$. Graphical
 
 Some of the special cases I would need to think about. 
 
-# D2 : Wednesday September 29, 2021
+# D2 : Wed. September 29, 2021
 
 - If you cannot attend in person use zoom number in D2L link 
 
@@ -165,7 +165,7 @@ $$\sum_{i=1}^{n}y_{i}x_{i}-\sum_{i=1}^{n}\beta _{0}x_{i}-\sum_{i=1}^{n}\beta _{1
 
 - $\beta_{0}$ is the intercept, and $\beta_{1}$ is the slope
 
-# D3 : Friday October 1st, 2021
+# D3 : Fri. October 1st, 2021
 
 ### Properties of least squares estimates
 
@@ -205,11 +205,11 @@ $\hat{\beta}=\frac{\overline{xy}-\overline{x} \cdot\overline{y}}{\overline{x}^{2
 
 - [October 1](http://web.pdx.edu/~gibson25/564/564-lecture-notes.html#12_-_october_1,_2020) should be the proof we did today. 
 
-# D4 : Monday October 4th, 2021
+# D4 : Mon. October 4th, 2021
 
 - class is very difficult to follow along to, so these are more reflective of what's in the book and from notes of students from last year. 
 
-- it seems like we work through proofs in class, but I do not think that is knowledge I am required to know to pass this class so ... oh well. Typical PSU. 
+- it seems like we work through proofs in class, but I do not think that is knowledge I am required to know to pass this class so ... oh well.  
 
 - do not hand write homework 
 
@@ -258,10 +258,127 @@ Therefore by the proof of equalities $E[\hat{\beta}_{0}]=\beta_{0}$. QED.
 
 - cancellation is tricky, will revisit on Wednesday 
 
-- nothing in the homework has really been covered in class. Not sure what that's about, and I don't care. Heavily considering ditching class notes just to follow along with the textbook. seems more applicable to what I will need to do / know for the test and future, as opposed to whatever it is the professor spends all of lecture doing (which is think is mostly just algebra?). 
+- nothing in the homework has really been covered in class. Not sure what that's about, and I don't care. Heavily considering ditching class notes just to follow along with the textbook. seems more applicable to what I will need to do / know for the test and future, as opposed to whatever it is the professor spends all of lecture doing (which I think is mostly just algebra?). 
 
-# D5 : Wednesday October 6th, 2021
+# D5 : Wed. October 6th, 2021
+
+- there is a 300 level version of this course  
+
+- next we show we can compute the variance of $\hat{\beta}_1$ and $\hat{\beta}_0$. 
+
+### Properties of least squares estimates
+
+3. The variance of $\hat{\beta}_1$ and $\hat{\beta}_0$
+
+**<span style="color: violet;">Assumptions</span>**
+
+$E(\epsilon )=0$
+
+$Var(\epsilon)=\sigma^2$
+
+$\epsilon_i$ and $\epsilon_j$ are independent. ($\epsilon_i \ne \epsilon_j$)
+
+$E(\epsilon_i\cdot\epsilon_j)=0$
+
+$Cov(\epsilon_i\cdot\epsilon_j)=0$
+
+Note : the only term with randomness is $\hat{y}$
+
+### Variance of least squares estimates
+
+\begin{equation}\label{var of slope estimate}
+\begin{split}
+Var[\hat{\beta}_{1}] & = Var\{\sum_{i=1}^{n}\frac{x_{i}-\overline{x}}{S_{xx}}Y_{i}\}^2\\
+& = \sum_{i=1}^{n}Var\{\frac{x_{i}-\overline{x}}{S_{xx}}Y_{i}\}^2+0(\text{Cov.})\\
+& = \sum_{i=1}^{n}\{\frac{x_{i}-\overline{x}}{S_{xx}}\}^{2}Var(Y_{i})^2\\
+& = \sum_{i=1}^{n}\{\frac{x_{i}-\overline{x}}{S_{xx}}\}^{2}\sigma^2\\
+& = \frac{\sigma^2}{S_{xx}^2}\sum_{i=1}^{n}(x_{i}-\overline{x})
+\end{split}
+\end{equation}
+
+\begin{equation}\label{var of intercept estimate}
+\begin{split}
+Var[\hat{\beta}_{0}] & = Var(\overline{Y}-\hat{\beta}_1\overline{x})\\
+& = Var\{\frac{1}{n}\sum_{i=1}^{n}Y_{i}-\overline{x}\sum_{i=1}^{n}\frac{x_{i}-\overline{x}}{S_{xx}}Y_i\}^2\\
+& = Var[\sum_{i=1}^{n}\{\frac{1}{n}-\overline{x}\frac{x_{i}-\overline{x}}{S_{xx}}\}Y_i]^2\\
+& = \sum_{i=1}^{n}Var\{\frac{1}{n}-\overline{x}\frac{x_{i}-\overline{x}}{S_{xx}}\}^2Y_i\\
+& = \sum_{i=1}^{n}\{\frac{1}{n}-\overline{x}\frac{x_{i}-\overline{x}}{S_{xx}}\}^2\sigma^2
+\end{split}
+\end{equation}
+
+- remember that $\beta_{0}$ is y intercept 
+
+### Sum of residuals is zero
+
+4. $e_{i}=y_i+\hat{y}_i$
+
+> $\sum_{i=1}^{n}e_i=0$
+> 
+> $\sum_{i=1}^{n}u=\hat{y}_i$
+
+- proof is simple (and will be added to homework) : just plug in $\hat{y}_i$ and things will cancel 
+
+- make sure to show results of one to be true before using it to prove the other
+
+### Least Squares goes through the centroid of the data
+
+5. $\overline{y}=\hat{\beta}_0+\hat{\beta}_1\overline{x}$
+
+- centroid is $(x_i,y_i)_{i=1}^n$
+
+- proof is simple just plug in estimator 
+
+### LS Weighted by the corresponding fitted value equals zero 
+
+6. $\sum_{i=1}^{n}x_ie_i=0$ and $\sum_{i=1}^{n}\hat{y}_ie_i=0$
+
+> $\sum_{i=1}^{n}x_ie_i=0$
+>
+> $\sum_{i=1}^{n}\hat{y}_ie_i=0$
+
+- need to expand to prove
+
+- will be additional homework problem 
+
+- residual is particular to x
+
+- residual is particular to $\hat{y}$
+
+- $x_i$ and $\hat{y}_i$ are 1 dimennsional vectors 
+
+### Is this the correct line? 
+
+- Original problem : When we assume a linear model how do we know we are using the correct line? 
+
+- Is our assumption correct? 
+
+- Is the model useful? 
+
+- We do not know the parameters ($beta_0$ and $\beta_1$) (intercept and slope) so we estimated them 
+
+- The answer will be an inference, but before we can make that inference we neet to estimate $\sigma^2$
+
+- In most real life cases we do not know $\sigma^2$
+
+### Estimating sigma squared 
 
 
+### Summary 
 
+- There are 6 properties of our least squares estimators $\hat{\beta}_0$ and $\hat{\beta}_1$
 
+1. 
+
+2. 
+
+3. 
+
+4. 
+
+5.
+
+6.
+
+- dont do one of the homework problems
+
+# D6 : Fri. October 8th, 2021

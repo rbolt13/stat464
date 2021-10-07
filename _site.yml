@@ -9,6 +9,8 @@ navbar:
   left:
     - text: "Notes"
       href: index.html
+    - text: "Code"
+      href: code.html
     - text: "Contact"
       href: contact.html
 ---
