@@ -349,8 +349,8 @@ div.tocify {
 <h1>About</h1>
 <p>These are class notes and R code for Professor Ge Zhao’s STAT-464 : Applied Regression Analysis for Fall term 2021 at Portland State University.</p>
 </div>
-<div id="d1-mon.-september-27-2021" class="section level1">
-<h1>D1 : Mon. September 27, 2021</h1>
+<div id="d1-mon.-sept.-27-2021" class="section level1">
+<h1>D1 : Mon. Sept. 27, 2021</h1>
 <ul>
 <li><p>will ask around for a bigger room</p></li>
 <li><p>assume we have basic understanding of R</p></li>
@@ -423,8 +423,8 @@ categorical : ordinal data and nominal data
 </div>
 </div>
 </div>
-<div id="d2-wed.-september-29-2021" class="section level1">
-<h1>D2 : Wed. September 29, 2021</h1>
+<div id="d2-wed.-sept.-29-2021" class="section level1">
+<h1>D2 : Wed. Sept. 29, 2021</h1>
 <ul>
 <li>If you cannot attend in person use zoom number in D2L link</li>
 </ul>
@@ -492,8 +492,8 @@ categorical : ordinal data and nominal data
 </ul>
 </div>
 </div>
-<div id="d3-fri.-october-1st-2021" class="section level1">
-<h1>D3 : Fri. October 1st, 2021</h1>
+<div id="d3-fri.-oct.-1st-2021" class="section level1">
+<h1>D3 : Fri. Oct. 1st, 2021</h1>
 <div id="properties-of-least-squares-estimates" class="section level3">
 <h3>Properties of least squares estimates</h3>
 <p>Today we will prove ???</p>
@@ -524,8 +524,8 @@ categorical : ordinal data and nominal data
 </ul>
 </div>
 </div>
-<div id="d4-mon.-october-4th-2021" class="section level1">
-<h1>D4 : Mon. October 4th, 2021</h1>
+<div id="d4-mon.-oct.-4th-2021" class="section level1">
+<h1>D4 : Mon. Oct. 4th, 2021</h1>
 <ul>
 <li><p>class is very difficult to follow along to, so these are more reflective of what’s in the book and from notes of students from last year.</p></li>
 <li><p>it seems like we work through proofs in class, but I do not think that is knowledge I am required to know to pass this class so … oh well.</p></li>
@@ -573,8 +573,8 @@ E[\hat{\beta}_{0}] &amp; = E[\overline{Y}-\hat{\beta}_{1}\overline{x}]\\
 </ul>
 </div>
 </div>
-<div id="d5-wed.-october-6th-2021" class="section level1">
-<h1>D5 : Wed. October 6th, 2021</h1>
+<div id="d5-wed.-oct.-6th-2021" class="section level1">
+<h1>D5 : Wed. Oct. 6th, 2021</h1>
 <ul>
 <li><p>there is a 300 level version of this course</p></li>
 <li><p>next we show we can compute the variance of <span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span>.</p></li>
@@ -670,27 +670,71 @@ Var[\hat{\beta}_{0}] &amp; = Var(\overline{Y}-\hat{\beta}_1\overline{x})\\
 </div>
 <div id="estimating-sigma-squared" class="section level3">
 <h3>Estimating sigma squared</h3>
+<p>Recall <span class="math inline">\(e=y-\hat{y}\)</span></p>
+<p><span class="math inline">\(\sigma^2=Var(\epsilon)\)</span></p>
+<p><span class="math inline">\(\epsilon = Y -(\beta_0+\beta_1x)\)</span></p>
+<p><span class="math inline">\(e=y-(\hat{\beta}_0+\hat{\beta}_1x)=y-\hat{y}\)</span></p>
+<ul>
+<li>idea is that we use the residuals to estimate the variance of error</li>
+</ul>
+<p>Lets define these two quantities :</p>
+<p><span class="math inline">\(\sum\limits_{i=1}^{n}e^2_i=\sum\limits_{i=1}^{n}(y-\hat{y})\)</span></p>
+<p><span class="math inline">\(E(\sum\limits_{i=1}^{n}e^2)=(n-2)\sigma^2\)</span></p>
+<p><span class="math inline">\(\Rightarrow \sigma^2=\frac{E(\sum\limits_{i=1}^{n}e^2)}{n-2}\)</span></p>
+<ul>
+<li>we don’t know the true sigma, so we use this quantity to estimate sigma squared</li>
+</ul>
+<p><span class="math inline">\(\hat{\sigma}^2=\frac{\sum\limits_{i=1}^{n}e^2}{n-2}\)</span></p>
+<ul>
+<li>because if we take the expectation of both sides we will have sigma squared</li>
+</ul>
+<p><span class="math inline">\(E(\hat{\sigma}^2)=E(\frac{\sum\limits_{i=1}^{n}e^2}{n-2})=\sigma^2\)</span></p>
+<ul>
+<li>will be used a lot in the future</li>
+</ul>
 </div>
 <div id="summary-3" class="section level3">
 <h3>Summary</h3>
 <ul>
-<li>There are 6 properties of our least squares estimators <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span></li>
+<li><p>homework due monday</p></li>
+<li><p>skip problems that deal with confidence interval</p></li>
+<li><p>will go over some of the coding in class</p></li>
+<li><p>There are 6 properties of our least squares estimators <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span></p></li>
 </ul>
 <ol style="list-style-type: decimal">
-<li></li>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
+<li><p><span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span> are linear combinations of of the observations <span class="math inline">\(y_{i}\)</span></p></li>
+<li><p><span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span> are unbiased estimators of <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_0\)</span></p></li>
+<li><p>Variance of LS estimates <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span></p></li>
 </ol>
 <ul>
-<li>dont do one of the homework problems</li>
+<li><p><span class="math inline">\(Var[\hat{\beta}_{1}]=\frac{\sigma^2}{S_{xx}^2}\sum\limits_{i=1}^{n}(x_{i}-\overline{x})\)</span></p></li>
+<li><p><span class="math inline">\(Var[\hat{\beta}_{0}]=\sum\limits_{i=1}^{n}\{\frac{1}{n}-\overline{x}\frac{x_{i}-\overline{x}}{S_{xx}}\}^2\sigma^2\)</span></p></li>
 </ul>
+<ol start="4" style="list-style-type: decimal">
+<li>Sum of residuals is zero</li>
+</ol>
+<ul>
+<li><p><span class="math inline">\(e_{i}=y_i+\hat{y}_i\)</span></p></li>
+<li><p><span class="math inline">\(\sum\limits_{i=1}^{n}e_i=0\)</span></p></li>
+<li><p><span class="math inline">\(\sum\limits_{i=1}^{n}u=\hat{y}_i\)</span></p></li>
+</ul>
+<ol start="5" style="list-style-type: decimal">
+<li>LS goes through the centroid of the data</li>
+</ol>
+<ul>
+<li><span class="math inline">\(\overline{y}=\hat{\beta}_0+\hat{\beta}_1\overline{x}\)</span></li>
+</ul>
+<ol start="6" style="list-style-type: decimal">
+<li>LS, Weighted by the corresponding fitted value, equals zero</li>
+</ol>
+<ul>
+<li><span class="math inline">\(\sum\limits_{i=1}^{n}x_ie_i=0\)</span> and <span class="math inline">\(\sum_{i=1}^{n}\hat{y}_ie_i=0\)</span></li>
+</ul>
+<p>Estimate sigma^2 : <span class="math inline">\(\hat{\sigma}^2=\frac{\sum\limits_{i=1}^{n}e^2}{n-2}\)</span></p>
 </div>
 </div>
-<div id="d6-fri.-october-8th-2021" class="section level1">
-<h1>D6 : Fri. October 8th, 2021</h1>
+<div id="d6-fri.-oct.-8th-2021" class="section level1">
+<h1>D6 : Fri. Oct. 8th, 2021</h1>
 </div>
 
 

@@ -21,7 +21,7 @@ library(kableExtra)
 
 These are class notes and R code for Professor Ge Zhao's STAT-464 : Applied Regression Analysis for Fall term 2021 at Portland State University. 
 
-# D1 : Mon. September 27, 2021
+# D1 : Mon. Sept. 27, 2021
 
 - will ask around for a bigger room 
 
@@ -79,7 +79,7 @@ Experimental design would have a continuous $Y$ vs. a Categorical $X$. Graphical
 
 Some of the special cases I would need to think about. 
 
-# D2 : Wed. September 29, 2021
+# D2 : Wed. Sept. 29, 2021
 
 - If you cannot attend in person use zoom number in D2L link 
 
@@ -165,7 +165,7 @@ $$\sum_{i=1}^{n}y_{i}x_{i}-\sum_{i=1}^{n}\beta _{0}x_{i}-\sum_{i=1}^{n}\beta _{1
 
 - $\beta_{0}$ is the intercept, and $\beta_{1}$ is the slope
 
-# D3 : Fri. October 1st, 2021
+# D3 : Fri. Oct. 1st, 2021
 
 ### Properties of least squares estimates
 
@@ -205,7 +205,7 @@ $\hat{\beta}=\frac{\overline{xy}-\overline{x} \cdot\overline{y}}{\overline{x}^{2
 
 - [October 1](http://web.pdx.edu/~gibson25/564/564-lecture-notes.html#12_-_october_1,_2020) should be the proof we did today. 
 
-# D4 : Mon. October 4th, 2021
+# D4 : Mon. Oct. 4th, 2021
 
 - class is very difficult to follow along to, so these are more reflective of what's in the book and from notes of students from last year. 
 
@@ -260,7 +260,7 @@ Therefore by the proof of equalities $E[\hat{\beta}_{0}]=\beta_{0}$. QED.
 
 - nothing in the homework has really been covered in class. Not sure what that's about, and I don't care. Heavily considering ditching class notes just to follow along with the textbook. seems more applicable to what I will need to do / know for the test and future, as opposed to whatever it is the professor spends all of lecture doing (which I think is mostly just algebra?). 
 
-# D5 : Wed. October 6th, 2021
+# D5 : Wed. Oct. 6th, 2021
 
 - there is a 300 level version of this course  
 
@@ -362,23 +362,70 @@ Var[\hat{\beta}_{0}] & = Var(\overline{Y}-\hat{\beta}_1\overline{x})\\
 
 ### Estimating sigma squared 
 
+Recall $e=y-\hat{y}$ 
+
+$\sigma^2=Var(\epsilon)$
+
+$\epsilon = Y -(\beta_0+\beta_1x)$
+
+$e=y-(\hat{\beta}_0+\hat{\beta}_1x)=y-\hat{y}$
+
+- idea is that we use the residuals to estimate the variance of error
+
+Lets define these two quantities : 
+
+$\sum\limits_{i=1}^{n}e^2_i=\sum\limits_{i=1}^{n}(y-\hat{y})$
+
+$E(\sum\limits_{i=1}^{n}e^2)=(n-2)\sigma^2$
+
+$\Rightarrow \sigma^2=\frac{E(\sum\limits_{i=1}^{n}e^2)}{n-2}$
+
+- we don't know the true sigma, so we use this quantity to estimate sigma squared 
+
+$\hat{\sigma}^2=\frac{\sum\limits_{i=1}^{n}e^2}{n-2}$
+
+- because if we take the expectation of both sides we will have sigma squared 
+
+$E(\hat{\sigma}^2)=E(\frac{\sum\limits_{i=1}^{n}e^2}{n-2})=\sigma^2$
+
+- will be used a lot in the future
 
 ### Summary 
 
+- homework due monday 
+
+- skip problems that deal with confidence interval 
+
+- will go over some of the coding in class
+
 - There are 6 properties of our least squares estimators $\hat{\beta}_0$ and $\hat{\beta}_1$
 
-1. 
+1. $\hat{\beta}_1$ and $\hat{\beta}_0$ are linear combinations of of the observations $y_{i}$
 
-2. 
+2. $\hat{\beta}_1$ and $\hat{\beta}_0$ are unbiased estimators of $\beta_1$ and $\beta_0$ 
 
-3. 
+3. Variance of LS estimates $\hat{\beta}_0$ and $\hat{\beta}_1$
 
-4. 
+- $Var[\hat{\beta}_{1}]=\frac{\sigma^2}{S_{xx}^2}\sum\limits_{i=1}^{n}(x_{i}-\overline{x})$
 
-5.
+- $Var[\hat{\beta}_{0}]=\sum\limits_{i=1}^{n}\{\frac{1}{n}-\overline{x}\frac{x_{i}-\overline{x}}{S_{xx}}\}^2\sigma^2$
 
-6.
+4. Sum of residuals is zero
 
-- dont do one of the homework problems
+- $e_{i}=y_i+\hat{y}_i$
 
-# D6 : Fri. October 8th, 2021
+- $\sum\limits_{i=1}^{n}e_i=0$
+ 
+- $\sum\limits_{i=1}^{n}u=\hat{y}_i$
+
+5. LS goes through the centroid of the data
+
+- $\overline{y}=\hat{\beta}_0+\hat{\beta}_1\overline{x}$
+
+6. LS, Weighted by the corresponding fitted value, equals zero 
+
+- $\sum\limits_{i=1}^{n}x_ie_i=0$ and $\sum_{i=1}^{n}\hat{y}_ie_i=0$
+
+Estimate sigma^2 : $\hat{\sigma}^2=\frac{\sum\limits_{i=1}^{n}e^2}{n-2}$
+
+# D6 : Fri. Oct. 8th, 2021
