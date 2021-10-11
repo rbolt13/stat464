@@ -768,16 +768,101 @@ Var[\hat{\beta}_{0}] &amp; = Var(\overline{Y}-\hat{\beta}_1\overline{x})\\
 <div id="summary-4" class="section level3">
 <h3>Summary</h3>
 <ul>
-<li><p>finish homework (complete)</p></li>
-<li><p>update code page</p></li>
-<li><p>create homework page?</p></li>
-<li><p>fill in holes in notes</p></li>
-<li><p>read chapter 2</p></li>
+<li>finish homework (complete)</li>
 </ul>
 </div>
 </div>
 <div id="d7-mon.-oct.-11th-2021" class="section level1">
 <h1>D7 : Mon. Oct. 11th, 2021</h1>
+<ul>
+<li>2 proofs are due for homework 2</li>
+</ul>
+<div id="section-2.3-hypothesis-testing-on-parameters" class="section level3">
+<h3>Section 2.3 Hypothesis testing on parameters</h3>
+<ul>
+<li><p><span class="math inline">\(H_0\)</span> : <span class="math inline">\(\beta_1=0\)</span> and <span class="math inline">\(H_1\)</span> : <span class="math inline">\(\beta_1\ne0\)</span></p></li>
+<li><p>we want to test if a statement is true or not</p></li>
+<li><p>if <span class="math inline">\(H_0\)</span> is true then our model : <span class="math inline">\(Y=\beta_0+\beta_1x+\epsilon\)</span> has nothing to do with x.</p>
+<ul>
+<li><p>meaning that Y is just a constant plus <span class="math inline">\(\epsilon\)</span></p></li>
+<li><p>can’t get any information from model</p></li>
+<li><p>this is a very strong statement</p></li>
+<li><p>and our testing problem</p></li>
+</ul></li>
+</ul>
+</div>
+<div id="t-statistic" class="section level3">
+<h3>t-statistic</h3>
+<ul>
+<li><p>Recall <span class="math inline">\(\epsilon_i\sim N(0,1)\)</span> and that <span class="math inline">\(\epsilon_i\)</span> and <span class="math inline">\(\epsilon_j\)</span> are independent with <span class="math inline">\(i\ne j\)</span></p></li>
+<li><p>If we have the assumption that <span class="math inline">\(\epsilon_i\)</span> is independent and identically distributed, then</p></li>
+</ul>
+<p><span class="math display">\[t=\frac{\hat{\beta}_1-\hat{\beta}_{10}}{se(\hat{\beta}_{10})\}}\sim t_{n-1}\]</span></p>
+<ul>
+<li><p>this ratio is the t statistic exzactly</p></li>
+<li><p>n-2 because there are two parameters</p></li>
+<li><p>later there will 3 up to p parameters</p></li>
+<li><p>Proof for this depends on <span class="math inline">\(\chi^2\)</span> (chi squared distribution)</p></li>
+<li><p>se is squared root varience</p></li>
+<li><p>Initially we assume that <span class="math inline">\(H_0\)</span> is true (<span class="math inline">\(\beta_1=0\)</span>), but if z value is large then <span class="math inline">\(H_1\)</span> may be false</p></li>
+<li><p><span class="math inline">\(t=\frac{\hat{\beta}_1-\hat{\beta}_{10}}{se(\hat{\beta}_{10})}\)</span> is called the “tester statistic”</p>
+<ul>
+<li><p>if <span class="math inline">\(H_0\)</span> is true then t is close to 0</p></li>
+<li><p>if <span class="math inline">\(H_0\)</span> is false then t is further away (closer to 1)</p></li>
+</ul></li>
+</ul>
+<p><img src="data:image/webp;base64,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" /></p>
+<ul>
+<li><p>img. above is pdf of t-distribution</p></li>
+<li><p>p-value = 2(area1) = 2(area2) = <span class="math inline">\(2Pr(T&gt;t)=Pr(T&gt;|t|)\)</span></p></li>
+<li><p>p value is the probability (between 0 and 1) that <span class="math inline">\(H_0\)</span> is true.</p></li>
+<li><p>a p-value that is &lt; significance level (usually 0.05), the we reject <span class="math inline">\(H_0\)</span>.</p>
+<ul>
+<li><p>(accepting <span class="math inline">\(H_1\)</span>)</p></li>
+<li><p>example : P value of 0.00000000005 we can reject</p></li>
+</ul></li>
+<li><p>a p-value that is &gt; significance level (usually 0.05), then we fail to reject <span class="math inline">\(H_0\)</span>.</p>
+<ul>
+<li><p>not deterministic result</p></li>
+<li><p>note p-value is only the probability</p></li>
+<li><p>if we accept <span class="math inline">\(H_1\)</span> then we say it is true, which is not the case</p></li>
+<li><p>example : P value of 0.25 we fail to reject</p></li>
+</ul></li>
+<li><p>consider p-value as uncertainty</p></li>
+</ul>
+</div>
+<div id="special-case-sigma-squared-is-known" class="section level3">
+<h3>Special Case (sigma squared is known)</h3>
+<ul>
+<li><p><span class="math inline">\(\sigma^2\)</span> is known (happens in some homework problems)</p></li>
+<li><p>“ideal case”</p></li>
+<li><p><span class="math inline">\(t=\frac{\hat{\beta}_1-\hat{\beta}_{10}}{se(\hat{\beta}_{10})\}}\sim N(0,1)\)</span></p></li>
+</ul>
+</div>
+<div id="one-sided-test" class="section level3">
+<h3>One sided Test</h3>
+<ul>
+<li><p>A two sided test is what we were looking at before.</p></li>
+<li><p>Often Written : <span class="math inline">\(H_0\)</span> : <span class="math inline">\(\beta_0=\beta_{10}\)</span> vs. <span class="math inline">\(H_1\)</span> : <span class="math inline">\(\beta_0\ne\beta_{10}\)</span></p></li>
+<li><p>A one sided test is : <span class="math inline">\(H_0\)</span> : <span class="math inline">\(\beta_0=\beta_{10}\)</span> vs. <span class="math inline">\(H_1\)</span> : <span class="math inline">\(\beta_0&gt;\beta_{10}\)</span></p></li>
+<li><p>if test is one sided, then it will depend which side the p-value is on</p></li>
+<li><p>only one side is being counted (<span class="math inline">\(\frac{1}{2}\)</span> Area)</p></li>
+</ul>
+</div>
+<div id="summary-5" class="section level3">
+<h3>Summary</h3>
+<ul>
+<li><p>will revisit t (and maybe prove in a different form)</p></li>
+<li><p>update code page</p></li>
+<li><p>create homework page?</p></li>
+<li><p>fill in holes in notes</p></li>
+<li><p>finish chapter 2</p></li>
+<li><p>peek at chapter 3</p></li>
+</ul>
+</div>
+</div>
+<div id="d8-wed.-oct.-13th-2021" class="section level1">
+<h1>D8 : Wed. Oct. 13th, 2021</h1>
 </div>
 
 

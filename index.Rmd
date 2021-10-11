@@ -478,13 +478,110 @@ Question 1 : Do we really need x to explain y?
 
 - finish homework (complete)
 
+# D7 : Mon. Oct. 11th, 2021
+
+- 2 proofs are due for homework 2 
+
+### Section 2.3 Hypothesis testing on parameters 
+
+- $H_0$ : $\beta_1=0$ and $H_1$ : $\beta_1\ne0$
+
+- we want to test if a statement is true or not 
+
+- if $H_0$ is true then our model : $Y=\beta_0+\beta_1x+\epsilon$ has nothing to do with x. 
+
+  - meaning that Y is just a constant plus $\epsilon$
+  
+  - can't get any information from model 
+  
+  - this is a very strong statement 
+  
+  - and our testing problem 
+  
+### t-statistic
+
+- Recall $\epsilon_i\sim N(0,1)$ and that $\epsilon_i$ and $\epsilon_j$ are independent with $i\ne j$
+
+- If we have the assumption that $\epsilon_i$ is independent and identically distributed, then 
+
+$$t=\frac{\hat{\beta}_1-\hat{\beta}_{10}}{se(\hat{\beta}_{10})\}}\sim t_{n-1}$$
+  
+- this ratio is the t statistic exzactly
+
+- n-2 because there are two parameters 
+
+- later there will 3 up to p parameters
+
+- Proof for this depends on $\chi^2$ (chi squared distribution) 
+
+- se is squared root varience 
+
+- Initially we assume that $H_0$ is true ($\beta_1=0$), but if z value is large then $H_1$ may be false
+
+- $t=\frac{\hat{\beta}_1-\hat{\beta}_{10}}{se(\hat{\beta}_{10})}$ is called the "tester statistic" 
+
+  - if $H_0$ is true then t is close to 0
+  
+  - if $H_0$ is false then t is further away (closer to 1)
+  
+![](img/img1.webp)
+
+- img. above is pdf of t-distribution 
+
+- p-value = 2(area1) = 2(area2) = $2Pr(T>t)=Pr(T>|t|)$
+
+- p value is the probability (between 0 and 1) that $H_0$ is true.
+
+- a p-value that is < significance level (usually 0.05), the we reject $H_0$. 
+
+  - (accepting $H_1$)
+  
+  - example : P value of 0.00000000005 we can reject 
+  
+- a p-value that is > significance level (usually 0.05), then we fail to reject $H_0$.
+
+  - not deterministic result 
+  
+  - note p-value is only the probability
+  
+  - if we accept $H_1$ then we say it is true, which is not the case
+  
+  - example : P value of 0.25 we fail to reject 
+  
+- consider p-value as uncertainty 
+  
+### Special Case (sigma squared is known)
+
+- $\sigma^2$ is known (happens in some homework problems)
+
+- "ideal case" 
+
+- $t=\frac{\hat{\beta}_1-\hat{\beta}_{10}}{se(\hat{\beta}_{10})\}}\sim N(0,1)$
+
+### One sided Test 
+
+- A two sided test is what we were looking at before. 
+
+- Often Written : $H_0$ : $\beta_0=\beta_{10}$ vs. $H_1$ : $\beta_0\ne\beta_{10}$
+
+- A one sided test is : $H_0$ : $\beta_0=\beta_{10}$ vs. $H_1$ : $\beta_0>\beta_{10}$
+
+- if test is one sided, then it will depend which side the p-value is on 
+
+- only one side is being counted ($\frac{1}{2}$ Area)
+
+### Summary 
+
+- will revisit t (and maybe prove in a different form)
+
 - update code page
 
 - create homework page? 
 
 - fill in holes in notes 
 
-- read chapter 2 
+- finish chapter 2 
 
-# D7 : Mon. Oct. 11th, 2021
+- peek at chapter 3
 
+# D8 : Wed. Oct. 13th, 2021
