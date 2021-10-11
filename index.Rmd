@@ -374,7 +374,7 @@ $e=y-(\hat{\beta}_0+\hat{\beta}_1x)=y-\hat{y}$
 
 Lets define these two quantities : 
 
-$\sum\limits_{i=1}^{n}e^2_i=\sum\limits_{i=1}^{n}(y-\hat{y})$
+$SS_{Res}=\sum\limits_{i=1}^{n}e^2_i=\sum\limits_{i=1}^{n}(y-\hat{y})^2$
 
 $E(\sum\limits_{i=1}^{n}e^2)=(n-2)\sigma^2$
 
@@ -389,6 +389,12 @@ $\hat{\sigma}^2=\frac{\sum\limits_{i=1}^{n}e^2}{n-2}$
 $E(\hat{\sigma}^2)=E(\frac{\sum\limits_{i=1}^{n}e^2}{n-2})=\sigma^2$
 
 - will be used a lot in the future
+
+- note that this estimate is model dependent 
+
+- in textbook as $MS_{\text{Res}}$ and sometimes called residual mean square
+
+- square root of sigma squared sometimes called standard error of regression
 
 ### Summary 
 
@@ -429,3 +435,56 @@ $E(\hat{\sigma}^2)=E(\frac{\sum\limits_{i=1}^{n}e^2}{n-2})=\sigma^2$
 Estimate sigma^2 : $\hat{\sigma}^2=\frac{\sum\limits_{i=1}^{n}e^2}{n-2}$
 
 # D6 : Fri. Oct. 8th, 2021
+
+- will go over coding in R 
+
+- update R studio and packages 
+
+- plan B : just use code in R (instead of Rmd) ... ?
+
+- will upload html to D2L
+
+- everything covered in class is covered in code (gray boxes)
+
+- want to double check result with correct answer look for white boxes
+
+- no actual help on homework, but we will see what happens I guess
+
+### Hypothesis Testing 
+
+- $\hat{y}=\hat{\beta}_0-\hat{\beta}_1\overline{x}$ is the estimated Y with estimated parameters 
+
+- Why wouldn't our professor believe this : $Y=\beta_0+\beta_1x+\epsilon$, but would beleive this : $Y=\epsilon$?
+
+- Recall that E($\epsilon$)=0 and VAR($\epsilon$)=$\sigma^2$ are unknown. 
+
+- How do we know which Y is correct? 
+
+- What is the difference between $\beta_1=0$ and $\beta_0=0$ OR $\beta_1\ne0$ and $\beta_0\ne0$
+
+- If $\beta_1$ is zero then x shouldn't be included in the model. 
+
+- $H_0=\beta_1=0$, $\beta_0=0$
+
+- $H_0=\beta_1\ne0$, $\beta_0\ne0$
+
+Question 1 : Do we really need x to explain y? 
+
+- in math language : $\beta_1=0$
+
+... to be continued next class. 
+
+### Summary 
+
+- finish homework (complete)
+
+- update code page
+
+- create homework page? 
+
+- fill in holes in notes 
+
+- read chapter 2 
+
+# D7 : Mon. Oct. 11th, 2021
+

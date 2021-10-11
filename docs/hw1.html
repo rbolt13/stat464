@@ -11,11 +11,12 @@
 
 <meta name="author" content="Randi Bolt" />
 
+<meta name="date" content="2021-10-11" />
 
-<title>homework1</title>
+<title>STAT-464 Homework 1</title>
 
-<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -246,6 +247,9 @@ $(document).ready(function () {
   <a href="index.html">Notes</a>
 </li>
 <li>
+  <a href="code.html">Code</a>
+</li>
+<li>
   <a href="contact.html">Contact</a>
 </li>
       </ul>
@@ -260,9 +264,9 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">homework1</h1>
+<h1 class="title toc-ignore">STAT-464 Homework 1</h1>
 <h4 class="author">Randi Bolt</h4>
-<h4 class="date">10/4/2021</h4>
+<h4 class="date">10/11/2021</h4>
 
 </div>
 
@@ -270,26 +274,16 @@ $(document).ready(function () {
 <pre class="r"><code># libraries
 library(readxl)
 library(tidyr)
-library(magrittr)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;magrittr&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
-## 
-##     extract</code></pre>
-<pre class="r"><code>library(dplyr)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
+library(magrittr)
+library(dplyr)
+library(kableExtra)</code></pre>
 <div id="problem-2.1" class="section level2">
 <h2>Problem 2.1</h2>
-<pre class="r"><code>problem2.1 = read_excel(&quot;data/Appendices/data-table-B1.XLS&quot;)
+<p>Table B.1 gives data concerning the performance of 26 National Football League teams in 1976. It is suspected that the number of yards gained rushing by opponents (<span class="math inline">\(x_8\)</span>) has an effect on the number of games won by a team (y).</p>
+<pre class="r"><code># load data
+problem2.1 = read_excel(&quot;data/Appendices/data-table-B1.XLS&quot;)
 head(problem2.1)</code></pre>
-<pre><code>## # A tibble: 6 x 10
+<pre><code>## # A tibble: 6 × 10
 ##       y    x1    x2    x3    x4    x5    x6    x7    x8    x9
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1    10  2113  1985  38.9  64.7     4   868  59.7  2205  1917
@@ -384,6 +378,41 @@ lines(sort(x),ciBand[,2],type = &#39;l&#39;,lty = &#39;dashed&#39;,lwd = 2)
 lines(sort(x),ciPredBand[,1],type = &#39;l&#39;,lty = &#39;dotted&#39;,lwd = 2)
 lines(sort(x),ciPredBand[,2],type = &#39;l&#39;,lty = &#39;dotted&#39;,lwd = 2)</code></pre>
 <p><img src="hw1_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+</div>
+<div id="problem-2.6" class="section level2">
+<h2>Problem 2.6</h2>
+<p>Table B4 presents data for 27 houses sold in Erie, Pennsylvania. (a) Fit a simple linear regression model relating selling price of the house to the current taxes (<span class="math inline">\(x_{1}\)</span>)</p>
+<pre class="r"><code>problem2.6 = read_excel(&quot;data/Appendices/data-table-B4.XLS&quot;)
+head(problem2.6)</code></pre>
+<pre><code>## # A tibble: 6 × 10
+##       y    x1    x2    x3    x4    x5    x6    x7    x8    x9
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1  29.5  5.02     1  3.53 1.5       2     7     4    62     0
+## 2  27.9  4.54     1  2.28 1.18      1     6     3    40     0
+## 3  25.9  4.56     1  4.05 1.23      1     6     3    54     0
+## 4  29.9  5.06     1  4.46 1.12      1     6     3    42     0
+## 5  29.9  3.89     1  4.46 0.988     1     6     3    56     0
+## 6  30.9  5.90     1  5.85 1.24      1     7     3    51     1</code></pre>
+<pre class="r"><code>model2 &lt;- lm(problem2.6$y ~ problem2.6$x1, data = problem2.6)
+summary(model2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = problem2.6$y ~ problem2.6$x1, data = problem2.6)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.8343 -2.3157 -0.3669  1.9787  6.3168 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    13.3202     2.5717   5.179 3.42e-05 ***
+## problem2.6$x1   3.3244     0.3903   8.518 2.05e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.961 on 22 degrees of freedom
+## Multiple R-squared:  0.7673, Adjusted R-squared:  0.7568 
+## F-statistic: 72.56 on 1 and 22 DF,  p-value: 2.051e-08</code></pre>
 </div>
 
 

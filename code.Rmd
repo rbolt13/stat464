@@ -35,7 +35,7 @@ head(p2.7)
 # Simple Linear Regression
 ## Regression and Inference
 ```{r}
-example21 = read_excel("data/Chapter 2/Examples/data-ex-2-1 (Rocket Prop).xls") # read .xls file from local directory
+example21 = read_excel("data/Chapter 2/Examples/data-ex-2-1 (Rocket Prop).xls", col_names =T) # read .xls file from local directory
 colnames(example21) = c("Observation","Shear_Strength_psi","Age_of_Propellant_weeks")
 example21
 head(example21)
@@ -45,6 +45,10 @@ x = example21$Age_of_Propellant_weeks
 n = length(x)
 plot(Age_of_Propellant_weeks,Shear_Strength_psi,pch = 16)
 ```
+
+- want to study the linear relationship between the age of propellant and sheer strength 
+
+- can draw a picture of it and assume linear model is a good model 
 
 Our model is
 \[
@@ -69,12 +73,27 @@ error = y-(beta0+beta1*x)
 plot(error);hist(error)
 ```
 
+- can alwyas use this "dumb" way to calculate these values (especially if calculations are incredibly complex)
+
 We can use R packages to do most of the work in the future. Most softwares have packages for linear model. In *lm* function, we have everything we want in the output summary. 
 
 ``` {r}
+# first state modle (y response ~ x, data)
+# when there are multiple will see + sign with multiple responses
 model1 = lm(Shear_Strength_psi ~ Age_of_Propellant_weeks,data = example21)
 summary(model1)
 ```
+- will use lm() function a lot 
+
+- what we care about in the summary (right now) are the Coefficients
+
+- for coefficients we have intercept (beta 0) and what we define as out slope (beta 1)
+
+- response is decreasing with respect to our ??? 
+
+- job of statistician is to prove that this slope and intercept are indeed true and not just two random numbers
+
+- F-test tells us if the whole model works good
 
 For example, we know the variance of slope $\beta_0$ is
 \[Var(\hat{\beta_1})=\frac{\sigma^2}{S_{xx}}\].
@@ -95,6 +114,8 @@ sdOfBeta0 = sqrt(ssres/(n-2)*(1/n+mean(x)^2/sxx))
 t0 = (beta0-0)/sdOfBeta0;t0
 pt(-t0,n-2)
 ```
+
+- this computes the p value (last two columns by hand)
 
 Similarly, *lm* returns everything else as we want. (We will meet *Adjusted R-squared* later).
 
