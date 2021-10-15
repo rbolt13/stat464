@@ -863,6 +863,180 @@ Var[\hat{\beta}_{0}] &amp; = Var(\overline{Y}-\hat{\beta}_1\overline{x})\\
 </div>
 <div id="d8-wed.-oct.-13th-2021" class="section level1">
 <h1>D8 : Wed. Oct. 13th, 2021</h1>
+<ul>
+<li>this next section follows the book (something to do with <span class="math inline">\(R^2\)</span>)</li>
+</ul>
+<div id="analysis-of-variance" class="section level3">
+<h3>Analysis of Variance</h3>
+<p><span class="math inline">\(\sum\limits_{i=1}^{n}(y_i-\overline{y})^2\)</span></p>
+<ul>
+<li><p>SSTO = Sum Square Total</p></li>
+<li><p>when we calculate simple variance of <span class="math inline">\(y_i\)</span> we use this formula</p></li>
+<li><p>sometimes we might have a <span class="math inline">\(\frac{1}{n}\)</span> or some other constant in front of the sigma, but we can forget about that</p></li>
+<li><p>the data point (<span class="math inline">\(y_i\)</span>) minus the center point (<span class="math inline">\(\overline{y}\)</span>)</p>
+<ul>
+<li>the distance between the point and data mean (visualize graphically)</li>
+</ul></li>
+<li><p>we will decompose this into two parts</p></li>
+</ul>
+<p><span class="math inline">\(\sum\limits_{i=1}^{n}(y_i-\overline{y})^2=\sum\limits_{i=1}^{n}(y_i-\hat{y}_i)^2+\sum\limits_{i=1}^{n}(\hat{y}_i-\overline{y})^2\)</span></p>
+<ul>
+<li><p>the first part is the residual : <span class="math inline">\(\sum\limits_{i=1}^{n}(y_i-\hat{y}_i)^2\)</span></p>
+<ul>
+<li><p>SSE : Sum Square of Error</p></li>
+<li><p>if our model perfectly fits the data then <span class="math inline">\(\hat{y}\)</span> will be <span class="math inline">\(y_i\)</span> and residual will be zero</p></li>
+<li><p><span class="math inline">\(SS_{RE}\)</span></p></li>
+</ul></li>
+<li><p>the second part is variability of fitted data (SSR): <span class="math inline">\(\sum\limits_{i=1}^{2}(\hat{y}_i-\overline{y})^2\)</span></p>
+<ul>
+<li><p><span class="math inline">\(\overline{\hat{y}}=\overline{y}\)</span> : average of estimated y is the same as the original value</p></li>
+<li><p>SSR : Sum Square of Regression</p></li>
+<li><p><span class="math inline">\(SS_{Reg}\)</span></p></li>
+</ul></li>
+<li><p>everything is decomposing this : <span class="math inline">\(\sum\limits_{i=1}^{n}(y_i-\overline{y})^2\)</span> variance</p>
+<ul>
+<li>this means that the variance of the data (<span class="math inline">\(\sum\limits_{i=1}^{n}(y_i-\overline{y})^2\)</span>) can be explained by the variance of the error (<span class="math inline">\(\sum\limits_{i=1}^{n}(y_i-\hat{y}_i)^2\)</span>) and the variance of model (<span class="math inline">\(\sum\limits_{i=1}^{2}(\hat{y}_i-\overline{y})^2\)</span>)</li>
+</ul>
+<h3 id="proof-analysis-of-variance">Proof : Analysis of Variance</h3>
+<p><span class="math inline">\(\sum\limits_{i=1}^{n}(y_i-\overline{y})^2=\sum\limits_{i=1}^{n}(y_i-\hat{y}_i)^2+\sum\limits_{i=1}^{2}(\hat{y}_i-\overline{y})^2\)</span> is true.</p></li>
+</ul>
+<p><span class="math display">\[\begin{equation}\label{analysis of var. proof part a}
+\begin{split}
+\sum\limits_{i=1}^{n}(y_i-\overline{y})^2 &amp; = \sum\limits_{i=1}^{n}(y_i-\hat{y}_i)^2+\sum\limits_{i=1}^{2}(\hat{y}_i-\overline{y})^2\\
+&amp; = \sum\limits_{i=1}^{n}(y_i-\hat{y}_i+\hat{y}_i-\overline{y})^2\\
+&amp; = \sum\limits_{i=1}^{n}\{(y_i-\hat{y}_i)^2+(\hat{y}_i-\overline{y})^2+2(y_i-\hat{y}_i)(\hat{y}_i-\overline{y})\}
+\end{split}
+\end{equation}\]</span></p>
+<p>What we need to show is that this term : <span class="math inline">\((y_i-\hat{y}_i)(\hat{y}_i-\overline{y})\)</span> , is zero.</p>
+<ul>
+<li><span class="math inline">\(\sum\limits_{i=1}^n(y_i-\hat{y}_i)(\hat{y}_i-\overline{y}) = 0\)</span></li>
+</ul>
+<p><span class="math display">\[\begin{equation}\label{aov lemma}
+\begin{split}
+\sum\limits_{i=1}^{n}(y_i-\hat{y}_i)(\hat{y}_i-\overline{y}) &amp; = \sum\limits_{i=1}^n(y_i-\hat{y}_i)\hat{y}_i-\sum\limits_{i=1}^n(y_i-\hat{y}_i)\overline{y}\\
+&amp; = \sum\limits_{i=1}^ne_i\hat{y}_i-\overline{y}\sum\limits_{i=1}^ne_i\\
+&amp; = 0 - 0\\
+&amp; = 0
+\end{split}
+\end{equation}\]</span></p>
+<ul>
+<li>note to show that <span class="math inline">\(\sum\limits_{i=1}^ne_i\hat{y}_i=0\)</span> write out each of the individual terms for <span class="math inline">\(\hat{y}_i\)</span> and <span class="math inline">\(e_i\)</span></li>
+</ul>
+<p>Therefore <span class="math inline">\(\sum\limits_{i=1}^n(y_i-\hat{y}_i)(\hat{y}_i-\overline{y}) = 0\)</span> , and such <span class="math inline">\(\sum\limits_{i=1}^{n}(y_i-\overline{y})^2=\sum\limits_{i=1}^{n}(y_i-\hat{y}_i)^2+\sum\limits_{i=1}^{2}(\hat{y}_i-\overline{y})^2\)</span></p>
+</div>
+<div id="degrees-of-freedom" class="section level3">
+<h3>Degrees of Freedom</h3>
+<ul>
+<li><p>in probability theory we need to look at the degrees of freedom : df</p>
+<ul>
+<li><p>for SSTO : df = n - 1</p></li>
+<li><p>for SSE : df = n-2</p>
+<ul>
+<li><span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span></li>
+</ul></li>
+<li><p>for SSR : df = 1</p></li>
+</ul></li>
+</ul>
+</div>
+<div id="decomposing-terms-sse-ssr-mse" class="section level3">
+<h3>Decomposing terms : SSE , SSR , MSE</h3>
+<p><span class="math inline">\(1=\frac{SSE+SSR}{SSTO}=\frac{SSE}{SSTO}+\frac{SSR}{SSTO}\)</span></p>
+<ul>
+<li><p>SSTO is fixed</p></li>
+<li><p><span class="math inline">\(+\frac{SSR}{SSTO}\)</span> is <span class="math inline">\(R^2\)</span> (we will talk more about <span class="math inline">\(R^2\)</span> when we talk about the confidence interval)</p></li>
+<li><p><span class="math inline">\(\frac{SSE}{SSTO}\)</span> is</p></li>
+<li><p>we use SSE to estimate the variance</p>
+<ul>
+<li>once we have variance we can show probability, density, or distribustion of almost anything</li>
+</ul></li>
+</ul>
+<p><span class="math inline">\(SSE=\frac{n-2}{\sigma^2}\sim x^2_{n-2}\)</span></p>
+<ul>
+<li><p>chi squared n - 2 distribution</p></li>
+<li><p><span class="math inline">\(\frac{SSE}{\sigma^2}=MSE\frac{n-2}{\sigma^2}\)</span></p></li>
+</ul>
+<p><span class="math inline">\(SSR=1\cdot MSR\sim x_1^2\)</span></p>
+<ul>
+<li><p>chi squared 1 distribution</p></li>
+<li><p><span class="math inline">\(\frac{SSR}{\sigma^2}=1\cdot \frac{MSR}{\sigma^2}\)</span></p></li>
+</ul>
+<p><span class="math inline">\(E(MSE)=\sigma^2\)</span></p>
+<blockquote>
+<p><span class="math inline">\(MSE=\frac{1}{n-2}\sum\limits_{i=1}^n(y_i-\hat{y}_i)^2\)</span></p>
+</blockquote>
+<p><span class="math inline">\(MSE=\frac{SSE}{n-2}\)</span></p>
+<p><span class="math inline">\(MSE=\frac{SSE}{\text{df of SSE}}\)</span></p>
+<p><span class="math inline">\(MSR=\frac{SSR}{\text{df of SSR}}\)</span></p>
+</div>
+<div id="f-and-t-statistic" class="section level3">
+<h3>F and T Statistic</h3>
+<p>What happens when we take one and divide it by another one?</p>
+<ul>
+<li>put the smaller one (degrees of freedom) ontop of the larger one</li>
+</ul>
+<p><span class="math inline">\(\sqrt{\frac{MSR}{MSE}}=\frac{1\cdot\frac{MSR}{\sigma^2}}{MSE\frac{n-2}{\sigma^2}}=\frac{MSR}{(???)MSE}=\frac{\chi_1^2/1}{\chi_{n-2}^2/n-2}\)</span></p>
+<p>F statistic : <span class="math inline">\(F_{1, n-2}\sim \frac{\chi_1^2/1}{\chi_{n-2}^2/n-2}\)</span></p>
+<p><span class="math inline">\(\frac{\chi^2_m/m}{\chi_n/n}\sim F_{m,n}\)</span> , if <span class="math inline">\(\chi^2_n\)</span> is (independent) from <span class="math inline">\(\chi^2_m\)</span> then</p>
+<ul>
+<li><span class="math inline">\(\newcommand{\indep}{\perp \!\!\! \perp}\chi^2_n\indep \chi^2_m\)</span></li>
+</ul>
+<p>We have another problem … what about T distribution?</p>
+<p><span class="math inline">\(T\sim df_n\)</span></p>
+<p>What is <span class="math inline">\(T^2\)</span> distribution?</p>
+<ul>
+<li><span class="math inline">\(T^2\sim F_n\)</span></li>
+</ul>
+<p>We can change these : <span class="math inline">\(T\sim df_{n-2}\)</span> and <span class="math inline">\(T^2\sim F_{n-2}\)</span></p>
+</div>
+<div id="key-points" class="section level3">
+<h3>Key Points</h3>
+<ul>
+<li><p>The analysis equations is the most critical result</p></li>
+<li><p>we also decompose this equation into many terms, with each term responding to error , regresseion with … a bunch of stuff.</p></li>
+<li><p>if we find that any term is too small to consider we can remove it (here is only two parts so not very complex)</p></li>
+</ul>
+<p>Test : <span class="math inline">\(\beta_1=0\)</span> vs. <span class="math inline">\(\beta_1\ne0\)</span></p>
+</div>
+<div id="confidence-interval-of-parameter" class="section level3">
+<h3>Confidence Interval of parameter</h3>
+<p>Pr(<span class="math inline">\(1,\beta_1&lt;\mu=1-\alpha)=&lt;\alpha\ne1\)</span></p>
+<ul>
+<li><p>of course we want this probability to be 1</p></li>
+<li><p>currently we dont know if this is the number we have or not</p></li>
+<li><p>next we are going to try to connect bact to <span class="math inline">\(1-\alpha\)</span></p></li>
+<li><p>probability of random vairable : <span class="math inline">\(\beta_1\)</span> is computed here</p></li>
+</ul>
+<p><span class="math inline">\(t=\frac{\hat{\beta}_1-\beta_1}{s.e.(\hat{\beta}_1)}\sim t_{n-2}\)</span></p>
+<ul>
+<li>distribution of <span class="math inline">\(\beta_1\)</span> is defined here</li>
+</ul>
+<p>Can we solve for our <span class="math inline">\(\mu\)</span>?</p>
+<ul>
+<li><p>if we can we can find the interval for <span class="math inline">\(\beta_1\)</span></p></li>
+<li><p>we will do this this Friday.</p></li>
+</ul>
+</div>
+<div id="summary-6" class="section level3">
+<h3>Summary</h3>
+<ul>
+<li><p>analysis of variance : <span class="math inline">\(\sum\limits_{i=1}^{n}(y_i-\overline{y})^2=\sum\limits_{i=1}^{n}(y_i-\hat{y}_i)^2+\sum\limits_{i=1}^{n}(\hat{y}_i-\overline{y})^2\)</span></p></li>
+<li><p>SSTO : sum of squares total : <span class="math inline">\(\sum\limits_{i=1}^{n}(y_i-\overline{y})^2\)</span></p></li>
+<li><p>SSE : sum of square error : <span class="math inline">\(\sum\limits_{i=1}^{n}(y_i-\hat{y}_i)^2\)</span></p></li>
+<li><p>SSR : sum of square regression : <span class="math inline">\(\sum\limits_{i=1}^{n}(\hat{y}_i-\overline{y})^2\)</span></p></li>
+<li><p>MSE : mean square error (??) : <span class="math inline">\(MSE=\frac{1}{n-2}\sum\limits_{i=1}^n(y_i-\hat{y}_i)^2\)</span></p></li>
+<li><p>F Statistic : <span class="math inline">\(\frac{\chi^2_m/m}{\chi_n/n}\sim F_{m,n}\)</span></p></li>
+<li><p>T Statistic : <span class="math inline">\(T^2\sim F_{n-2}\)</span></p></li>
+<li><p>Confidence interval for <span class="math inline">\(\beta_1\)</span>’s</p>
+<ul>
+<li><p>probaility : Pr(<span class="math inline">\(1,\beta_1&lt;\mu=1-\alpha)=&lt;\alpha\ne1\)</span></p></li>
+<li><p>distribution : <span class="math inline">\(t=\frac{\hat{\beta}_1-\beta_1}{s.e.(\hat{\beta}_1)}\sim t_{n-2}\)</span></p></li>
+</ul></li>
+<li><p>HW 2 is live : Proofs and fill in skipped questions from HW 1</p></li>
+</ul>
+</div>
+</div>
+<div id="d9-fri.-oct.-15th-2021" class="section level1">
+<h1>D9 : Fri. Oct. 15th, 2021</h1>
 </div>
 
 

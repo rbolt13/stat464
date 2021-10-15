@@ -585,3 +585,201 @@ $$t=\frac{\hat{\beta}_1-\hat{\beta}_{10}}{se(\hat{\beta}_{10})\}}\sim t_{n-1}$$
 - peek at chapter 3
 
 # D8 : Wed. Oct. 13th, 2021
+
+- this next section follows the book (something to do with $R^2$)
+
+### Analysis of Variance 
+
+$\sum\limits_{i=1}^{n}(y_i-\overline{y})^2$
+
+- SSTO = Sum Square Total
+
+- when we calculate simple variance of $y_i$ we use this formula 
+
+- sometimes we might have a $\frac{1}{n}$ or some other constant in front of the sigma, but we can forget about that 
+
+- the data point ($y_i$) minus the center point ($\overline{y}$)
+
+  - the distance between the point and data mean (visualize graphically)
+  
+- we will decompose this into two parts 
+
+$\sum\limits_{i=1}^{n}(y_i-\overline{y})^2=\sum\limits_{i=1}^{n}(y_i-\hat{y}_i)^2+\sum\limits_{i=1}^{n}(\hat{y}_i-\overline{y})^2$
+
+- the first part is the residual : $\sum\limits_{i=1}^{n}(y_i-\hat{y}_i)^2$
+
+  - SSE : Sum Square of Error
+  
+  - if our model perfectly fits the data then $\hat{y}$ will be $y_i$ and residual will be zero
+  
+  - $SS_{RE}$
+
+- the second part is variability of fitted data (SSR): $\sum\limits_{i=1}^{2}(\hat{y}_i-\overline{y})^2$
+
+  - $\overline{\hat{y}}=\overline{y}$ : average of estimated y is the same as the original value 
+  
+  - SSR : Sum Square of Regression 
+  
+  - $SS_{Reg}$
+  
+- everything is decomposing this : $\sum\limits_{i=1}^{n}(y_i-\overline{y})^2$ variance
+  
+  - this means that the variance of the data ($\sum\limits_{i=1}^{n}(y_i-\overline{y})^2$) can be explained by the variance of the error ($\sum\limits_{i=1}^{n}(y_i-\hat{y}_i)^2$) and the variance of model ($\sum\limits_{i=1}^{2}(\hat{y}_i-\overline{y})^2$)
+  
+  ### Proof : Analysis of Variance 
+$\sum\limits_{i=1}^{n}(y_i-\overline{y})^2=\sum\limits_{i=1}^{n}(y_i-\hat{y}_i)^2+\sum\limits_{i=1}^{2}(\hat{y}_i-\overline{y})^2$ is true. 
+
+\begin{equation}\label{analysis of var. proof part a}
+\begin{split}
+\sum\limits_{i=1}^{n}(y_i-\overline{y})^2 & = \sum\limits_{i=1}^{n}(y_i-\hat{y}_i)^2+\sum\limits_{i=1}^{2}(\hat{y}_i-\overline{y})^2\\
+& = \sum\limits_{i=1}^{n}(y_i-\hat{y}_i+\hat{y}_i-\overline{y})^2\\
+& = \sum\limits_{i=1}^{n}\{(y_i-\hat{y}_i)^2+(\hat{y}_i-\overline{y})^2+2(y_i-\hat{y}_i)(\hat{y}_i-\overline{y})\}
+\end{split}
+\end{equation}
+
+What we need to show is that this term : $(y_i-\hat{y}_i)(\hat{y}_i-\overline{y})$ , is zero. 
+
+- $\sum\limits_{i=1}^n(y_i-\hat{y}_i)(\hat{y}_i-\overline{y}) = 0$
+
+\begin{equation}\label{aov lemma}
+\begin{split}
+\sum\limits_{i=1}^{n}(y_i-\hat{y}_i)(\hat{y}_i-\overline{y}) & = \sum\limits_{i=1}^n(y_i-\hat{y}_i)\hat{y}_i-\sum\limits_{i=1}^n(y_i-\hat{y}_i)\overline{y}\\
+& = \sum\limits_{i=1}^ne_i\hat{y}_i-\overline{y}\sum\limits_{i=1}^ne_i\\
+& = 0 - 0\\
+& = 0
+\end{split}
+\end{equation}
+
+- note to show that $\sum\limits_{i=1}^ne_i\hat{y}_i=0$ write out each of the individual terms for $\hat{y}_i$ and $e_i$
+
+Therefore $\sum\limits_{i=1}^n(y_i-\hat{y}_i)(\hat{y}_i-\overline{y}) = 0$ , and such $\sum\limits_{i=1}^{n}(y_i-\overline{y})^2=\sum\limits_{i=1}^{n}(y_i-\hat{y}_i)^2+\sum\limits_{i=1}^{2}(\hat{y}_i-\overline{y})^2$
+
+### Degrees of Freedom 
+
+- in probability theory we need to look at the degrees of freedom : df
+
+  - for SSTO :  df = n - 1
+  
+  - for SSE : df = n-2
+  
+    - $\hat{\beta}_0$ and $\hat{\beta}_1$
+
+  - for SSR : df = 1
+
+### Decomposing terms : SSE , SSR , MSE 
+
+$1=\frac{SSE+SSR}{SSTO}=\frac{SSE}{SSTO}+\frac{SSR}{SSTO}$
+
+- SSTO is fixed 
+
+- $+\frac{SSR}{SSTO}$ is $R^2$ (we will talk more about $R^2$ when we talk about the confidence interval)
+
+- $\frac{SSE}{SSTO}$ is 
+
+- we use SSE to estimate the variance
+
+  - once we have variance we can show probability, density, or distribustion of almost anything 
+
+$SSE=\frac{n-2}{\sigma^2}\sim x^2_{n-2}$
+
+  - chi squared n - 2 distribution 
+  
+  - $\frac{SSE}{\sigma^2}=MSE\frac{n-2}{\sigma^2}$
+
+$SSR=1\cdot MSR\sim x_1^2$
+
+  - chi squared 1 distribution 
+
+  - $\frac{SSR}{\sigma^2}=1\cdot \frac{MSR}{\sigma^2}$
+
+$E(MSE)=\sigma^2$
+
+> $MSE=\frac{1}{n-2}\sum\limits_{i=1}^n(y_i-\hat{y}_i)^2$
+
+$MSE=\frac{SSE}{n-2}$
+
+$MSE=\frac{SSE}{\text{df of SSE}}$
+
+$MSR=\frac{SSR}{\text{df of SSR}}$
+
+### F and  T Statistic 
+
+What happens when we take one and divide it by another one? 
+
+- put the smaller one (degrees of freedom) ontop of the larger one
+
+$\sqrt{\frac{MSR}{MSE}}=\frac{1\cdot\frac{MSR}{\sigma^2}}{MSE\frac{n-2}{\sigma^2}}=\frac{MSR}{(???)MSE}=\frac{\chi_1^2/1}{\chi_{n-2}^2/n-2}$
+
+F statistic : $F_{1, n-2}\sim \frac{\chi_1^2/1}{\chi_{n-2}^2/n-2}$
+
+$\frac{\chi^2_m/m}{\chi_n/n}\sim F_{m,n}$ , if $\chi^2_n$ is  (independent) from $\chi^2_m$ then 
+
+  - $\newcommand{\indep}{\perp \!\!\! \perp}\chi^2_n\indep \chi^2_m$
+  
+We have another problem ... what about T distribution? 
+
+$T\sim df_n$
+
+What is $T^2$ distribution? 
+
+- $T^2\sim F_n$
+
+We can change these : $T\sim df_{n-2}$ and $T^2\sim F_{n-2}$
+
+### Key Points
+
+- The analysis equations is the most critical result 
+
+- we also decompose this equation into many terms, with each term responding to error , regresseion with ... a bunch of stuff. 
+
+- if we find that any term is too small to consider we can remove it (here is only two parts so not very complex)
+
+Test : $\beta_1=0$ vs. $\beta_1\ne0$
+
+### Confidence Interval of parameter
+
+Pr($1,\beta_1<\mu=1-\alpha)=<\alpha\ne1$
+
+- of course we want this probability to be 1
+
+- currently we dont know if this is the number we have or not 
+
+- next we are going to try to connect bact to $1-\alpha$
+
+- probability of random vairable : $\beta_1$ is computed here
+
+$t=\frac{\hat{\beta}_1-\beta_1}{s.e.(\hat{\beta}_1)}\sim t_{n-2}$
+
+- distribution of $\beta_1$ is defined here 
+
+Can we solve for our $\mu$? 
+
+- if we can we can find the interval for $\beta_1$
+
+- we will do this this Friday. 
+
+### Summary 
+
+- analysis of variance : $\sum\limits_{i=1}^{n}(y_i-\overline{y})^2=\sum\limits_{i=1}^{n}(y_i-\hat{y}_i)^2+\sum\limits_{i=1}^{n}(\hat{y}_i-\overline{y})^2$
+
+- SSTO : sum of squares total : $\sum\limits_{i=1}^{n}(y_i-\overline{y})^2$
+
+- SSE : sum of square error : $\sum\limits_{i=1}^{n}(y_i-\hat{y}_i)^2$
+
+- SSR : sum of square regression : $\sum\limits_{i=1}^{n}(\hat{y}_i-\overline{y})^2$
+
+- MSE : mean square error (??) : $MSE=\frac{1}{n-2}\sum\limits_{i=1}^n(y_i-\hat{y}_i)^2$
+
+- F Statistic : $\frac{\chi^2_m/m}{\chi_n/n}\sim F_{m,n}$
+
+- T Statistic : $T^2\sim F_{n-2}$
+
+- Confidence interval for $\beta_1$'s 
+
+  - probaility : Pr($1,\beta_1<\mu=1-\alpha)=<\alpha\ne1$
+  
+  - distribution : $t=\frac{\hat{\beta}_1-\beta_1}{s.e.(\hat{\beta}_1)}\sim t_{n-2}$
+  
+- HW 2 is live : Proofs and fill in skipped questions from HW 1
+
+# D9 : Fri. Oct. 15th, 2021
