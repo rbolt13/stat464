@@ -783,3 +783,195 @@ Can we solve for our $\mu$?
 - HW 2 is live : Proofs and fill in skipped questions from HW 1
 
 # D9 : Fri. Oct. 15th, 2021
+
+- Problem is that we want to find the confidence interval (CI) for parameters $\beta_0$ and $\beta_1$, and $\sigma^2$
+
+### CI For Beta_0 , Beta_1, and Sigma Squared
+
+$Pr\{l<\beta_1<u\}=1-\alpha$
+
+- we want probability that $\beta_1$ is greater than some lower bound and less than some upper bound is equal to some number, lets call alpha for now
+
+- currently we don't know the lower and the upper 
+
+  - we do know $t=\frac{\hat{\beta}_1-\beta_1}{s.e.(\hat{\beta}_1)}\sim t_{n-2}$ 
+  
+  - which is a different form of $\beta_1$
+  
+  - call this ratio t
+
+- we also don't know the distribution of $\beta_1$. If we did we knew that we would know the probability and be able to find the lower and upper bounds. 
+
+\begin{equation}\label{pr beta 1}
+\begin{split}
+1-\alpha & = Pr\{l<\beta_1<u\}\\
+& = Pr\{-u<-\beta_1<-l\}\\
+& = Pr\{\hat{\beta}_1-u<\hat{\beta}_1-\beta_1<\hat{\beta}_1-l\}\\
+& = Pr\{\frac{\hat{\beta}_1-u}{s.e.(\hat{\beta}_1)}<\frac{\hat{\beta}_1-\beta_1}{s.e.(\hat{\beta}_1)}<\frac{\hat{\beta}_1-l}{s.e.(\hat{\beta}_1)}\}
+\end{split}
+\end{equation}
+
+- now the probabilty becomes : 
+
+$Pr(\frac{\hat{\beta}_1-u}{s.e.(\hat{\beta}_1)}<t<\frac{\hat{\beta}_1-l}{s.e.(\hat{\beta}_1)})=1-\alpha$
+
+- we know t-distribution, so if we can figure our $\hat{\beta}_1$ and $s.e.(\hat{\beta}_1)$ then we can find upper and lower bounds 
+
+![](img/img2.png)
+
+- we have and even distribution with evenly distanced intevals a and -a 
+
+- we know the area between these two points is $1-\alpha$
+
+- that means the area of ends is $\frac{\alpha}{2}$
+
+- $a=t_{\frac{\alpha}{2},n-2}$ , $t_{1-\frac{\alpha}{2},n-2}$ , $t_{n-2}^{\frac{\alpha}{2}}$
+
+- plug in $a=t_{\frac{\alpha}{2},n-2}$ , then we have 
+
+$\frac{\hat{\beta}_1-u}{s.e.(\hat{\beta}_1)}=-t_{\frac{\alpha}{2},n-2}$
+
+$\Rightarrow u=\hat{\beta}_1+t_{\frac{\alpha}{2},n-2}\cdot s.e.(\hat{\beta}_1)$
+
+$\Rightarrow l=\hat{\beta}_1-t_{\frac{\alpha}{2},n-2}\cdot s.e.(\hat{\beta}_1)$
+
+- put this back in the original equation : $Pr\{l<\beta_1<u\}=1-\alpha$
+
+- If we want a 99% confidence interval then our alpha needs to be 1%
+
+- 95% CI, $\alpha=0.05$
+
+For $Pr\{l<\beta_0<u\}=1-\alpha$ the CI are : 
+
+$\Rightarrow u=\hat{\beta}_0+t_{\frac{\alpha}{2},n-2}\cdot s.e.(\hat{\beta}_0)$
+
+$\Rightarrow l=\hat{\beta}_0-t_{\frac{\alpha}{2},n-2}\cdot s.e.(\hat{\beta}_0)$
+
+### CI of Sigma Squared 
+
+$\sigma^2$ ? 
+
+$Pr\{l<\sigma^2<u\}=1-\alpha$
+
+$\frac{(n-2)MSE}{\sigma^2}\sim \chi^2_{n-2}$
+
+- this ratio is chi squared distribution with degrees of freedom n-2. wont prove but will need to know decompositions to prove
+
+To help remember : 
+
+$E(SSE)=(n-2)\sigma^2$
+
+$MSE=\frac{1}{n-2}SSE$
+
+![](img/img3.png)
+
+- we are still looking for some interval c and d such that the blue area is $1-\alpha$. 
+
+- area of a and b are : $a=\chi^2_{\frac{\alpha}{2},n-2}$ and $b=\chi^2_{1-\frac{\alpha}{2},n-2}$
+
+$Pr\{\frac{(n-2)MSE}{u}<\frac{(n-2)MSE}{\sigma^2}<\frac{(n-2)MSE}{l}\}=1-\alpha$
+
+- the lower probability is a and the upper probability is b so, 
+
+$\Rightarrow u=\frac{(n-2)MSE}{\chi^2_{\frac{\alpha}{2},n-2}}$
+
+$\Rightarrow l=\frac{(n-2)MSE}{\chi^2_{1-\frac{\alpha}{2},n-2}}$
+
+- in this course we do not care too much for the CI of $\sigma^2$, but about the CI for $\beta_1$ and $\beta_0$
+
+### Prediction 
+
+- what people really want is the response, the prediction 
+
+model : $Y=\beta_0+\beta_1x+\epsilon$
+
+- $\beta_0+\beta_1x$ : first part is what we can determine (linear part). 
+
+- $\epsilon$ : second part is something random, not in our control.
+
+  - assume normal 
+
+description : $\{x_i,y_i\}^n_{i=1}$
+
+- $y_i=\hat{\beta}_0+\hat{\beta}_1x_i$
+ 
+estimated model : $\hat{y}_i=\hat{\beta}_0+\hat{\beta}_1x$
+
+point prediction :  $y_{\text{new}}=\hat{\beta}_0+\hat{\beta}_1x_{\text{new}}+\epsilon_{\text{new}}$
+
+- dont know random unknown term $\epsilon_{\text{new}}$
+
+We can comput the CI of $\hat{\beta}_0$ and $\hat{\beta}_1$
+
+- key part of this is that the $Var(\hat{\beta}_0)$ and $Var(\hat{\beta}_1)$
+
+ Now want the CI of $y_{\text{new}}$
+ 
+- we already know $\hat{y}_{\text{new}}=???$ this is our hat estimate
+
+- next step is $Var(y_{\text{new}})$ 
+
+  - if we can compute the variance of y hat then we can compute our CI
+  
+###
+
+![](img/img4.png)
+
+- this is a straight line 
+
+- given $x_{\text{new}}$ we can find our prediction on this straight line 
+
+So what is $y_{\text{new}}$
+
+- it should be somewhere along the blue line 
+
+- so we will find an interval that 95% of the data lies within, that we can way with 95% confidence that $y_{\text{new}}$ lies within 
+
+- $Var(y_{\text{new}})$ is so important because it will help us with calculations from earlier in lecture (for upper and lower values : u and l) 
+
+\begin{equation}\label{var of y hat}
+\begin{split}
+Var\{y_{\text{new}}\} & = Var\{\hat{\beta}_0+\hat{\beta}_1x_{\text{new}}+\epsilon_{\text{new}}\}\\
+& = Var\{\hat{\beta}_0+\hat{\beta}_1x_{\text{new}}\}+Var\{\epsilon_{\text{new}}\}\\
+& = Var\{\hat{y}\}+\sigma^2
+\end{split}
+\end{equation}
+
+What you need to do next is write out the formular for $\hat{y}$ and take the square root : $\sqrt{...\cdot\sigma^2}$
+
+- will expand on the details on Monday 
+
+- Homework expanded to Wednesday so we can do all predictions and confidence interval 
+
+### Summary 
+
+- will expand on prediction on monday 
+
+For $Pr\{l<\beta_1<u\}=1-\alpha$ the CI are : 
+
+$\Rightarrow u=\hat{\beta}_1+t_{\frac{\alpha}{2},n-2}\cdot s.e.(\hat{\beta}_1)$
+
+$\Rightarrow l=\hat{\beta}_1-t_{\frac{\alpha}{2},n-2}\cdot s.e.(\hat{\beta}_1)$
+
+For $Pr\{l<\beta_0<u\}=1-\alpha$ the CI are : 
+
+$\Rightarrow u=\hat{\beta}_0+t_{\frac{\alpha}{2},n-2}\cdot s.e.(\hat{\beta}_0)$
+
+$\Rightarrow l=\hat{\beta}_0-t_{\frac{\alpha}{2},n-2}\cdot s.e.(\hat{\beta}_0)$
+
+For $Pr\{l<\sigma^2<u\}=1-\alpha$ the CI are : 
+
+$\Rightarrow u=\frac{(n-2)MSE}{\chi^2_{\frac{\alpha}{2},n-2}}$
+
+$\Rightarrow l=\frac{(n-2)MSE}{\chi^2_{1-\frac{\alpha}{2},n-2}}$
+
+### To Do 
+
+- rewatch mon. Oct. 4th lecture 
+
+- prep homework 2 (complete)
+
+- spruce up HW2 
+
+# D10 : Mon. Oct. 15th, 2021
+
