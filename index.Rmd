@@ -967,11 +967,174 @@ $\Rightarrow l=\frac{(n-2)MSE}{\chi^2_{1-\frac{\alpha}{2},n-2}}$
 
 ### To Do 
 
-- rewatch mon. Oct. 4th lecture 
-
 - prep homework 2 (complete)
 
-- spruce up HW2 
+# W4-D10 : Mon. Oct. 15th, 2021
 
-# D10 : Mon. Oct. 15th, 2021
+CI of $\hat{\beta}_1$ , $\hat{\beta}_0$ , $\hat{\sigma}^2$
 
+- once we know how to do the CI of these three then we can do the standard error of $s.e.\hat{\beta}_1$ and $s.e.\hat{\beta}_0$
+
+Next we can find a predictor of y at $x_\text{new}$
+
+$\hat{y}_\text{new}=\hat{\beta}_0+\hat{\beta}_1x_\text{new}$
+
+- not at original x but new x, so new y 
+
+- $\hat{y}_\text{new}$ is an estimation so we don't know how far away it is from $y_\text{new}$
+
+- so we will use the CI to show that within a certain level of confidence the interval with include this 
+
+### CI of y_new
+
+$y_\text{new}=\hat{\beta}_0+\hat{\beta}_1x_\text{new}+\epsilon_\text{new}$
+
+- there is an error term that corresponds to x new
+
+- we don't know exact value of epsilon new
+
+- that means y_new is random, so we can find Var(y_new)
+
+$Var(y_\text{new})=Var(\hat{\beta}_0+\hat{\beta}_1x_\text{new}+\epsilon_\text{new})$
+
+- $E(y_\text{new})=\beta_0+\beta_1x_\text{new}$
+
+- now we have several different situations to solve for var
+
+### 1. Only 1 x_new
+
+1. Only one $x_{\text{new}}$
+
+\begin{equation}\label{var of y hat full}
+\begin{split}
+Var\{y_{\text{new}}\} & = Var\{\hat{\beta}_0+\hat{\beta}_1x_{\text{new}}\{+Var\{\epsilon_{\text{new}}\}\\
+& = \sigma^2\{\frac{1}{n}\frac{(x_{\text{new}}-\overline{x})^2}{S_{xx}}\}+\sigma^2\\
+& = \sigma^2\{1+\frac{1}{n}\frac{(x_{\text{new}}-\overline{x})^2}{S_{xx}}\}
+\end{split}
+\end{equation}
+
+$s.e.(\hat{y}_{\text{new}})=\hat{\sigma}\sqrt{1+\frac{1}{n}\frac{(x_{\text{new}}-\overline{x})^2}{S_{xx}}}$
+
+We use : $\frac{\hat{y}_\text{new}-y_\text{new}}{s.e.(\hat{y}_\text{new})}\sim t_{n-2}$ to create the C.I. 
+
+C.I. of $y_{\text{new}}$ is $\{\hat{y}_{\text{new}}\pm t_{}\cdot \sqrt{1+\frac{1}{n}+\frac{(x_{\text{new}}-\overline{x})^2}{s_{xx}}}$
+
+- with 95% confidence that $y_\text{new}$ is in this interval
+
+### 2. m identical x_new
+
+2. m identical $x_{\text{new}}$
+
+- What if we have many x's? 
+
+$s.e.(\hat{y}_\text{new})=\hat{\sigma}\sqrt{\frac{1}{m}+\frac{1}{n}\frac{(x_{\text{new}}-\overline{x})^2}{S_{xx}}}$
+
+> $Var(\frac{1}{m}\sum\limits_{i=1}^n\epsilon_{new})=\frac{1}{m}\sigma^2$
+
+C.I. of $y_{\text{new}}$ is $\{\hat{y}_{\text{new}}\pm t_{\frac{\alpha}{2},n-2}\cdot \sqrt{\frac{1}{m}+\frac{1}{n}+\frac{(x_{\text{new}}-\overline{x})^2}{s_{xx}}}$
+
+### 3. Infinite many x_new
+
+3. Expected Prediction of $x_\text{new}$
+
+- we are looking for expected y_new
+
+- mean of many y-news
+
+$s.e.(\hat{y}_\text{new})=\hat{\sigma}\sqrt{\frac{1}{n}+\frac{(x_{\text{new}}-\overline{x})^2}{s_{xx}}}$
+
+- infinite means that m is positive infiniity, if you plug in then the first term is zero 
+
+C.I. of $y_{\text{new}}$ is $\{\hat{y}_{\text{new}}\pm t_{\frac{\alpha}{2},n-2}\cdot \hat{\sigma}\sqrt{\frac{1}{n}+\frac{(x_{\text{new}}-\overline{x})^2}{s_{xx}}}$
+
+- with 95% that the average of $y_\text{new}$ is in this interval 
+
+![](img/img5.png)
+
+### R
+
+- prediction section in code is "stupid way" 
+
+- triangle is $\hat{y}_\text{new}$ , which is on the straight line
+
+  - C.I. are upper and lower dots
+  
+  - if expand then we have a confidence band
+  
+Code : 
+
+function confint()
+
+create new data, plug in data from orignial and assume new x 
+
+function predict()
+
+- assign interval 'prediction' and 'confidence' respectively 
+
+- put them together and have a confidence band 
+
+- wider band is argument 
+
+- dashed curve is confidence of senario 3 
+
+- always smaller than other curves
+
+### Coefficient of Determination (R Squared)
+
+- this is one way to measure how good our model is
+
+$R^2=1-\frac{SSE}{SSTO}=\frac{SSR}{SSTO}$
+
+- when comparing models the one with the larger $R^2$ is better
+
+- models can be tuned to have the same $R^2$
+
+![](img/img6.png)
+
+- Model II and II should not be assumed linear models, but all three have the same $R^2$ 
+
+- There is a better way to check from beginning if linear model is correct 
+
+- Final model will be incorrect if initial assumption is incorrect 
+
+- Wednesday we will cover a property of $R^2$ and start chapter 3
+
+### Summary 
+
+- C.I. of $y_\text{new}$
+
+1. Only 1 $x_{\text{new}}$
+
+- $\{\hat{y}_{\text{new}}\pm t_{}\cdot \sqrt{1+\frac{1}{n}+\frac{(x_{\text{new}}-\overline{x})^2}{s_{xx}}}$
+
+2. m identical $x_{\text{new}}$
+
+- $\{\hat{y}_{\text{new}}\pm t_{\frac{\alpha}{2},n-2}\cdot \sqrt{\frac{1}{m}+\frac{1}{n}+\frac{(x_{\text{new}}-\overline{x})^2}{s_{xx}}}$
+
+3. Expected Prediction of $x_\text{new}$
+
+- $\{\hat{y}_{\text{new}}\pm t_{\frac{\alpha}{2},n-2}\cdot \hat{\sigma}\sqrt{\frac{1}{n}+\frac{(x_{\text{new}}-\overline{x})^2}{s_{xx}}}$
+
+Coefficient of Determination : $R^2=1-\frac{SSE}{SSTO}=\frac{SSR}{SSTO}$
+
+### To do 
+
+- complete todays notes (complete)
+
+- HW2 due Wednesday 
+
+  - use t test (haven't covered f-test)
+  
+- read chapter 3 (begin on Wednesday)
+
+- rewatch mon. Oct. 4th lecture
+
+# W4-D11 : Wed. Oct. 20th, 2021
+
+
+
+### Summary
+
+### To do
+
+# W4-D12 : Fri. Oct. 22nd, 2021
