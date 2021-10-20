@@ -21,7 +21,7 @@ library(kableExtra)
 
 These are class notes and R code for Professor Ge Zhao's STAT-464 : Applied Regression Analysis for Fall term 2021 at Portland State University. 
 
-# D1 : Mon. Sept. 27, 2021
+# W1-D1 : Mon. Sept. 27, 2021
 
 - will ask around for a bigger room 
 
@@ -79,7 +79,7 @@ Experimental design would have a continuous $Y$ vs. a Categorical $X$. Graphical
 
 Some of the special cases I would need to think about. 
 
-# D2 : Wed. Sept. 29, 2021
+# W1-D2 : Wed. Sept. 29, 2021
 
 - If you cannot attend in person use zoom number in D2L link 
 
@@ -165,7 +165,7 @@ $$\sum_{i=1}^{n}y_{i}x_{i}-\sum_{i=1}^{n}\beta _{0}x_{i}-\sum_{i=1}^{n}\beta _{1
 
 - $\beta_{0}$ is the intercept, and $\beta_{1}$ is the slope
 
-# D3 : Fri. Oct. 1st, 2021
+# W1-D3 : Fri. Oct. 1st, 2021
 
 ### Properties of least squares estimates
 
@@ -205,30 +205,59 @@ $\hat{\beta}=\frac{\overline{xy}-\overline{x} \cdot\overline{y}}{\overline{x}^{2
 
 - [October 1](http://web.pdx.edu/~gibson25/564/564-lecture-notes.html#12_-_october_1,_2020) should be the proof we did today. 
 
-# D4 : Mon. Oct. 4th, 2021
+# W2-D4 : Mon. Oct. 4th, 2021
 
-- class is very difficult to follow along to, so these are more reflective of what's in the book and from notes of students from last year. 
+### R code lm()
 
-- it seems like we work through proofs in class, but I do not think that is knowledge I am required to know to pass this class so ... oh well.  
+lm(response ~ predictor, data = data)
 
-- do not hand write homework 
+- next chapter we will have several precidtors (where we will use +)
 
-- rmarkdown file  is hell, and will take me a couple hours to clean up before I can use it
+- lm() includes most of the important information and bottom part tells us how good our model is (Residual s.e., Multiple R-squared, F-statistic)
 
-- Final / Midterm will be in the form of an official report 
+Final / Midterm will have coding at the end (like appendix), but in homework keep code output and explanation answering the question
 
 ### Properties of least squares estimates
 
-1. $\hat{\beta}_1$ and $\hat{\beta}_0$ are linear combinations of of the observations $y_{i}$
+### 1. least square estimates are linear combinations of y_i
+
+$$\hat{\beta}_1=\frac{\sum\limits_{i=1}^n(x_i-\overline{x})y_i}{\sum\limits_{i=1}^n(x_i-\overline{x})^2}$$
+
+$$\hat{\beta}_0=\overline{y}-\overline{x}\cdot\hat{\beta}_1$$
+
+1. $\hat{\beta}_1$ and $\hat{\beta}_0$ are linear combinations of $y_{i}$'s
+
+\begin{equation}\label{beta_o linear to y}
+\begin{split}
+\hat{\beta}_1 & = \frac{\sum\limits_{i=1}^n(x_i-\overline{x})y_i}{\sum\limits_{i=1}^n(x_i-\overline{x})^2}\\
+& = \sum\limits_{i=1}^n\frac{(x_i-\overline{x})}{\sum\limits_{i=1}^n(x_i-\overline{x})^2}y_i\\
+& = \sum\limits_{i=1}^n\omega_iy_i\quad\text{where }\omega_i=\frac{(x_i-\overline{x})}{\sum\limits_{i=1}^n(x_i-\overline{x})^2}
+\end{split}
+\end{equation}
+
+- can think of as a weight 
+
+- don't care about x because it has a term, but y is random from epsilon 
+
+\begin{equation}\label{beta_o linear to y}
+\begin{split}
+\hat{\beta}_0 & = \hat{\beta}_0=\overline{y}-\overline{x}\cdot\hat{\beta}_1\\
+& = \frac{1}{n}\sum\limits_{i=1}^ny_i-\overline{x}\cdot\sum\limits_{i=1}^n\omega_iy_i\\
+& = \sum\limits_{i=1}^n(\frac{1}{n}-\overline{x}\omega_i)y_i
+\end{split}
+\end{equation}
+
+### 2. least squares estimators are unbiased of parameters 
 
 2. $\hat{\beta}_1$ and $\hat{\beta}_0$ are unbiased estimators of $\beta_1$ and $\beta_0$ 
 
 - the expectation of $\hat{\beta}_1$ and $\hat{\beta}_0$ are unbias estimators 
 
-- this means estimators are good because if we repeat test many times, the model will show very close to the truth. 
+  - meaning if we repeat many times then the average will be the truth 
+
+- this means estimators are good because it wont be far from the truth 
 
 ### Proof that expectations of estimators equals parameters 
-
 
 We need to prove that $E[\hat{\beta}_{0}]=\beta_{0}$ and $E[\hat{\beta}_{1}]=\beta_{1}$
 
@@ -260,13 +289,13 @@ Therefore by the proof of equalities $E[\hat{\beta}_{0}]=\beta_{0}$. QED.
 
 - nothing in the homework has really been covered in class. Not sure what that's about, and I don't care. Heavily considering ditching class notes just to follow along with the textbook. seems more applicable to what I will need to do / know for the test and future, as opposed to whatever it is the professor spends all of lecture doing (which I think is mostly just algebra?). 
 
-# D5 : Wed. Oct. 6th, 2021
+# W2-D5 : Wed. Oct. 6th, 2021
 
-- there is a 300 level version of this course  
+- there is a 300 level version of this course  . 
 
 - next we show we can compute the variance of $\hat{\beta}_1$ and $\hat{\beta}_0$. 
 
-### Properties of least squares estimates
+### Variance of least squares estimators
 
 3. The variance of $\hat{\beta}_1$ and $\hat{\beta}_0$
 
@@ -434,7 +463,7 @@ $E(\hat{\sigma}^2)=E(\frac{\sum\limits_{i=1}^{n}e^2}{n-2})=\sigma^2$
 
 Estimate sigma^2 : $\hat{\sigma}^2=\frac{\sum\limits_{i=1}^{n}e^2}{n-2}$
 
-# D6 : Fri. Oct. 8th, 2021
+# W2-D6 : Fri. Oct. 8th, 2021
 
 - will go over coding in R 
 
@@ -478,7 +507,7 @@ Question 1 : Do we really need x to explain y?
 
 - finish homework (complete)
 
-# D7 : Mon. Oct. 11th, 2021
+# W3-D7 : Mon. Oct. 11th, 2021
 
 - 2 proofs are due for homework 2 
 
@@ -584,7 +613,7 @@ $$t=\frac{\hat{\beta}_1-\hat{\beta}_{10}}{se(\hat{\beta}_{10})\}}\sim t_{n-1}$$
 
 - peek at chapter 3
 
-# D8 : Wed. Oct. 13th, 2021
+# W3-D8 : Wed. Oct. 13th, 2021
 
 - this next section follows the book (something to do with $R^2$)
 
@@ -782,7 +811,7 @@ Can we solve for our $\mu$?
   
 - HW 2 is live : Proofs and fill in skipped questions from HW 1
 
-# D9 : Fri. Oct. 15th, 2021
+# W3-D9 : Fri. Oct. 15th, 2021
 
 - Problem is that we want to find the confidence interval (CI) for parameters $\beta_0$ and $\beta_1$, and $\sigma^2$
 
@@ -1132,9 +1161,16 @@ Coefficient of Determination : $R^2=1-\frac{SSE}{SSTO}=\frac{SSR}{SSTO}$
 # W4-D11 : Wed. Oct. 20th, 2021
 
 
+### Summary
+
+### To do
+
+- rewatch wed. Oct. 6th lecture
+
+# W4-D12 : Fri. Oct. 22nd, 2021
 
 ### Summary
 
 ### To do
 
-# W4-D12 : Fri. Oct. 22nd, 2021
+- rewatch fri. Oct. 8th lecture 
