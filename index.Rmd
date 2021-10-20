@@ -227,7 +227,7 @@ $$\hat{\beta}_0=\overline{y}-\overline{x}\cdot\hat{\beta}_1$$
 
 1. $\hat{\beta}_1$ and $\hat{\beta}_0$ are linear combinations of $y_{i}$'s
 
-\begin{equation}\label{beta_o linear to y}
+\begin{equation}\label{beta_1 linear to y}
 \begin{split}
 \hat{\beta}_1 & = \frac{\sum\limits_{i=1}^n(x_i-\overline{x})y_i}{\sum\limits_{i=1}^n(x_i-\overline{x})^2}\\
 & = \sum\limits_{i=1}^n\frac{(x_i-\overline{x})}{\sum\limits_{i=1}^n(x_i-\overline{x})^2}y_i\\
@@ -263,31 +263,43 @@ We need to prove that $E[\hat{\beta}_{0}]=\beta_{0}$ and $E[\hat{\beta}_{1}]=\be
 
 First assume that $E[\hat{\beta}_{1}]=\beta_{1}$. 
 
+- we are using property number 1 becase if the expectation is a linear function then constants can move inside and outside expectation : $E(a\cdot X+b\cdot Y)=aE(X)+bE(Y)$
+
+- note we normally we use lower case letter for numbers we know and upper case for those which are random. The y below is capitalized because it is random and unknown (because of epsilon). 
+
 \begin{equation}\label{estimators expectation proof}
 \begin{split}
-E[\hat{\beta}_{0}] & = E[\overline{Y}-\hat{\beta}_{1}\overline{x}]\\
-& = E[\overline{Y}]-\overline{x}E[\hat{\beta}_{1}]\\
-& = \frac{1}{n}\sum_{i=1}^{n}E[\overline{Y}]-\overline{x}\hat{\beta}_{1}\\
-& = \frac{1}{n}\sum_{i=1}^{n}(\beta_{0} +\beta_{1}x_{i})-\overline{x}\hat{\beta}_{1}\\
-& = \beta_{0} +\overline{x}\hat{\beta}_{1}-\overline{x}\hat{\beta}_{1}\\
-& = \beta_0
+E[\hat{\beta}_{1}] & = E{\sum\limits_{i=1}^n\omega_iY_i}\\
+& = \sum\limits_{i=1}^n\omega_iE(Y_i)\\
+& = \sum_{i=1}^{n}\omega_i(\beta_{0} +\beta_{1}x_{i})\\
+& = \sum_{i=1}^{n}\omega_i\beta_{0}+\sum_{i=1}^{n}\omega_i\beta_{1}x_{i}\\
+& = \beta_0\sum_{i=1}^{n}\omega_i+\beta_{1}\sum_{i=1}^{n}\omega_ix_{i}\\
+& = 0 + \beta_1\cdot 1\\
+& = \beta_1
 \end{split}
 \end{equation}
 
-Therefore by the proof of equalities $E[\hat{\beta}_{0}]=\beta_{0}$. QED. 
+Therefore by the proof of equalities $E[\hat{\beta}_{1}]=\beta_{1}$. QED. 
+
+Note : $\omega_i=\frac{(x_i-\overline{x})}{\sum\limits_{i=1}^n(x_i-\overline{x})^2}=\frac{1}{\sum\limits_{i=1}^n(x_i-\overline{x})^2}\sum\limits_{i=1}^n(x_i-\overline{x})$ (same form as last Friday)
+
+- this is tricky, but key part of linear model 
+
+Also Remember 
 
 - y : not random, Y : random 
 
-- E(ax+bY)=aE(x)+bE(Y)
-
 - cannot assume x to be random because it is apart of the observed data 
-
 
 ### Summary 
 
-- cancellation is tricky, will revisit on Wednesday 
+Properties of Least Squares Estimators: 
 
-- nothing in the homework has really been covered in class. Not sure what that's about, and I don't care. Heavily considering ditching class notes just to follow along with the textbook. seems more applicable to what I will need to do / know for the test and future, as opposed to whatever it is the professor spends all of lecture doing (which I think is mostly just algebra?). 
+1. $\hat{\beta}_1$ and $\hat{\beta}_0$ are linear combinations of $y_{i}$
+
+2. $\hat{\beta}_1$ and $\hat{\beta}_0$ are unbiased estimators of $\beta_1$ and $\beta_0$
+
+- Which means : $E[\hat{\beta}_{0}]=\beta_{0}$ and $E[\hat{\beta}_{1}]=\beta_{1}$
 
 # W2-D5 : Wed. Oct. 6th, 2021
 
@@ -1156,7 +1168,7 @@ Coefficient of Determination : $R^2=1-\frac{SSE}{SSTO}=\frac{SSR}{SSTO}$
   
 - read chapter 3 (begin on Wednesday)
 
-- rewatch mon. Oct. 4th lecture
+- rewatch mon. Oct. 4th lecture (complete)
 
 # W4-D11 : Wed. Oct. 20th, 2021
 

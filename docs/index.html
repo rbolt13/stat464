@@ -526,61 +526,107 @@ categorical : ordinal data and nominal data
 </div>
 <div id="w2-d4-mon.-oct.-4th-2021" class="section level1">
 <h1>W2-D4 : Mon. Oct. 4th, 2021</h1>
+<div id="r-code-lm" class="section level3">
+<h3>R code lm()</h3>
+<p>lm(response ~ predictor, data = data)</p>
 <ul>
-<li><p>class is very difficult to follow along to, so these are more reflective of what’s in the book and from notes of students from last year.</p></li>
-<li><p>it seems like we work through proofs in class, but I do not think that is knowledge I am required to know to pass this class so … oh well.</p></li>
-<li><p>do not hand write homework</p></li>
-<li><p>rmarkdown file is hell, and will take me a couple hours to clean up before I can use it</p></li>
-<li><p>Final / Midterm will be in the form of an official report</p></li>
+<li><p>next chapter we will have several precidtors (where we will use +)</p></li>
+<li><p>lm() includes most of the important information and bottom part tells us how good our model is (Residual s.e., Multiple R-squared, F-statistic)</p></li>
 </ul>
+<p>Final / Midterm will have coding at the end (like appendix), but in homework keep code output and explanation answering the question</p>
+</div>
 <div id="properties-of-least-squares-estimates-1" class="section level3">
 <h3>Properties of least squares estimates</h3>
+</div>
+<div id="least-square-estimates-are-linear-combinations-of-y_i" class="section level3">
+<h3>1. least square estimates are linear combinations of y_i</h3>
+<p><span class="math display">\[\hat{\beta}_1=\frac{\sum\limits_{i=1}^n(x_i-\overline{x})y_i}{\sum\limits_{i=1}^n(x_i-\overline{x})^2}\]</span></p>
+<p><span class="math display">\[\hat{\beta}_0=\overline{y}-\overline{x}\cdot\hat{\beta}_1\]</span></p>
 <ol style="list-style-type: decimal">
-<li><p><span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span> are linear combinations of of the observations <span class="math inline">\(y_{i}\)</span></p></li>
-<li><p><span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span> are unbiased estimators of <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_0\)</span></p></li>
+<li><span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span> are linear combinations of <span class="math inline">\(y_{i}\)</span>’s</li>
+</ol>
+<p><span class="math display">\[\begin{equation}\label{beta_1 linear to y}
+\begin{split}
+\hat{\beta}_1 &amp; = \frac{\sum\limits_{i=1}^n(x_i-\overline{x})y_i}{\sum\limits_{i=1}^n(x_i-\overline{x})^2}\\
+&amp; = \sum\limits_{i=1}^n\frac{(x_i-\overline{x})}{\sum\limits_{i=1}^n(x_i-\overline{x})^2}y_i\\
+&amp; = \sum\limits_{i=1}^n\omega_iy_i\quad\text{where }\omega_i=\frac{(x_i-\overline{x})}{\sum\limits_{i=1}^n(x_i-\overline{x})^2}
+\end{split}
+\end{equation}\]</span></p>
+<ul>
+<li><p>can think of as a weight</p></li>
+<li><p>don’t care about x because it has a term, but y is random from epsilon</p></li>
+</ul>
+<p><span class="math display">\[\begin{equation}\label{beta_o linear to y}
+\begin{split}
+\hat{\beta}_0 &amp; = \hat{\beta}_0=\overline{y}-\overline{x}\cdot\hat{\beta}_1\\
+&amp; = \frac{1}{n}\sum\limits_{i=1}^ny_i-\overline{x}\cdot\sum\limits_{i=1}^n\omega_iy_i\\
+&amp; = \sum\limits_{i=1}^n(\frac{1}{n}-\overline{x}\omega_i)y_i
+\end{split}
+\end{equation}\]</span></p>
+</div>
+<div id="least-squares-estimators-are-unbiased-of-parameters" class="section level3">
+<h3>2. least squares estimators are unbiased of parameters</h3>
+<ol start="2" style="list-style-type: decimal">
+<li><span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span> are unbiased estimators of <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_0\)</span></li>
 </ol>
 <ul>
-<li><p>the expectation of <span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span> are unbias estimators</p></li>
-<li><p>this means estimators are good because if we repeat test many times, the model will show very close to the truth.</p></li>
+<li><p>the expectation of <span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span> are unbias estimators</p>
+<ul>
+<li>meaning if we repeat many times then the average will be the truth</li>
+</ul></li>
+<li><p>this means estimators are good because it wont be far from the truth</p></li>
 </ul>
 </div>
 <div id="proof-that-expectations-of-estimators-equals-parameters" class="section level3">
 <h3>Proof that expectations of estimators equals parameters</h3>
 <p>We need to prove that <span class="math inline">\(E[\hat{\beta}_{0}]=\beta_{0}\)</span> and <span class="math inline">\(E[\hat{\beta}_{1}]=\beta_{1}\)</span></p>
 <p>First assume that <span class="math inline">\(E[\hat{\beta}_{1}]=\beta_{1}\)</span>.</p>
+<ul>
+<li><p>we are using property number 1 becase if the expectation is a linear function then constants can move inside and outside expectation : <span class="math inline">\(E(a\cdot X+b\cdot Y)=aE(X)+bE(Y)\)</span></p></li>
+<li><p>note we normally we use lower case letter for numbers we know and upper case for those which are random. The y below is capitalized because it is random and unknown (because of epsilon).</p></li>
+</ul>
 <p><span class="math display">\[\begin{equation}\label{estimators expectation proof}
 \begin{split}
-E[\hat{\beta}_{0}] &amp; = E[\overline{Y}-\hat{\beta}_{1}\overline{x}]\\
-&amp; = E[\overline{Y}]-\overline{x}E[\hat{\beta}_{1}]\\
-&amp; = \frac{1}{n}\sum_{i=1}^{n}E[\overline{Y}]-\overline{x}\hat{\beta}_{1}\\
-&amp; = \frac{1}{n}\sum_{i=1}^{n}(\beta_{0} +\beta_{1}x_{i})-\overline{x}\hat{\beta}_{1}\\
-&amp; = \beta_{0} +\overline{x}\hat{\beta}_{1}-\overline{x}\hat{\beta}_{1}\\
-&amp; = \beta_0
+E[\hat{\beta}_{1}] &amp; = E{\sum\limits_{i=1}^n\omega_iY_i}\\
+&amp; = \sum\limits_{i=1}^n\omega_iE(Y_i)\\
+&amp; = \sum_{i=1}^{n}\omega_i(\beta_{0} +\beta_{1}x_{i})\\
+&amp; = \sum_{i=1}^{n}\omega_i\beta_{0}+\sum_{i=1}^{n}\omega_i\beta_{1}x_{i}\\
+&amp; = \beta_0\sum_{i=1}^{n}\omega_i+\beta_{1}\sum_{i=1}^{n}\omega_ix_{i}\\
+&amp; = 0 + \beta_1\cdot 1\\
+&amp; = \beta_1
 \end{split}
 \end{equation}\]</span></p>
-<p>Therefore by the proof of equalities <span class="math inline">\(E[\hat{\beta}_{0}]=\beta_{0}\)</span>. QED.</p>
+<p>Therefore by the proof of equalities <span class="math inline">\(E[\hat{\beta}_{1}]=\beta_{1}\)</span>. QED.</p>
+<p>Note : <span class="math inline">\(\omega_i=\frac{(x_i-\overline{x})}{\sum\limits_{i=1}^n(x_i-\overline{x})^2}=\frac{1}{\sum\limits_{i=1}^n(x_i-\overline{x})^2}\sum\limits_{i=1}^n(x_i-\overline{x})\)</span> (same form as last Friday)</p>
+<ul>
+<li>this is tricky, but key part of linear model</li>
+</ul>
+<p>Also Remember</p>
 <ul>
 <li><p>y : not random, Y : random</p></li>
-<li><p>E(ax+bY)=aE(x)+bE(Y)</p></li>
 <li><p>cannot assume x to be random because it is apart of the observed data</p></li>
 </ul>
 </div>
 <div id="summary-2" class="section level3">
 <h3>Summary</h3>
+<p>Properties of Least Squares Estimators:</p>
+<ol style="list-style-type: decimal">
+<li><p><span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span> are linear combinations of <span class="math inline">\(y_{i}\)</span></p></li>
+<li><p><span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span> are unbiased estimators of <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_0\)</span></p></li>
+</ol>
 <ul>
-<li><p>cancellation is tricky, will revisit on Wednesday</p></li>
-<li><p>nothing in the homework has really been covered in class. Not sure what that’s about, and I don’t care. Heavily considering ditching class notes just to follow along with the textbook. seems more applicable to what I will need to do / know for the test and future, as opposed to whatever it is the professor spends all of lecture doing (which I think is mostly just algebra?).</p></li>
+<li>Which means : <span class="math inline">\(E[\hat{\beta}_{0}]=\beta_{0}\)</span> and <span class="math inline">\(E[\hat{\beta}_{1}]=\beta_{1}\)</span></li>
 </ul>
 </div>
 </div>
 <div id="w2-d5-wed.-oct.-6th-2021" class="section level1">
 <h1>W2-D5 : Wed. Oct. 6th, 2021</h1>
 <ul>
-<li><p>there is a 300 level version of this course</p></li>
+<li><p>there is a 300 level version of this course .</p></li>
 <li><p>next we show we can compute the variance of <span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span>.</p></li>
 </ul>
-<div id="properties-of-least-squares-estimates-2" class="section level3">
-<h3>Properties of least squares estimates</h3>
+<div id="variance-of-least-squares-estimators" class="section level3">
+<h3>Variance of least squares estimators</h3>
 <ol start="3" style="list-style-type: decimal">
 <li>The variance of <span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span></li>
 </ol>
@@ -1350,7 +1396,7 @@ Var\{y_{\text{new}}\} &amp; = Var\{\hat{\beta}_0+\hat{\beta}_1x_{\text{new}}\{+V
 <li>use t test (haven’t covered f-test)</li>
 </ul></li>
 <li><p>read chapter 3 (begin on Wednesday)</p></li>
-<li><p>rewatch mon. Oct. 4th lecture</p></li>
+<li><p>rewatch mon. Oct. 4th lecture (complete)</p></li>
 </ul>
 </div>
 </div>
@@ -1361,10 +1407,22 @@ Var\{y_{\text{new}}\} &amp; = Var\{\hat{\beta}_0+\hat{\beta}_1x_{\text{new}}\{+V
 </div>
 <div id="to-do-2" class="section level3">
 <h3>To do</h3>
+<ul>
+<li>rewatch wed. Oct. 6th lecture</li>
+</ul>
 </div>
 </div>
 <div id="w4-d12-fri.-oct.-22nd-2021" class="section level1">
 <h1>W4-D12 : Fri. Oct. 22nd, 2021</h1>
+<div id="summary-10" class="section level3">
+<h3>Summary</h3>
+</div>
+<div id="to-do-3" class="section level3">
+<h3>To do</h3>
+<ul>
+<li>rewatch fri. Oct. 8th lecture</li>
+</ul>
+</div>
 </div>
 
 
