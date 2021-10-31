@@ -5,6 +5,7 @@ View [here](https://rbolt13.github.io/stat464/)
 
 # To Do 
 * Ace this class
+* Create Graphs in R (with ggplot?)
 
 # Done 
 ☑️ Update README

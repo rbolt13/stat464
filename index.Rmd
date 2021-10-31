@@ -14,12 +14,16 @@ output:
 
 ```{r,echo=F, message=F}
 library(dplyr)
-library(kableExtra)
+library(kableExtra) # create nice looking tables 
+library(readxl) # read excel tables 
+library('car')
 ```
 
 # About
 
 These are class notes and R code for Professor Ge Zhao's STAT-464 : Applied Regression Analysis for Fall term 2021 at Portland State University. 
+
+$\newcommand{\indep}{\perp \!\!\! \perp}$
 
 # W1-D1 : Mon. Sept. 27, 2021
 
@@ -303,15 +307,19 @@ Properties of Least Squares Estimators:
 
 # W2-D5 : Wed. Oct. 6th, 2021
 
-- there is a 300 level version of this course  . 
+- there is a 300 level version of this course
 
 - next we show we can compute the variance of $\hat{\beta}_1$ and $\hat{\beta}_0$. 
 
-### Variance of least squares estimators
+### Properties of LSE
+
+- LSE : $\hat{\beta}_1$ and $\hat{\beta}_0$
+
+### 3. Variance of LSE
 
 3. The variance of $\hat{\beta}_1$ and $\hat{\beta}_0$
 
-**<span style="color: violet;">Assumptions</span>**
+**<span style="color: violet;">Assumptions (to simplify the model) </span>**
 
 $E(\epsilon )=0$
 
@@ -325,15 +333,15 @@ $Cov(\epsilon_i\cdot\epsilon_j)=0$
 
 Note : the only term with randomness is $\hat{y}$
 
-### Variance of least squares estimates
-
 \begin{equation}\label{var of slope estimate}
 \begin{split}
 Var[\hat{\beta}_{1}] & = Var\{\sum_{i=1}^{n}\frac{x_{i}-\overline{x}}{S_{xx}}Y_{i}\}^2\\
-& = \sum_{i=1}^{n}Var\{\frac{x_{i}-\overline{x}}{S_{xx}}Y_{i}\}^2+0(\text{Cov.})\\
+& = \sum_{i=1}^{n}Var\{\frac{x_{i}-\overline{x}}{S_{xx}}Y_{i}\}^2+(\text{Cov.})\\
+& = \sum_{i=1}^{n}Var\{\frac{x_{i}-\overline{x}}{S_{xx}}Y_{i}\}^2\\
 & = \sum_{i=1}^{n}\{\frac{x_{i}-\overline{x}}{S_{xx}}\}^{2}Var(Y_{i})^2\\
 & = \sum_{i=1}^{n}\{\frac{x_{i}-\overline{x}}{S_{xx}}\}^{2}\sigma^2\\
-& = \frac{\sigma^2}{S_{xx}^2}\sum_{i=1}^{n}(x_{i}-\overline{x})
+& = \frac{\sigma^2}{S_{xx}^2}\sum_{i=1}^{n}(x_{i}-\overline{x})^2\\
+& = \frac{\sigma^2}{S_{xx}}
 \end{split}
 \end{equation}
 
@@ -341,9 +349,9 @@ Var[\hat{\beta}_{1}] & = Var\{\sum_{i=1}^{n}\frac{x_{i}-\overline{x}}{S_{xx}}Y_{
 \begin{split}
 Var[\hat{\beta}_{0}] & = Var(\overline{Y}-\hat{\beta}_1\overline{x})\\
 & = Var\{\frac{1}{n}\sum_{i=1}^{n}Y_{i}-\overline{x}\sum_{i=1}^{n}\frac{x_{i}-\overline{x}}{S_{xx}}Y_i\}^2\\
-& = Var[\sum_{i=1}^{n}\{\frac{1}{n}-\overline{x}\frac{x_{i}-\overline{x}}{S_{xx}}\}Y_i]^2\\
-& = \sum_{i=1}^{n}Var\{\frac{1}{n}-\overline{x}\frac{x_{i}-\overline{x}}{S_{xx}}\}^2Y_i\\
-& = \sum_{i=1}^{n}\{\frac{1}{n}-\overline{x}\frac{x_{i}-\overline{x}}{S_{xx}}\}^2\sigma^2
+& = Var[\sum_{i=1}^{n}\{\frac{1}{n}-\overline{x}\frac{(x_{i}-\overline{x})}{S_{xx}}\}Y_i]^2\\
+& = \sum_{i=1}^{n}Var\{\frac{1}{n}-\overline{x}\frac{(x_{i}-\overline{x})}{S_{xx}}\}^2Y_i\\
+& = \sum_{i=1}^{n}\{\frac{1}{n}-\overline{x}\frac{(x_{i}-\overline{x})}{S_{xx}}\}^2\sigma^2
 \end{split}
 \end{equation}
 
@@ -453,7 +461,7 @@ $E(\hat{\sigma}^2)=E(\frac{\sum\limits_{i=1}^{n}e^2}{n-2})=\sigma^2$
 
 3. Variance of LS estimates $\hat{\beta}_0$ and $\hat{\beta}_1$
 
-- $Var[\hat{\beta}_{1}]=\frac{\sigma^2}{S_{xx}^2}\sum\limits_{i=1}^{n}(x_{i}-\overline{x})$
+- $Var[\hat{\beta}_{1}]=\frac{\sigma^2}{S_{xx}}$
 
 - $Var[\hat{\beta}_{0}]=\sum\limits_{i=1}^{n}\{\frac{1}{n}-\overline{x}\frac{x_{i}-\overline{x}}{S_{xx}}\}^2\sigma^2$
 
@@ -999,7 +1007,7 @@ For $Pr\{l<\beta_0<u\}=1-\alpha$ the CI are :
 $\Rightarrow u=\hat{\beta}_0+t_{\frac{\alpha}{2},n-2}\cdot s.e.(\hat{\beta}_0)$
 
 $\Rightarrow l=\hat{\beta}_0-t_{\frac{\alpha}{2},n-2}\cdot s.e.(\hat{\beta}_0)$
-
+3096/
 For $Pr\{l<\sigma^2<u\}=1-\alpha$ the CI are : 
 
 $\Rightarrow u=\frac{(n-2)MSE}{\chi^2_{\frac{\alpha}{2},n-2}}$
@@ -1162,8 +1170,6 @@ Coefficient of Determination : $R^2=1-\frac{SSE}{SSTO}=\frac{SSR}{SSTO}$
 
 - complete todays notes (complete)
 
-- HW2 due Wednesday 
-
   - use t test (haven't covered f-test)
   
 - read chapter 3 (begin on Wednesday)
@@ -1172,17 +1178,1187 @@ Coefficient of Determination : $R^2=1-\frac{SSE}{SSTO}=\frac{SSR}{SSTO}$
 
 # W4-D11 : Wed. Oct. 20th, 2021
 
+### R Squared 
+
+$R^2$ 
+
+- sometime we are interested in the relationship b/t Y and X 
+
+$P=\frac{Cov(Y,X)}{\sqrt{Var(X)Var(Y)}}=\frac{E(XY)-E(X)E(Y)}{\sqrt{Var(X)Var(Y)}}$
+
+- By definition of covariance we get the equation above 
+
+- our sample variance will become r : (replace Expectation with average)
+
+$r=\frac{\frac{1}{n}\sum\limits_{i=1}^nx_iy_i-(\frac{1}{n}\sum\limits_{i=1}^nx_i)(\frac{1}{n}\sum\limits_{i=1}^ny_i)}{\sqrt{\frac{1}{n}\sum\limits_{i=1}^n(x_i-\overline{x})^2-\frac{1}{n}\sum\limits_{i=1}^n(y_i-\overline{y})^2}}$
+
+- next, try to connect this r with $R^2$ where,  
+
+$R^2=\frac{SSR}{SSTO}=1-\frac{SSE}{SSTO}$
+
+\begin{equation}\label{r=R^2}
+\begin{split}
+r & = \frac{\frac{1}{n}\sum\limits_{i=1}^nx_iy_i-(\frac{1}{n}\sum\limits_{i=1}^nx_i)(\frac{1}{n}\sum\limits_{i=1}^ny_i)}{\sqrt{\frac{1}{n}\sum\limits_{i=1}^n(x_i-\overline{x})^2-\frac{1}{n}\sum\limits_{i=1}^n(y_i-\overline{y})^2}}\\
+& = \frac{\frac{1}{n}\{\sum\limits_{i=1}^nx_iy_i-\overline{x}\sum\limits_{i=1}^ny_i\}}{\frac{1}{n}\sqrt{\sum\limits_{i=1}^n(x_i-\overline{x})^2-\sum\limits_{i=1}^n(y_i-\overline{y})^2}}\\
+& = \frac{\sum\limits_{i=1}^n(x_i-\overline{x})y_i}{\sqrt{S_{xx}-SSTO}}\\
+& = \frac{\sum\limits_{i=1}^n(x_i-\overline{x})(y_i-\overline{y)}}{\sqrt{S_{xx}-SSTO}}\\
+& = \frac{S_{xy}}{\sqrt{S_{xx}-SSTO}}
+\end{split}
+\end{equation}
+
+- added minus $\overline{y}$ term, which by homework problem is zero so this doesn't change the original value
+
+- now we can square the whole equation (but write the numerator seperated out)
+
+$r^2=\frac{s_{xy}S_{xy}}{S_{xy}SSTO}=\hat{\beta}_1\cdot\frac{S_{xy}}{SSTO}$
+
+- because $\frac{S_{xy}}{S_{xx}}=\hat{\beta}_1$
+
+Next we are going to show $R^2=r^2$
+
+- That means if $R^2=r^2$ is true then the coeifficient of the determination or the percentage of variability granted by our linear model. So this $R^2$ is actually the square of our sample correlation coefficient. 
+
+- if it is not a linear model then $R^2=r^2$ truth doesn't exist
+
+
+The next step is to show that $R^2=r^2$ is to show that $\hat{\beta}_1\cdot S_{xy}=SSR$
+
+- for $R^2=r^2$ , then $\frac{SSR}{SSTO}=\hat{\beta}_1\cdot\frac{S_{xy}}{SSTO}$
+
+\begin{equation}\label{r^2=R^2}
+\begin{split}
+\hat{\beta}_1\cdot S_{xy} & = \hat{\beta}_1\cdot \sum\limits_{i=1}^n(x_i-\overline{x})(y_i-\overline{y})\\
+& = \sum\limits_{i=1}^n(\hat{\beta}_1x_i-\hat{\beta}_1\overline{x})(y_i-\overline{y})\\
+& = \sum\limits_{i=1}^n\{\hat{y}_i-\hat{\beta}_o-(\overline{y}-\hat{\beta}_0)\}(y_i-\overline{y})\\
+& = \sum\limits_{i=1}^n(\hat{y}_i-\overline{y})(y_i-\overline{y})\\
+& = \sum\limits_{i=1}^n(\hat{y}_i-\overline{y})\{\hat{y}_i-\overline{y}+(y_i+\hat{y}_i)\}\\
+& = \sum\limits_{i=1}^n(\hat{y}_i-\overline{y})(\hat{y}_i-\overline{y})+\sum\limits_{i=1}^n(\hat{y}_i-\overline{y})\cdot e_i\\
+& = SSR+0
+\end{split}
+\end{equation}
+
+- This term $\sum\limits_{i=1}^n(\hat{y}_i-\overline{y})(y_i-\overline{y})$ looks a lot like $SRR=\sum\limits_{i=1}^n(\hat{y}_i-\overline{y})^2$ (so then create a new term)
+
+- proved yhat e_i and overline y e_i are 0 in homework 
+
+- If X and Y have high correlation you will expect a high $R^2$
+
+### Test if Correlation is 0 or not
+
+- $H_0$ : $P=0$ vs. $H_1=P\ne0$
+
+  - 0 means there is no relationship between X and Y
+  
+  - non 0 means there is a relationship between X and Y
+
+- next we will create a test statistic 
+
+Test statistic : 
+
+$t=r\cdot \frac{\sqrt{n-2}}{\sqrt{1-r^2}}\sim t_{n-2}$ under $H_0$
+
+For large sample size :
+
+$z=\frac{1}{n}ln\frac{1+r}{1-r}\rightarrow N(\frac{1}{2}ln\frac{1+p}{1-p},\frac{1}{n-3})$
+
+- we don't need this for this class, but to show we can test slope 
+
+- chapter also includes other things but we will not discuss these in class such as : random predictor acts, and  Maximum Root Estimator. Read about those in the book
+
+### Chapter 2.5 Basic Matrix 
+
+- we have discussed 1 Y and and 1 X, now we will discuss situations with multiple x's, or predictors 
+
+- will use matrix form 
+
+- will not prove any result, so will mostly use result and properties of matrix 
+
+- matrix will simplify notation sometimes, but it is not as straight forward as chapter 2 
+
+- need several properties first 
+
+### Properties 
+
+Let A, B be matrix. x, y are column vector. a, b are constant, scalar perhaps. 
+
+1. Rank of A : # of independent column vectors of A. 
+
+2. Identity matrix I = \begin{equation}
+I = 
+\begin{matrix}
+1 & 0 \\
+0 & 1\\
+\end{matrix}
+\end{equation}
+
+3. Inverse $AA^{-1}=A^{-1}A=I$
+
+- assume A is invertible 
+
+- will use square matrix
+
+4. Transpose $(A^T)^T=A$ , $(AB)^T=B^TA^T$
+
+5. Symmetric, $A^T=A$ 
+
+- will use square matrix
+
+6. Idempotent  matrix : $AA=A$
+
+- will use square 
+
+7. Orthogonal Matrix : $A^TA=I$ , which implies $A^{-1}=A^T$
+
+8. Quadratic Form : $y^TAy=\sum\limits_{i=1}^n\sum\limits_{j=1}^na_{ij}\cdot y_i\cdot y_j$
+
+- y is n-by-1
+
+- A is n-by-n
+
+9. Positive Definite (P.D.) and Positive Semidefinite (P.S.D.)
+
+Assume $A^T=A$ 
+
+P.D. $y^TAy>0$ for any $y\ne0$
+
+- y is a vector so 0 is zero vector where all element are zero
+
+P.S.D. $y^TAy\geq0$ for any $y\ne0$
+
+10. Trace of A : trace(A) = tr(A)
+
+- trace of A is trace of diagonal elements of A , $trace(A)=tr(A)=\sum\limits_{i=1}^na_{ii}$
+
+- $tr(AB)=tr(BA)$
+
+- $tr(ABC)=tr(CAB)$ (order doesn't matter or change the trace)
+
+- $tr(aA+bB)=atr(A)+btr(B)$ (trace is linear function)
+
+11. Rank of independent matrix A is the trace of A. Rank (A)=tr(A) if A is independent. 
+
+12. Matrix Partition : $A=[A_1\quad A_2]$
+
+- cut a matrix into two parts $A_1$ on the left and $A_2$ on the right 
+
+- $A(A^TA)^{-1}A^TA_1=A_1$
+
+- $A(A^TA)^{-1}A^TA_2=A_2$
+
+- $A^T_1A(A^TA)^{-1}A^T=A^T_1$
+
+- $A^T_2A(A^TA)^{-1}A^T=A^T_2$
+
+- note that this is a very special matrix : $A(A^TA)^{-1}A^T$
+
+  - this part is an idempotent matrix meaning that as a whole, it multiplied by itself it would be itself (middle terms will cancel out)
+
+  - the result of this term is the also called the projection of the space spanned by A 
+
+    - span from A : any vector term term from A itself, or the linear combinations of column vectors of A. 
+  
+  - under the projection it still stays the same 
+
+  - later we will see this matrix many times 
+
+13. Inverse of matrix partition 
+
+\begin{equation}
+X = 
+\begin{matrix}
+A & B \\
+C & D\\
+\end{matrix}
+\end{equation}
+
+\begin{equation}
+X^{-1} = 
+\begin{matrix}
+(A-BD^{-1}C)^{-1} & -A^{-1}B(D-CA^{-1}B)^{-1} \\
+-D^{-1}C(A-BD^{-1}C)^{-1} & (D-CA^{-1}B)^{-1}\\
+\end{matrix}
+\end{equation}
+
+- smaller partitions can be a lot simplier and can canle out 
+
+- will use this property when we have some special cases
+
+...
+
+- last four properties invole the derivative and randomness, but will discuss more 
+
+- when we have covered all these properties then we will start 
 
 ### Summary
 
+- $R^2=r^2$
+
+- First 13 Properties of Matrix 
+
 ### To do
 
-- rewatch wed. Oct. 6th lecture
+- finish today's notes (complete)
+
+- HW 2 (complete-ish)
 
 # W4-D12 : Fri. Oct. 22nd, 2021
 
+### Continuing Properties of Matrix 
+
+14. $y=(\vdots)$ (column vector) and $a=(\vdots)$ (constant column vector) 
+
+- $\frac{da^Ty}{dy}=a$ 
+
+  - we want to find the derivative of $a^T$ with respect to y
+  
+  - remember : $\frac{dax}{dx}=a$
+
+- $\frac{dy^Ty}{dy}=2y$
+
+- $\frac{da^TAy}{dy}-A^Ta$
+
+- $\frac{dy^TAy}{dy}=Ay+A^Ty$
+
+15. Y is a random vector. We assume : 
+
+- $\begin{equation}
+E(Y)=\mu= 
+\begin{matrix}
+EY_1 \\
+EY_2 \\
+\vdots \\
+\end{matrix}
+\end{equation}$
+
+- $Var(Y)=V_{nxn}$
+
+-$E(a^TY)=a^TE(Y)=a^T\mu$
+
+- $E(AY)=A\mu$
+
+  - matrix A 
+
+- $Var(a^TY)=a^TVa$
+  
+- $Var(AY)=A^TVA$
+
+- $E(y^TAy)=tr(AV)+\mu^TA\mu$
+
+16. Assumme $Y\sim N(\mu, V)$ 
+
+- assume new random vector $U=y^TAy$
+
+- If AV or VA is idempotent of rank p then $U\sim \chi^2_{p,\lambda}$ for $\lambda =\mu^TA\mu$ 
+
+  - noncentral $\chi^2$, with parameters p, and offset by $\lambda$
+    
+  - if $\lambda$ is zero, then this is regular $\chi^2$ distribution 
+  
+- If $V=\sigma^2I$ A is idempotent of rank p. 
+
+- $\frac{U}{\sigma^2}\sim\chi^2_{p, \lambda}$. $\lambda=\frac{\mu^TA\mu}{\sigma^2}$
+
+17. $W=By$. $U=y^TAy$   
+
+If $BVA=0$. $W\indep U$ (W indep. U)
+
+- $V=y^TBy$
+
+If $AVB=0$. $V\indep U$
+
+### Chapter 3 : Multiple Linear Regression 
+
+Model : $y=\beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_3+...+\beta_px_p+\epsilon$
+
+- sometime end at $\beta_{p-1}x_{p-1}$ so that the total parameter is p (not p+1) 
+
+  - must be very carful how many degrees of freedom we have 
+
+- need to test each $\beta$ and then compute the confidence interval
+
+- code in R is : model = lm(y ~ x_1 + x_2 + .... + x_p , data = ...)
+
+- because all the parameter the model is complex and implies that model we need to run more tests
+
+  - how do we decide which parameters stay and which ones we remove 
+
+### 3.1 Estimation (LSE)
+
+$LS=\sum\limits_{i=1}^n\{y_i-(\beta_0+\beta_1x_{i1}+\beta_2x_{i2}+...+\beta_px_{ip})\}^2$
+
+- with LS you can replace what is inside the parenthesis with any function, not just a linear function
+
+- especially if function is complex consider writting something like $f(x, \theta)$. 
+
+Next we take the derivative with respect to each parameter 
+
+$\frac{\partial LS}{\partial \beta_0}$ , $\frac{\partial LS}{\partial \beta_1}$ , ... , $\frac{\partial LS}{\partial \beta_p}$
+
+Lets write out one : 
+
+$\frac{\partial LS}{\partial \beta_1}=2\sum\limits_{i=1}^,\{y_i-\beta_0+\beta_1x_{i1}+\beta_2x_{i2}+...+\beta_px_{ip})\}(-x_{i1})\equiv 0$
+
+$\vdots$
+
+### Rewrite model in matrix form 
+
+Lets first obs. : $\{x_{i1},x_{i2},\dots ,x_{ip}, y_i\}_{i=1}^n$
+
+- we observb n data points from a p+1 space (vector with p+1 elements)
+
+We then define our new model as : $y=X\beta+\epsilon$
+
+\begin{equation}
+y = 
+\begin{matrix}
+y_1 \\
+y_2 \\
+\vdots \\
+y_n \\ 
+\end{matrix}
+\end{equation}
+
+- y is a column vector 
+
+\begin{equation}
+x = 
+\begin{matrix}
+1 & x_{11} & x_{12} & \ldots & x_{1p}\\
+1 & x_{21} & x_{22} & \ldots & x_{2p}\\
+\vdots \\
+1 & x_{n1} & x_{n2} & \ldots & x_{np}\\
+\end{matrix}
+\end{equation}
+
+- x is design matrix 
+
+\begin{equation}
+\beta = 
+\begin{matrix}
+\beta_1 \\
+\beta_2 \\
+\vdots \\
+\beta_n \\ 
+\end{matrix}
+\end{equation}
+
+\begin{equation}
+\epsilon = 
+\begin{matrix}
+\epsilon_1 \\
+\epsilon_2 \\
+\vdots \\
+\epsilon_n \\ 
+\end{matrix}
+\end{equation}
+
+## LS Function of New Model 
+
+$LS=\epsilon ^T\epsilon =(y-x\beta)^T(y-x\beta)$
+
+- error but in vector form
+
+We are not going to compute the derivative of each individual $beta_i$, lets just comput derivative with respect to the column vector $\beta$
+
+$-X^Ty-X^Ty+2X^TX$
+
+\begin{equation}\label{LS beta}
+\begin{split}
+\frac{\partial LS}{\partial\beta} & = \frac{\partial}{\partial\beta}(y^Ty-y^TX\beta-\beta^TXy+\beta^TX^TX\beta\\
+& = -X^Ty-X^Ty+2X^TX\beta\\
+& = -2X^Ty+2X^TX\beta
+\end{split}
+\end{equation}
+
+- now we set this equation to zero 
+
+$0=-2X^Ty+2X^TX$
+
+$\Rightarrow (X^TX)\beta=X^Ty$
+
+- this implies something very important which is that is $x^T$ is invertable then
+
+$\Rightarrow\hat{\beta}=(x^Tx)^{-1}x^Ty$
+
+- if $(X^TX)$ is invertable
+
+For now is $n>p$ then this term $(X^TX)$ is invertiable, so in most cases assume invertable. 
+
+### Least Square Parameter (beta hat)
+
+$\hat{\beta}_{L.S.}=(X^TX)^{-1}X^Ty$
+
+- may use captial y later to indicate a random vector 
+
+- for now it is not a random vector 
+
+- remember this is a vector 
+
+### y hat estimate
+
+$\hat{y}=x\hat{\beta}=x(x^Tx)^{-1}x^Ty=Hy$
+
+> $H=X(X^TX)^{-1}X^T$ hat matrix 
+
+- H is idempotent (HH=H)
+
+  - can use several properties with
+
+- property of projection 
+
+### Residual Vector 
+
+$\epsilon=y-\hat{y}=(I-H)y$
+
+Now if we write out summation in matrix form : 
+
+$\sum e\hat{y}=e^T\hat{y}=\{(I-H)y\}^THy=y^T(I-H)Hy=y^T(H-H)y=0$
+
+- proof is simple, that is why we did additional problem before chapter 
+
+- next class will cover the geometric meaning of the model, matrix, and equations. 
+
 ### Summary
+
 
 ### To do
 
-- rewatch fri. Oct. 8th lecture 
+- finish today's notes (complete)
+
+# W5-D13 : Mon. Oct. 25th, 2021
+
+- zoom links updated 
+
+### Homework Explained 
+
+- no big issues with model fitting 
+
+Two major "small" problems. 
+
+1. Explaining $R^2$.
+
+- if you remember how we derived it is the square of the correlation coefficient 
+
+- correlation coefficient is a value from -1 to +1, so when you square it $R^2$ is always $\geq 0$ and $\leq1$
+
+2. Additional (Proof) Problems 
+
+- The most serious mistake is that $\sum xy\ne \sum x\sum y$. This property does not exist otherwise the whole world is destroyed. 
+
+**Tedious Way to Prove**
+So when we prove something like $\sum\limits_{i=1}^nx_ie_i$ , we write out the definition of $e_i=(y_i-\hat{y})$. Then we write out the definition of $\hat{y}_i=\hat{\beta}_0+\hat{\beta}_1x_i$, and the definition of $\hat{\beta}_0=\overline{y}-\hat{\beta}_1\overline{x}$ and $\hat{\beta}_1$ (which will be very long, but will help cancel out the $\overline{x}$ and $x_i$). 
+
+$\sum\limits_{i=1}^nx_ie_i=\sum\limits_{i=1}^nx_i(y_i-\hat{y})=\sum\limits_{i=1}^nx_i(y_i-\hat{\beta}_0-\hat{\beta}_1x_i)=\sum\limits_{i=1}^nx_i(y_i-\overline{y}+\hat{\beta}_1\overline{x}-\hat{\beta}_1x_i)$
+
+- you can prove this by plugging in everything we have, and then in the end you will only have $x_i$ and $y_i$. 
+
+**Smarter Way to Prove**
+
+$LS=\sum\limits_{i=1}^n(y_i-\hat{y})=\sum\limits_{i=1}^n(y_i-\beta_0-\beta_1x_i)^2$
+
+- so we can take the partial dericatives with respect to $\beta_0$
+  
+  - $\frac{\partial LS}{\partial \beta_0}=\sum\limits_{i=1}^n(y_i-\beta_0-\beta_1x_i)=^{\text{set}}=0$
+  
+- and with respect to $\beta_1$
+  
+  - $\frac{\partial LS}{\partial \beta_1}=\sum\limits_{i=1}^n(y_i-\beta_0-\beta_1x_i)x_i=^{\text{set}}=0$
+
+Consider these two equations : 
+
+\[
+\begin{cases}
+\frac{\partial LS}{\partial \beta_0}=\sum\limits_{i=1}^n(y_i-\beta_0-\beta_1x_i)=^{\text{set}}=0\\
+\frac{\partial LS}{\partial \beta_1}=\sum\limits_{i=1}^n(y_i-\beta_0-\beta_1x_i)x_i=^{\text{set}}=0
+\end{cases}
+\]
+
+- because we set these two equations to zero and solve for $\hat{\beta}_0$ and $\hat{\beta}_1$, that means that $\hat{\beta}_0$ and $\hat{\beta}_1$ have to satisfy these two equations 
+
+- you can then plug that answer into the equation above ($\sum\limits_{i=1}^nx_i(y_i-\hat{\beta}_0-\hat{\beta}_1x_i)$) to get the answer directly 
+
+- key point being that you need to calrify or emphasis that $\hat{\beta}_0$ and $\hat{\beta}_1$ satisfy the equations below because they were derived from the least squares method. 
+
+\[
+\begin{cases}
+\frac{\partial LS}{\partial \beta_0}=\sum\limits_{i=1}^n(y_i-\hat{\beta}_0-\hat{\beta}_1x_i)=^{\text{set}}=0\\
+\frac{\partial LS}{\partial \beta_1}=\sum\limits_{i=1}^n(y_i-\hat{\beta}_0-\hat{\beta}_1x_i)x_i=^{\text{set}}=0
+\end{cases}
+\]
+
+- again, we are able to do this because $\hat{\beta}_0$ and $\hat{\beta}_1$ are dervived from the LS method by setting their partial derivatives to zero. 
+
+*** Note that this is not that big of an issue, but later we will see this decomposition again (so it might be helpful to clarify for yourself)
+
+### Matrix Form of Linear Model 
+
+$Y=X\beta +\epsilon$
+
+We know : 
+
+$\hat{\beta}=(X^TX)^{-1}X^TY$ (estimation)
+
+$\hat{Y}=X(X^TX)^{-1}X^TY$  (hat matrix)
+
+$\hat{Y}=HY\quad ,\quad H=X(X^TX)^{-1}X^T$
+
+- hat matrix is a projection matrix (so it is idempotent $HH=H$)
+
+### Hat Matrix
+
+> $\hat{Y}=HY$
+
+- remember that Y is a column vector with elements n : $Y=(\vdots)_{n\times1}$
+
+![**Img. 7**](img/img7.png) 
+
+### What is H? 
+
+- a vector induced space made by x (Remember that $H=X(X^TX)^{-1}X^T$)
+
+- so any $x$ from $\{X\}$ must satisfy $Hx=x$
+
+  - Verify this because _x_ is a member of this subspace. Therefore : 
+  
+    - $x=\sum\limits_{i=1}^n\alpha_iX_i$
+    
+    - $\alpha$ is a constant for the column vector 
+    
+  - We know $x_i$ is a column vector of X so H is x by itself (property of projection matrix)
+  
+  - Then we have : 
+  
+    - $Hx=\sum\limits_{i=1}^n\alpha_iHX_i=\sum\limits_{i=1}^n\alpha_iX_i=x$
+  
+  - the original vector is unchange 
+
+### What is x? 
+
+- x is a column vector defined as $X=n-by-(p+1)$
+
+- we have (p+1)-columns
+
+  - p corresponding to the number of indeicators
+  
+  - 1 corresponding to the intercepts 
+
+- that means the space induced by x has at most (p+1) dimensions
+
+  - called space of x 
+
+### What is Y? 
+
+What we really want to know is what if we have something outside this subspace, such as Y (shown in the graph above pointing to the upper right corner).
+
+- geometrically we project the Y to the space enduced by x, and the difference (dotted vector) is our error $\epsilon$ ($\epsilon=Y-\hat{Y}$) 
+
+- $\hat{Y}+\epsilon=Y$ 
+  
+### What is beta hat 
+
+$\hat{Y}=X\hat{\beta}$
+
+- we can compute any $\hat{\beta}$ with this
+
+- $\hat{\beta}$ is a column vector so $X\hat{\beta}$ is just a linear combination of columns of x
+
+- $X\hat{\beta}$ is within the space of x 
+
+  - $X\hat{\beta}$ is shown as blue arrows on the space of x in picture above (img 7)
+  
+  - different arrows corresponding to different $\hat{\beta}_i$ and $x_i$
+
+- We can show the difference between $Y$ and each $X\hat{\beta}$ (blue dotted diagnols)
+
+- We are looking for a $\hat\beta}$ value that minimizes the distance between $X\hat{\beta}$ and $Y$, or minimizes the length of vector $\epsilon$. That value is our $\hat{Y}$ (shown thick blue in img.7)
+
+Note that $\hat{\beta}=(X^TX)^{-1}X^TY$ is in the p+1 dimension, but $\hat{Y}=X\hat{\beta}$ is in the n dimension 
+
+### Properties of beta hat
+
+- Properties of $\hat{\beta}$ are the same a SLR
+
+$\hat{\beta}=(X^TX)^{-1}X^TY$
+
+$E(\hat{\beta})=\beta$
+
+$Var(\hat{\beta})=\sigma^2(X^TX)^{-1}$
+
+$\hat{\beta}\sim N(\beta, \sigma^2(X^TX)^{-1})$ (normal distribution)
+
+$\hat{\sigma}^2=\frac{SSE}{n-(p+1)}=\frac{(Y-\hat{Y})^T(Y-\hat{Y})}{n-(p+1)}$ (unbiased)
+
+$\hat{\sigma}^2_{ML}=\frac{1}{n}(Y-\hat{Y})^T(Y-\hat{Y})$ (biased)
+
+- have a $\frac{1}{n}$ instead of $\frac{1}{n-p-1}$
+
+- maximum likelyhood is not unbiased, but has its own advantages 
+
+- this is from another method, not this one so don't mess them up when you see the estimation of variance is $\frac{1}{n}$
+
+### Hypothesis Testing and CI
+
+We can compute the CI of each individual $\hat{\beta}$ and each individual $\hat{y}$ (becasue now they are both columns). We can also comput the CI of the range of $\hat{\beta}$ vector. 
+
+To begin we want to verify if there is a relationship between Y and x or in otherwords, if at least one of the $\beta$'s are not there. 
+
+1. $H_o=\beta_0=\beta_1=\beta_2=\dots=\beta_p=0$ vs at least one $\beta_i\ne0$
+
+- we want to test if they are all zero 
+
+Extending this to a more general form, 
+
+2. $H_o=\beta_0=\beta_1=\beta_2=\dots=\beta_k=0\quad\text{where  }k=p$ vs. not $H_0$
+
+- we want to test if only part of them are 0 
+
+- use k because we always reorder the predictors. It wont change the model. 
+
+To generate the test statistic through the hypothesis testing problem we will use SSE. 
+
+SSTO=SSE+SSR (still true)
+
+$SSTO=(Y-\overline{Y})^T(Y-\overline{Y})$
+
+$SSE=(Y-\hat{Y})^T(Y-\hat{Y})$
+
+$SSR=(\hat{Y}-\overline{Y})^T(\hat{Y}-\overline{Y})$
+
+$(Y-\overline{Y})^T(Y-\overline{Y})=(Y-\hat{Y})^T(Y-\hat{Y})+(\hat{Y}-\overline{Y})^T(\hat{Y}-\overline{Y})$
+
+Lets define a column vector of 1 of n elements where all its elements are 1, 
+\begin{equation}
+1 = 
+\begin{matrix}
+1\\
+1\\
+1\\
+1\\
+\vdots \\
+\end{matrix}
+\end{equation}
+
+Rewrite ealier equation as : 
+
+\begin{equation}\label{D13}
+\begin{split}
+(Y-\frac{1}{n}\textbf{1}^TY)^T(Y-\frac{1}{n}\textbf{1}^TY) & = \{(I-\frac{1}{n}\textbf{1}^TI)Y\}^T\{(I-\frac{1}{n}\textbf{1}^TI)Y\}\\
+& = Y^T(I-\frac{1}{n}\textbf{1}^T)(I-\frac{1}{n}\textbf{1}^TI)Y
+\end{split}
+\end{equation}
+
+Next we do SSE and SSR
+
+$SSE=Y^TY-\hat{\beta}^TX^TY$
+
+$SSR=\hat{\beta}^TX^TY-\frac{1}{n}Y^T11^TY$
+
+- if we add SSE and SSR together then $\hat{\beta}^TX^TY$ will cancel and we will be left with same result as we got before. 
+
+ANOVA table is a decomposition of SSTO, but simplier one is of SSE and SSR 
+---
+Under the normal assumption that $\epsilon\sim N(0,\sigma^2I)$
+
+$\frac{SSE}{\sigma^2}\sim \chi^2_{n-(p+1)}$
+
+$\frac{SSR}{\sigma^2}\sim\chi^2_p$
+
+We use F distribution testing statistic 
+
+$F=\frac{\frac{SSE}{\sigma^2}/(n-(p+1))}{\frac{SSR}{\sigma^2}/p}=\frac{MSE}{MSR}\sim F_{(n-(p+1)),p}$
+
+- $\sigma^2$ cancel out
+
+- $MSE=\frac{SSE}{(n-(p+1))}$ SSE divided by the degrees of freedom 
+
+- $MSR=\frac{SSR}{p}$ SSR divided by degrees of freedom 
+
+- textbook version : $F=\frac{\frac{SSR}{\sigma^2}/p}{\frac{SSE}{\sigma^2}/(n-(p+1))}=\frac{MSR}{MSE}\sim F_{p,(n-(p+1))}$
+
+We use F to test 1. $H_o=\beta_0=\beta_1=\beta_2=\dots=\beta_p=0$ vs at least one $\beta_i\ne0$
+
+- for 2. we need different SSR and SSE because we have different nonzero coefficients. 
+
+Homework asks for annova table which is a decomposition of SSTO corresponding to SSE and SSR or SSE and long table corresponding to each individual $\beta$
+
+
+### Summary 
+
+- homework corrections 
+
+  - $R^2$ is the square of the correlation coeficient so that $0\leq R^2\leq1$
+  
+  - $\sum xy\ne \sum x\sum y$
+  
+  - $\hat{\beta}_0$ and $\hat{\beta}_1$ are dervived from the LS method by setting their partial derivatives to zero
+
+- 
+
+- properties of $\hat{\beta}$
+
+  - 
+  
+  -
+  
+  -
+  
+  -
+  
+  - unbiased :
+  
+  - biased : 
+
+- hypothesis testing 
+
+# W5-D14 : Wed. Oct. 27th, 2021
+
+### Hypothesis Testing (1)
+
+Test the significance of our linear model 
+
+1. $H_o=\beta_0=\beta_1=\beta_2=\dots=\beta_p=0$ vs not $H_0$ (or $H_1$ not H)
+
+- we want to test the significance of our linear model : if all our $\beta_p$ are 0
+
+- if not $H_0$ means at least one of $\beta_p$ will be non zero 
+
+Testing Statistic 
+
+$F=\frac{MSR}{MSE}\sim F_{p, n-p-1}$ under $H_0$
+
+From the fact that $\frac{SSR}{\sigma^2}\sim \chi^2_p$ and $\frac{SSE}{\sigma^2}\sim\chi^2_{n-p-1}$
+
+That's the end of testing. 
+
+### Noncentral Parameter 
+
+If $H_1$ is true, then $E(MSE)\ne\sigma^2$. 
+
+$E(MSE)=\sigma^2+\lambda=\sigma^2+\frac{\beta_c^TX_c^TX_c\beta_c}{P\sigma^2}$
+
+- we call $\lambda$ the noncentral coeficcient 
+
+Where 
+\begin{equation}
+\beta_c = 
+\begin{matrix}
+\beta_1\\
+\beta_2\\
+\vdots \\
+\beta_p\\
+\end{matrix}
+\end{equation}
+
+\begin{equation}
+x_c = 
+\begin{matrix}
+x_{11}-\overline{x}_1 & x_{12}-\overline{x}_2 & \dots & x_{1p}-\overline{x}_p\\
+x_{11}-\overline{x}_1 & x_{12}-\overline{x}_2 & \dots & x_{1p}-\overline{x}_p\\
+x_{21}-\overline{x}_1 & x_{22}-\overline{x}_2 & \dots & x_{2p}-\overline{x}_p\\
+\vdots & \vdots &\vdots & \vdots &\\
+x_{n1}-\overline{x}_1 & x_{n2}-\overline{x}_2 & \dots & x_{np}-\overline{x}_p\\
+\end{matrix}
+\end{equation}
+
+- $\lambda$ is called noncentral parameter 
+
+If $H_1$ is true, then we have this expected form of the MSE : $E(MSE)=\sigma^2+\frac{\beta_c^TX_c^TX_c\beta_c}{P\sigma^2}$ 
+
+- as $\beta_c$ gets larger so does the $E(MSE)$ (which means that it is **very** different from $E(MSE)\ne\sigma^2$). this matches with our f test. 
+
+- if p value is small we reject $H_0$, which means $\beta_p$ are not zero which means $\beta_c$ is non-zero vector so $\lambda$ is positive
+
+- key point : if $\beta_c$ vector is large we should go with $H_1$ not $H_0$
+
+If $H_0$ is true, the $\beta_c$ will be the zero vector and $E(MSE)=\sigma^2$ (under the $H_0$ case)
+
+### Determination Coeficient R^2
+
+$R^2=\frac{SSR}{SSTO}=1-\frac{SSE}{SSTO}$     (from model $Y=X\beta+\epsilon$)
+
+- SSE is non increasing (take minus sign it is now decreasing)
+
+- $R^2$ will keep increasing as we add x
+
+Lets create a new model :
+
+$Y^*=Y-X\beta$ (error - y star)
+
+- $Y^*$ is the error from our first model 
+
+- we can now run several new predictors
+
+New Model :
+
+$Y^*=X^*\beta^*+\beta+\epsilon^*$
+
+- fitted error of the first model with new predictors 
+
+- where $SSTO^*=SSE_\text{from our first model}=SSE^*+SSR^*$
+
+$SSTO=SSE+SSR=SSR+SSR^*+SSE^*=SSR+SSR^*+SSR^*+\dots+SSE^{*\dots *}$
+
+- $SSE=SSE^*+SSR^*$  
+
+Key Point : We find a way that R is never decreasing, sometimes increasing 
+
+- $R^2$ explains how much variability is explained by our model
+
+- if we find infinitely many predictors then R will go to one 
+
+- we can always find a way to increase $R^2$ to 1 and thus $R^2$ would perfeclty explain data. 
+
+  - problem is that we may need to include infinite many predictors 
+
+  - the price we pay is too high
+  
+  - this is what we don't want
+  
+- $R^2$ may not be a good representative explanation of variability because you may include too many predictors in your model 
+
+- Another problem with predictors is that it might not tell us very much but because the p is increasing we see small adjustments such as :  $\frac{1}{50}\rightarrow\frac{0.99999}{49}$ where  $\frac{1}{50}=0.2<0.20407...\approx\frac{0.99999}{49}$
+
+- that is why we have an adjusted $R^2$
+
+### Aside : Y* step explained 
+
+$Y=x\beta+\epsilon\rightarrow\hat{Y}=x\hat{\beta}\rightarrow\hat{Y}-Y=e$
+
+- Y is our model
+
+- $\hat{Y}$ is our fitted estimation 
+
+- $e$ is our residual 
+
+Now we create a new model 
+
+$e=z\gamma+\delta\rightarrow\hat{e}=z\hat{\gamma}\rightarrow\hat{e}-e=g$
+
+- $\hat{e}$ is the fitted estimated residual of model 
+
+New model : 
+
+$g=\phi y+\alpha\rightarrow$
+
+So everytime we consider the residual is a new response to see what happen to our SSE. We are investigating this theoretical property to see if it makes a difference. You can always have a finer model. 
+
+Applying a real world example to this Y could be estimating the salaraly based on level of degree (x). Based on the residual we can then cosider something else like which state you are in (z). Then could go even further and say what industry is that person in (y) i.e. computer science or buisness. You can always add predictors to do a finer job. This is the idea of repeating the $Y^*$ step. 
+
+### Redefine R^2
+Problem with $R^2$ is that we include too many predictors. So we are trying to fix this. 
+
+$\text{Adj}-R^2=1-\frac{\frac{SSE}{n-p-1}}{\frac{SSTP}{n-1}}$
+
+- divide  SSE and SSTO by their respective degrees of freedom 
+
+- SSE $\downarrow$ (decreasing) , n-p-1 $\downarrow$ (decreasing) , when p $\uparrow$ (increasing)
+
+- in the end we see that everything is $\frac{SSE}{n-p-1}$ $\uparrow$ (increasing)
+
+![Adj- $R^2$](img/img8.png)
+
+- as p increased so will the adjusted $R^2$, but it will eventually decrease 
+
+- this will be discussed more in model selection 
+
+  - model selection is a big topic in big data because we have too many predictors 
+    
+    - Problem : which are useful and which are not?
+  
+### Hypothesis Testing (2)
+
+2. $H_0$ : $\beta_i=0$ v.s. $H_1$ : $\beta_i\ne0$
+
+$t=\frac{\hat{\beta}_i}{s.e.(\hat{\beta}_i)}=\frac{\hat{\beta}_i}{\sqrt{\hat{\sigma}^2c_{ii}}}\sim t_{n-p-1}$ under $H_0$
+
+Where $C_{ii}$ is the $i^{th}$ diagonal element of : $c=(X^TX)^{-1}$
+
+- $Var(\hat{\beta}_i)=\hat{\sigma}^2\cdot C_{ii}$
+
+### Four Cases : (models)
+
+1. full model : $Y=\beta_0+\beta_1x_1+\dots +\beta_px_p+\epsilon$
+
+2. model corresponding to $\beta_i$ : $Y=\beta_0+\beta_1x_1+\dots+\beta_{i+1}x_{i+1}+\beta_{i+1}x_{i+1}+\beta_{p}x_{p}+\epsilon$
+
+3. nothing but constant $\beta_0$ : $Y=\beta_0+\epsilon$
+
+4. slm $\beta_i$ and $\beta_1$ : $Y=\beta_0+\beta_ix_i+\epsilon$
+
+- the first two cases are testing if $\beta_i$ is zero or not. 
+
+- last two are doing the same thing, but you can tell they are different problems because we don't have information from everything else 
+
+- what we want is (1). 
+
+- we are only testing $\beta_i$ and we dont want to exclude anything else.
+
+### R
+
+- annova function does not work for what we want 
+
+In R : lm(Y ~ x_1 + x_2 + x_3)
+
+- Y = $\beta_0$ (test if $\beta_0$ is zero or not)
+
+- Y = $\beta_0+\beta_1x_1$ (test if $\beta_1$ is zero or not)
+
+- Y = $\beta_0+\beta_1x_1+\beta_2x_2$ (test if $\beta_2$ is zero or not)
+
+(will discuss more in section 3)
+
+Nested Model : Once you change the order of predictor the value changes (problem with annova function)
+
+Use Annova() (capiatl) is running the first test that we want. (cars package?)
+
+### Summary 
+
+- hypothesis testing (1)
+
+- hypothesis testing (2)
+
+- Y*
+
+- Annova in R
+
+### To Do 
+
+- finish Monday's notes (complete)
+
+- finish today's notes (complete)
+
+# W5-D15 : Fri. Oct. 29th, 2021
+
+- we have tested two situations. 
+
+1. significance of regression (signigicance of model)
+
+- testing all the parameters are zero 
+
+2. individual parameters are zero
+
+### Hypothesis Testing (3)
+
+3. $H_0$ $\beta_2=0$ vs. $H_1$ not $H_0$ where 
+
+\begin{equation}
+\beta = 
+\begin{matrix}
+\beta_1\\
+\beta_2\\
+\end{matrix}
+\end{equation}
+
+$\beta_1$ is (p+1-r) by 1
+
+$\beta_2$ is r by 1
+
+- we are testing the second part is there 
+
+- testing a subset of the original paramter
+
+- we can always shuffle the order of our predictors, that is why we only test the second one. Anyone parameter can be reordered to be the second one. 
+
+> situation 2 : $H_0 : \beta_i=0$
+>
+>\begin{equation}
+\beta = 
+\begin{matrix}
+\beta_1\\
+\beta_2\\
+\beta_{i+1}\\
+\beta_{i-1}\\
+\vdots\\
+\beta_p\\
+\rule{1cm}{0.4pt}\\
+\beta_i
+\end{matrix}
+\end{equation}
+>
+> where the top part (everything above horizontal line) is $\vec{\beta}_1$ and $\beta_i=\vec{\beta}_2$
+>
+> $\vec{\beta}_2$ is a 1 by 1 vector 
+
+Full Model (FM) : $Y=x\beta+\epsilon$
+
+Reduced Model (RM) : $Y=X_1\beta_1+\epsilon$ where $x=(x_1,x_2)$ (n by p+1) under $H_0$
+
+- $x_1\rightarrow n\times(p+1-r)$ and $x_2\rightarrow n\times r$
+
+- dont need last column r to predict beccause in this last model $\beta_2=0$
+
+In later sections we will usually be using these two models 
+
+- full model under $H_1$
+
+- reduced model under $H_0$
+
+- then we can compare two models
+
+### Comparing FM and RM 
+If the two models have different values, and change a lot then we accept $x_2$ and that $\beta_2$ should not be zero. If there is hardly any difference or no difference at all then $\beta_2$ should not be included in hypothesis testing.
+
+$SSR_\text{FM}-SSR_{\text{RM}}=SSE_{\text{RM}}-SSE_\text{FM}$ 
+
+- we use the difference on the left side
+
+- "Our regression model improves by this much if we include $x_2$ in the model." (right side)
+
+- "Our error is reduced by this amount if we include $x_2$" (left side)
+
+$F=\frac{\frac{SSE_{\text{RM}}-SSE_\text{FM}}{r}}{\frac{SSE}{n-p-1}}\sim F_{r,n-p-1}$ under $H_0$
+
+- r is the number of parameters in $\beta_2$
+
+- r df(fullmodel) - df(reduced model)
+
+\begin{equation}\label{r}
+\begin{split}
+r & = \text{d.f.( SSR)}_{FM}-\text{d.f.( SSR)}_{RM}\\
+& = \text{d.f.( SSE)}_{RM}-\text{d.f.( SSE)}_{FM
+\end{split}
+\end{equation}
+
+$SSR_\text{FM}-SSR_{\text{RM}}=SSR(\beta_2|\beta_1)=SSR(\beta_1,\beta_2)-SSR(\beta_1)$
+
+- conditional because it is the sum of squares regessions for $\beta_2$ provided that $\beta_1$ is also in the model
+
+$SSR(\beta_i|\beta_j)\quad j\ne i$
+
+In R (lower case) annova computes :  
+
+- Model : (lm(y~$x_2+x_1+x_{100}+x_7$))
+
+annova table output 
+
+- Row 1 : SSR($x_2$) 
+
+- Row 2 : SSR($x_1|x_1,x_2$)
+
+- Row 3 : SSR($x_{100}|x_2$)
+
+- Row 4 : SSR($x_{7}|x_1,x_2,x_100$)
+
+- Row 5 : SSE
+
+Notice if you change the order of the model each row changes (which is not what we want)
+
+Annova from car package computes 
+
+- Row 1 : SSR($x_2|x_1,x_{100},x_7$) 
+
+- Row 2 : SSR($x_1|x_7,x_{100},x_2$)
+
+- $\vdots$
+
+- Row 5 : SSE
+
+You see that for captial Annova the order does not matter 
+
+$SSR(\beta_1,\beta_2,\beta_3|\beta_0)=SSR(\beta_1|\beta_0)\perp SSR(\beta_2|\beta_0, \beta_1)\perp SSR(\beta_3|\beta_0, \beta_1, \beta_2)$
+
+### Hypothesis Testing (4) 
+We want to test something specail linear situation 
+
+4. $H_0$ $T\beta=C$ v.s. $H_1$ and $H_0$
+
+- T is a q by (p+1) matrix. 
+
+- C is a q by 1 matrix
+
+- rank(T)=r
+
+RM : $Y=Z\gamma+\epsilon$ under $H_1$
+
+we can solve for r $\beta_i$'s from $T\beta=C$
+
+Hence $\gamma$ is a (p+1-r) vector 
+
+and Z is a n by (p+1-r) matrix
+
+- Z is a linear combination of column x 
+
+What we really care about is testing. 
+
+### R 
+
+Testing that $\beta_0$ (the distance) is not zero 
+
+```{r}
+# load data
+example3.1 <- read_excel("data/Chapter 3/Examples/data-ex-3-1 (Delivery Time).xls")
+# FM 
+model31 <- lm(example3.1$`Delivery Time, y` ~ example3.1$`Number of Cases, x1` + example3.1$`Distance, x2 (ft)`, data = example3.1)
+# RM
+model31.1 <- lm(example3.1$`Delivery Time, y` ~ example3.1$`Number of Cases, x1`, data = example3.1)
+anova(model31.1, model31)
+```
+
+- annova is good at comparing two models 
+
+- p value is very small so we reject the null hypothesis meaning that it is not zero 
+
+```{r}
+model31.2 <- lm(example3.1$`Delivery Time, y` ~ example3.1$`Distance, x2 (ft)`, data = example3.1)
+anova(model31.2, model31)
+```
+
+- we can do this for subset tests 
+
+We can test general linear hypothesis. For example, we are interested in testing
+
+$$H_0 : 2\beta_2=\beta_1\quad\text{v.s}\quad H_1 : 2\beta_2\ne \beta_1$$.
+
+```{r}
+# linearHypothesis(model31, "2*Distance = Number_of_Cases")
+
+# if you have more complex t 
+testMatrix <- c(0,1,-2)
+rhs <- c(0)
+linearHypothesis(model31, testMatrix, rhs = rhs)
+```
+
+![](img/img9.png)
+
+- this is how we do this testing in R 
+
+![](img/img10.png)
+
+### Midterm and Homework
+
+Will post homework and midterm next week. Will get a real data set (where he doesn't know the answer). For now just play with it, and let professor see what we find from the analysis. Homework is the same. 
+
+Midterm will be posted Monday evening (maybe morning) and do the following Monday morning. 
+
+- 1 week to do it 
+
+- email with questions 
+
+### Summary 
+
+- hypothesis testing (3)
+
+- hypothesis testing (4)
+
+- comparing 
+
+- R code 
+
+### To Do 
+
+- finish today's notes (complete)
+
+- HW 3 Due Monday 
+
+- fix and complete problems on HW2 
+
+- prep Midterm pdf
+
+```{r, echo=F, message=F}
+### Bonus 
+# fill out missing summaries 
+# finish chpater 2
+# read chapter 3 
+# re-watch wed. Oct. 6th lecture (26 minutes)
+# study HW 2
+```
