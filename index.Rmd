@@ -2348,17 +2348,127 @@ Midterm will be posted Monday evening (maybe morning) and do the following Monda
 
 - finish today's notes (complete)
 
-- HW 3 Due Monday 
+- HW 3 Due Monday (complete)
 
-- fix and complete problems on HW2 
+# W6-D16 : Mon. Nov. 1, 2021
 
-- prep Midterm pdf
+- mditerm live and due next Monday at midnight
+
+- response variable is density 
+
+### 3.4 Confidence Interval 
+
+1. C.I. of coefficient $\beta$
+
+Recall $C=(X^T)^{-1}$.
+
+We know $Var(\hat{\beta})=\sigma^2(X^TX)^{-1}=\sigma^2C$
+
+$Var(\hat{\beta}_i)=\sigma^2C_{ii}$ 
+
+$C.I.(\hat{\beta}_i)=\hat{\beta}_i\pm t_{\frac{2}{\alpha}, n-p-1}\cdot \sqrt{\hat{\sigma}^2C_{ii}}$
+
+- because $\frac{\hat{\beta}_i-\beta_i}{s.e.(\hat{\beta})}$
+
+2. C.I. of the mean estimation 
+
+C.I. of $\hat{Y}_0$ where $\hat{Y}_0=X_0\hat{\beta}$
+
+$Var(\hat{Y}_0)=Var(X\hat{\beta}_0)=x_0\{\sigma^2(X^TX)^{-1}\}X_0^T=\sigma^2X_0(X^TX)^{-1}X_0^T$
+
+C.I. of $\hat{Y}_0=\hat{Y}_0\pm t_{\frac{2}{\alpha}, n-p-1}\cdot\sqrt{\hat{\sigma}^2X_0(X^TX)^{-1}X_0^T}$
+
+3. C.I. of one estimation. 
+
+$\hat{Y}_0=X_0\hat{\beta}+\epsilon=\sigma^2X_0(X^TX)^{-1}X_0^T+\sigma^2$
+
+C.I. of single $\hat{Y}_0$ is $\hat{Y}_0=\hat{Y}_0\pm t_{\frac{2}{\alpha}, n-p-1}\cdot\sqrt{\hat{\sigma}^2(1+X_0(X^TX)^{-1}X_0^T)}$
+
+4. Simultaneous C.I. on Coefficient. 
+
+$\frac{(\hat{\beta}-\beta)^T(X^TX)(\hat{\beta}-\beta)}{(p+1)MSE}\sim F_{p+1, n-p-1}$
+
+$\frac{(\hat{\beta}-\beta)^T(X^TX)(\hat{\beta}-\beta)}{(p+1)MSE}\leq F_{\frac{\alpha}{2},p+1,n-p-1}$
+
+---
+
+Want a 95% Confidence Region (C.R.) of $\beta$. That means we have 95% confidence that the true $\beta$ is within this region. That also means there is a possibility of 5% that at least one $\beta_i$ is out of this confidence region. Each one of $\beta_i$ should be out of C.R.. If we want 95% C.I. from $\beta_i$. So there is a 5% chance that $\beta_i$ is not in C.I.. 
+
+We assume : 
+$Pr(\beta \text{ out of C.R})=1-Pr(\beta\text{ in the C.R.})=1-Pr(\beta_0, \beta_1, \beta_2,\dots, \beta_p\text{ in the C.R.})=1-\prod\limits_{i=0}^P Pr(\beta_i\text{ in the C.R.})$
+
+$Pr(\beta\text{ in the C.R.})=1-Pr(\beta\text{ out of C.R.})=1-(1-(0.95)^{p+1})=0.95^{p+1}<95$
+
+```{r}
+confidenceEllipse(model31)
+```
+
+![](img/img11.png)
+
+- black is 95% confidence interval / region 
+
+- $(\hat{\beta}^*_1,\hat{\beta}^*_2)$ is within the confidence interval 
+
+- blue colored in corner of oblong is ouside C.I. but within the C.R. 
+
+### Broferoni Method
+
+$\hat{\beta}_1\pm \Delta s.e.(\hat{\beta})$
+
+$\Delta=t_{\frac{\alpha}{2+p+1},n-p-1}$
+
+- $\frac{\alpha}{2}$ is decreasing, so interval is getting narrower
+
+### Scheffe Method
+
+$\hat{\beta}_1\pm \Delta s.e.(\hat{\beta})$ (same as Broferoni)
+
+$\Delta = \{2F_{\alpha, p+1, n-p-1}\}^{\frac{1}{2}}$
+
+### R
+
+confit()
+
+predict(..., "prediction", "confidence")
+
+### Summary 
+
+Confidence Interval : 
+
+1. $C.I.(\hat{\beta}_i)=\hat{\beta}_i\pm t_{\frac{2}{\alpha}, n-p-1}\cdot \sqrt{\hat{\sigma}^2C_{ii}}$
+
+2. $C.I.(\hat{Y}_0)=\hat{Y}_0\pm t_{\frac{2}{\alpha}, n-p-1}\cdot\sqrt{\hat{\sigma}^2X_0(X^TX)^{-1}X_0^T}$
+
+3. $\hat{Y}_0=\hat{Y}_0\pm t_{\frac{2}{\alpha}, n-p-1}\cdot\sqrt{\hat{\sigma}^2(1+X_0(X^TX)^{-1}X_0^T)}$
+
+4. $\frac{(\hat{\beta}-\beta)^T(X^TX)(\hat{\beta}-\beta)}{(p+1)MSE}\leq F_{\frac{\alpha}{2},p+1,n-p-1}$
+
+C.I. : square or cubic region of confidence. 
+
+C.R. : region (circular or oblong) of confidence
+
+$\hat{\beta}_1\pm \Delta s.e.(\hat{\beta})$
+
+- Broferoni Method : $\Delta=t_{\frac{\alpha}{2+p+1},n-p-1}$
+
+- Scheffe Method : $\Delta = \{2F_{\alpha, p+1, n-p-1}\}^{\frac{1}{2}}$
+
+### To Do :
+
+- Rewatch todays lecture to complete Today's Notes
+
+- Midterm 
 
 ```{r, echo=F, message=F}
 ### Bonus 
 # fill out missing summaries 
-# finish chpater 2
+# finish chapter 2
 # read chapter 3 
 # re-watch wed. Oct. 6th lecture (26 minutes)
-# study HW 2
+# fill in missing questions from HW 2
+# add homework and exam page
 ```
+
+# W6-D17 : Wed. Nov. 3rd, 2021
+
+# W6-D18 : Fri. Nov. 5th, 2021
