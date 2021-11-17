@@ -17,6 +17,10 @@ library(dplyr)
 library(kableExtra) # create nice looking tables 
 library(readxl) # read excel tables 
 library('car')
+library('faraway')
+library(qpcR) # PRESS statistic
+library(MASS) # boxcoxResult and boxcox()
+library(nlme) # gls()
 ```
 
 # About
@@ -2455,20 +2459,800 @@ $\hat{\beta}_1\pm \Delta s.e.(\hat{\beta})$
 
 ### To Do :
 
-- Rewatch todays lecture to complete Today's Notes
-
-- Midterm 
-
-```{r, echo=F, message=F}
-### Bonus 
-# fill out missing summaries 
-# finish chapter 2
-# read chapter 3 
-# re-watch wed. Oct. 6th lecture (26 minutes)
-# fill in missing questions from HW 2
-# add homework and exam page
-```
+- Start Midterm (complete)
 
 # W6-D17 : Wed. Nov. 3rd, 2021
 
+### 3.5 Important Notice
+
+1. Hidden Extrapolation 
+
+In SLR we have some points 
+
+![](img/img12.png)
+
+- with data we can find, mean(x), min(x), max(x)
+
+In MLR the point is that we cannot find a very good boundry we can use min($x_i$) and mac($x_i$) for i = 1 to p. 
+
+![](img/img13.png)
+
+- if outside the box then problematic, but inside the box should be fine
+
+- However in most cases there is a region (ellipse within rectangle) where some places are within the rectangle but not within the region 
+
+$H=X(X^TX)^{-1}X^T$
+
+$h_{ii}=$ ith element of H. 
+
+$h_{max}\geq h_{ii}$ for $i=1,2,...,n$
+
+$X_0(X^TX)^{-1}X_0^T>h_{max}$
+
+\[
+X_0(X^TX)^{-1}X_0^T = \begin{cases}
+> h_{max} & \text{outside the region}\\
+\leq h_{max} & \text{insidee the region}\\
+\end{cases}
+\]
+
+2. Standardized Regression Coefficient
+
+Idea is that once we do any transformation, like : 
+
+$x^*=\frac{x+a}{b}$
+
+- we can adjust $\hat{\beta}$ so that all $\hat{\beta}$ are similar 
+
+- after we standardized every predictor and then compare perameter ...
+
+- significance mean different from zero or not. 
+
+- standardize predictor will give us standardized ...
+
+We assume that $(XX^T)^{-1}$ is invertible 
+
+$(X^*X^{*T})^{-1}$
+
+(1) unit normala scaling 
+
+$x^*_{ij}=\frac{x_{ij}-\overline{x}_j}{s_j}$, where 
+
+$s^2_j$ (variance)
+
+$\overline{x}_j=\frac{}{}$
+
+- now we can do a similar transformation of $y^*$
+
+- after we do x, the average of each $x_j$ is 0 with a standard deviation of 1
+
+(2) unit length scaling 
+
+$W_{ij}=\frac{x_{ij-\overline{x}_j}}{\sqrt{S}_{ij}}$
+
+$S_{ij}=\sum\limits_{i=1}^n(x_{ij-\overline{x}_j})^2$
+
+$y^*_j=\frac{y_i-\overline{y}}{\sqrt{SSTO}}$
+
+$Y^*=Y\beta^*+\epsilon$
+
+$\overline{w}_j=0$
+
+- center is over average (sum up over i)
+
+$\sqrt{\sum\limits_{i=1}^n}(w_{ij}-\overline{w}_j)^2=1$
+
+- like an n dimensional space 
+
+- center in a column vector, w's distance is always 1 from the origin 
+
+We now have this w. 
+
+\begin{equation}
+W^TW = 
+\begin{matrix}
+1 & r_{ij}\\
+r_{ji} & 1\\
+\end{matrix}
+\end{equation}
+
+$r_{ij}$ is the correlation coefficient between $x)i$ and $x_j$. 
+
+$\hat{\beta}_j=\hat{\beta}_j^*(\frac{SSTO}{S_{ij}})^{\frac{1}{2}}$
+
+We usually use Unit Length Scaling to deal with invertable $(X^TX)$.
+
+3. Collinearity 
+
+- will show examples Friday
+
+Problem is that we can assume that predictors are independent of each other, but in reality they are not. In real life you cannot avoid this. However in some cases the depencency is not that strong, and we can assume they are not and still do calculations. If they aren't independ then we will have some big issues. 
+
+Let say we have a summary of our function. You will find out in the estimation. If p test is large then we know that the beta is not in the model. If each of them is not significant, then maybe we shouldn't keep any of them. However if you look at overall test if the p-value is small then you reject them. None of them are not zero. At least one is not zero. That is a contradiction. This mistake is called colleratity. 
+
+Why do we have this issue?
+
+We assume that $x_i$'s are independent of each other, but truth may be are in not. Next we will inspect if $x_i$ is a linear combination. 
+
+...
+
+Lets compute: 
+
+$Var(\hat{\beta}_i)=\sigma(X^TX)^{-1}$
+
+We can rewrite in this form : 
+
+$=\sigma^2\frac{1}{1-R^2_i}\cdot\frac{1}{\sum\limits_{i=1}^n(x_{ij}-\overline{x}_i)^2}$
+
+$R_i^2$ is the $R^2$ from model $x_i\sim$ everyone else as predictor 
+
+- if $R^2$ is large then $1-$ is very small and everything else is very huge 
+
+### To Do 
+
+- finish midterm (complete)
+
 # W6-D18 : Fri. Nov. 5th, 2021
+
+### 3. Multilinearity (Corollary)
+
+$Var{\hat{\beta}_i}=\sigma^2\frac{1}{1-R^2_j}\frac{1}{\sum\limits_{j=1}^n(x_i-\overline{x}_i)^2}$
+
+$R^2=$ the $R^2$ for model
+
+$x_i=\alpha_{i}+\alpha x+\dots +\alpha_{i-1}x_{i-1}+2\alpha_{im}x_{im}+\dots +2\alpha_{p}x_{p}+\delta$
+
+$y=x\beta$
+
+### R
+
+```{r}
+data(seatpos, package="faraway")
+lmod <- lm(hipcenter ~ ., seatpos)
+summary(lmod)
+```
+
+- ^^^ example of multiple linarity 
+
+### VIF
+
+We call $\frac{1}{1-R^2}$ WIF. variance inflation factor. 
+
+Thereshold of VIF is 10. 
+
+![](img/img14.png)
+
+- want to find a plane from $x_1$ to $x_2$
+
+- the plane is the model 
+
+- cannot shift plant too much 
+
+(insert image)
+
+- we may have this plane but because of collinarity we can still turn plane a little bit and get roughly good estimate
+
+  - it doesnt deviate too much from the dashed dots
+
+### More R
+
+```{r}
+newData = data.frame(Number_Of_Cases = example3.1$`Number of Cases, x1`,Distance = example3.1$`Distance, x2 (ft)`) 
+pred1 = predict(model31,newdata = newData,interval = "confidence")
+```
+
+
+```{r}
+# Extrapolation
+x = cbind(1,example3.1$`Number of Cases, x1`,example3.1$`Distance, x2 (ft)`)
+newPoint = c(1,15,500)
+newPoint
+hmax = max(diag(x%*%solve(t(x)%*%x))%*%t(x))
+t(newPoint)%*%solve(t(x)%*%x)%*%(newPoint);t(newPoint)%*%solve(t(x)%*%x)%*%(newPoint)<=hmax
+influence.measures(model31)
+# Standardize
+scale(x,center = T,scale = T)
+(x - matrix(1,25,1)%*%apply(x,2,mean))/(matrix(1,25,1)%*%apply(x,2,sd)*sqrt(25-1))
+data(seatpos, package="faraway")
+lmod <- lm(hipcenter ~ ., seatpos)
+summary(lmod)
+# VIF, from car package
+vif(model31)
+```
+
+```{r}
+# bpData = read.table("bloodpress.txt",header = T)
+# pairs(bpData)
+```
+
+Q : For two predictors highly correlated, for which variable does the model gives higher VIF?
+
+- one with higher VIF is good response of everything else 
+
+### 4. Wrong Sign 
+
+- looking for positive relationship b/t y and x 
+
+- very rare, but it may happen. Ususally because of the following situation
+
+Thre range of predictor is too small. 
+
+- you cannot observe a direct relationship 
+
+![](img/img16.png)
+
+The most important predictor is not included.
+
+Multilinearity 
+
+Compl...?
+
+
+Will start model diagnositcs next week
+
+
+### To Do 
+
+- review midterm and submit it 
+
+# W7-D19 : Mon. Nov. 8th, 2021
+
+### Ch.4 : Model Adequacy Checking
+
+$Y=x\beta+\epsilon$
+
+**Assumptions**
+
+i. Y is linearly related to X
+
+ii. $Var(\epsilon)=\sigma^2$
+
+iii. $\epsion_i$ and $\epsilon_i$ are independent?  
+
+- what if each observation is not independent 
+
+iv. $\epsilon\sim N(0,\sigma^2)$?
+
+Diagnositcs will tell us "what if" some of these assumptions are not true? 
+
+- how much is the data skewed? 
+
+### 4.1 Residual Analysis
+
+$e_i=\hat{y}_i-y_i$
+
+We have these properties : 
+
+$\sum\limits_{i=1}^ne_i=0$
+
+$MSE=\frac{1}{n-p-1}\sum\limits_{i=1}^ne_i^2$ which is equivalent to $=\frac{1}{n-p-1}\sum\limits_{i=1}^n(e_i-\overline{e})^2$
+
+### 1. Residual Scaling
+
+(a) Standardized Residual 
+
+$d_i=\frac{e_i}{\sqrt{MSE}}$
+
+(b) Studentized Residual 
+
+$r_i=\frac{e_i}{\sqrt{(1-h_{ii})}}$
+
+- $h_{ii}$ i'th diagonal element of hat matrix H
+
+(c) Press Residual 
+
+$e_{ii}=\frac{e_i}{1-h_{ii}}$
+
+$e_{-i}=\hat{y}_{-i}-y_i$
+
+$\hat{y}_{-i}$ is the prediction of $x_i$ from the linear model $Y_{-i}=x_{-i}\beta+\epsilon_{-i}$ where $_{-i}$ means data without the ith abs. 
+
+- "leave one out" model where $x_{-i}$ is the new predictor value
+
+(d) R-studentized Residual $t=\frac{e_i}{\sqrt{s^2_{??}}}$
+
+where $s_{(i)}^2=\frac{(n-p-1)MSE-\frac{e^2_i}{1-h_{ii}}}{n-p-1}$
+
+### 2. Residual Plot
+
+(a) Normal Probability Plot (QQplot) of Residual 
+
+- Check normality of $\epsilon$
+
+![](img/img17.png)
+
+(b) Residual v.s. Fitted 
+
+- e(r.t.d) v.s. $\hat{y}$
+
+- Check constant $\sigma^2$
+
+![](img/img18.png)
+
+- if there is no pattern, that is good because then variance is a constant 
+
+(c) Residual v.s. Predictor 
+
+![](img/img19.png)
+
+(d) Partial Regression Plot / Partial Residual Plot
+
+\[
+\begin{cases}
+\hat{y}_i(x_2)=\hat{\theta}_0+\hat{\theta}_1x_{i2}\\
+e_i(y|x_2)=y_i-\hat{y}_i(x_2)
+\end{cases}
+\]
+
+\[
+\begin{cases}
+\hat{x}_{i1}(x_2)=\hat{\delta}_0+\hat{\delta}_1x_{i2}\\
+e_i(x|x_2)=x_{i1}-\hat{x}_{i1}(x_2)
+\end{cases}
+\]
+
+$\Rightarrow$ Plot $e_i(y|x_2)$ vs. $e_i(x_1|x_2)$
+
+What we want, if there is a linear function of $x_1$ then we should include linear pattern in model. Otherwise we may consider a higher level of $x_1$
+
+$e_i(y|x_i)$ vs. $x_i$ also works because you are looking at the residual 
+
+(e) $x_i$ vs $x_j$
+
+- in r is called pair() function 
+
+- tells us if they are correlated or not
+
+### 4.2 : PRESS Statistic
+
+$PRESS=\sum\limits_{i=1}^n\{\frac{e_i}{1-h_{i1}}\}$
+
+- press is better than just $R^2$
+
+$R^2_{\text{prediction}}=1-\frac{PRESS}{SSTO}$
+
+### 4.3 : Detect Outliers 
+
+- next class we will go over r code 
+
+# W7-D20 : Wed. Nov. 10th, 2021
+
+- did stuff in R 
+
+### 4.5 Lack of Fit of the Regression Model 
+
+![](img/img20.png)
+
+$SS_{Residual}=SS_{PE}+SS_{Land of F,?}=\sum\sum(y_{}-y_{})^2+\sum n_j(\hat{y}_)$
+
+### Ch. 5 : Transformations and Weighing to Current Model Inadequacies 
+
+$Var(\epsilon)=\sigma^2$
+
+$\epsilon \sim N(0,\sigma^2)$
+
+$Y\sim X$ is linear
+
+### S. 5.1 : Transformations : Stablizing Variane 
+
+0 - method
+
+$\sqrt{n}(\overline{x}-\mu)\rightarrow N(0,\sigma^2)$
+
+$\sqrt{n}(y(\overline{x})-y(\mu))\rightarrow N(0,\{y'(\mu)\}^2\sigma^2)$
+
+$Var(\epsilon)$ is not a constant $\downarrow$ after transformation on $Y$. 
+
+$Var(\epsilon^x)$ is constant. 
+
+Look at e vs. $\hat{y}$
+
+Popular Transformations : 
+
+# W7-D21 : Fri. Nov. 12th, 2021
+
+### 5.1.2 Intrinscially Linear Transformation.
+
+For example : 
+
+$Y=\beta_0e^{x\beta}\epsilon\quad\quad\epsilon>0 \quad\beta_0>0$
+
+$lnY=ln\beta_0+x\beta+ln\epsilon$
+
+$\downarrow\quad\quad\downarrow\quad\quad\downarrow$
+
+$Y^*=\beta^*+x\beta+\epsilon^*$
+
+$\hat{Y}=e^{\hat{Y}^*}$
+
+Transformarion on predictors.
+
+$Y=\beta_0+\beta_1\frac{1}{x}+\epsilon$
+
+$Y=\beta_0+\beta_1\cdot x^*+\epsilon\quad \text{let }x^*=\frac{1}{x}$
+
+![](img/img21.png)
+
+Common Transformations : 
+
+$Y=\beta_0\cdot x^{\beta_1}\quad\rightarrow Y^*=lnY$, $x^*=lnx$
+
+$Y=\beta_0\cdot \epsilon^{x\beta}\quad\rightarrow Y^*=lnY$
+
+$Y=\beta_0+\beta_1lnx\quad\rightarrow x^*=lnx$
+
+$Y=\frac{x}{\beta_0x-\beta_1}\quad\rightarrow Y^*=\frac{1}{Y}$, $x^*=\frac{1}{x}$
+
+### 5.3 Anaalytical Mehtods for Solving a Transformation 
+
+### 1. Transformation on the Response 
+
+Box - Cox Transformation : 
+
+We transfer Y to $Y^\lambda$ given 
+
+\[
+Y^{\lambda}
+\begin{cases}
+\frac{Y^\lambda-1}{\lambda}& \lambda\ne0\\
+lnY & \lambda=0
+\end{cases}
+\]
+
+$\lambda$ is an unbias parameter. 
+
+\[
+Y^{(\lambda)}
+\begin{cases}
+\frac{Y^\lambda-1}{\lambda\dot{\lambda}^{\lambda-1}}& \lambda\ne0\\
+\dot{\lambda}lnY & \lambda=0
+\end{cases}
+\]
+
+$\dot{\lambda}=\sqrt{Y_1\cdot Y_2\cdot\dots\cdot Y_N}=e^{\frac{1}{n}\sum\limits_{i=1}^nlnY_i}$
+
+We use MLE to estimate $\lambda$. In practice we can use Cause - Validation to find $\lambda$.
+
+Criterion ($R^2$, $AdjR^2$, by liklihood) (we want these values as large as possible)
+
+given $\lambda\rightarrow$ Trans $\rightarrow Y^\lambda\rightarrow$ lm(.) $\rightarrow R^2 log(L)\rightarrow\{\lambda_.log\cdot L\}^m_{j=1}$
+
+![](img/img22.png)
+
+Split original data set into k random groups : 
+
+![](img/img23.png)
+
+Given $\lambda\rightarrow$ estimated model ($\lambda$) from (-i) group. 
+
+* k-fold : k=5, 10
+
+* leave-one-out 
+
+$\rightarrow$ predict date in (i) group $\rightarrow MSE$; 
+
+$\rightarrow \{M_i\}^k_{i=1}=M\rightarrow \{\lambda, M\}^n_{i=1}$
+
+![](img/img24.png)
+
+In R you don't need to run this manually, you just need to tell R which $\lambda$ you want to compute and then you are looking for maximum to get box cox transformation. 
+
+### 2. Transformations on Predictors 
+
+Assume $Y\sim x_j^\alpha\quad j=1,2,...,p$
+
+\[
+\zeta_j
+\begin{cases}
+x_j^\alpha & \alpha\ne0\\
+lnx_j & \alpha = 0
+\end{cases}
+\]
+
+1. Let fit $Y=\beta_0+\beta_1x_j+c$
+
+We have $\hat\beta_1$ Then we fit 
+
+2. $E(Y)=\beta_0^*+\beta_1^*x_j+\tau\omega$
+
+where $\omega=x_jlnx_j$
+
+3. Then $\hat\alpha=\frac{\hat\tau}{\hat\beta_1}+1$
+
+# W8-D22 : Mon. Nov. 15th, 2021
+
+### Final 
+
+- In person and take home final 
+
+- In person fianl :
+
+  - will write proofs
+  
+  - only did a few this term so it should be easy to figure out which ones will be on final 
+  
+  - want to make sure we have theses main ideas down 
+
+- Take home final : 
+
+  - similar to midterm
+  
+  - live wednesday the last week of class, and 
+  
+  
+### S5.3 Generalized Least Squared and Weighted Least Squared
+
+Ordianry Least Square (OLS)
+
+1. $\epsilon\sim N(0,\sigma^2)$
+
+2. $E(\epsilon)=0$ , $Var(\epsilon)=\sigma^2$
+
+3. $\epsilon_i$, $\epsilon_j$ and independent 
+
+$(\epsilon_{matrix})\sim N(0,\sigma^2V)$
+
+If V is identity matrix then everything is good. 
+
+If not then we have a problem. 
+
+The var-cov matrix is $\sigma^2V$.
+
+1. Generalized Least Squares (GLS)
+
+V is var-cov matrix, symmetric, positive definite. 
+
+$V=K^TK=KK$ by spectral decomposition. 
+
+$Y=x\beta+\epsilon$
+
+$K^{-1}Y=K^{-1}x\beta+K^{-1}\epsilon$
+
+$Var(K^{-1}\epsilon)=K^{-1}Var(\epsilon)\{K^{-1}\}$
+
+$=K^{-1}\sigma^2IV\{K^{-1}\}^T$
+
+$=\sigma^2K^{-1}KK\{K^{-1}\}^T$
+
+$=\sigma^2I\cdot I$
+
+$=\sigma^2I$
+
+
+
+$K^{-1}Y=K^{-1}x\beta+k^{-1}\epsilon$
+
+$Y^*=x^*\beta+\epsilon^*$
+
+- as long as we have $Var(\epsilon^*)=0$ (constatnt), then we have done our job
+
+$\min(Y^*-x^*\beta)^T(Y^*-x^*\beta)$
+
+$=\{(K^TX)^T(K^{-1}x)\}^{-1}(K^{-1}x)^TK^{-1}Y$
+
+$=\{X^TK^{-1}K^{-1}X\}^{-1}X^TK^{-1^T}K^{-1}Y$
+
+$=(X^TV^{-1}X)X^TV^{-1Y}$
+
+...
+
+$\min(Y^*-x^*\beta)^T(Y^*-x^*\beta)$
+
+$\min(K^{-1}Y-K^{-1}x\beta)(K^{-1}Y-K^{-1}X\beta)$
+
+$\min (Y-x\beta)^TV^{-1}(Y-x\beta)\rightarrow GLS (\text{generalized least square})$
+
+$Y=x\beta+\epsilon\quad\epsilon\sim N(0,\sigma^2V)$
+
+$Y\sim N(x\beta, \sigma^2V)$
+
+In MLE liklihood of Y. 
+
+$\frac{1}{\sqrt{2n\pi\sigma|v|}}e^{-\frac{1}{2}(Y-x\beta)^T(\sigma^2V)^{-1}(Y-x\beta)}$
+
+$\max\beta,\sigma^2,V$
+
+Once we have $\hat{V}$. $\hat{\sigma}^2=MSE$. 
+
+The only thing we cannot solv in this course is $\hat{V}$
+
+Estimating the variance is alwyas more complicated than the mean. 
+
+### 2. Weighted Least Square (WLS)
+\[
+\begin{equation}
+V = 
+\begin{matrix}
+\frac{1}{w_i} & & & 0\\
+ & \frac{1}{w_i} & &\\
+ & & \ddots &\\
+0 & & & \frac{1}{w_i}
+\end{matrix}
+\end{equation}
+\]
+
+# W8-D23 : Wed. Nov. 17th, 2021
+
+GLS WLS
+
+$Y=x\beta+\epsilon$
+
+$\epsilon\sim N(0, \sigma^2V)$
+
+V  
+
+...
+
+3. Convergence Structure 
+
+(1) Variance Componets
+
+\[
+\begin{equation}
+V = 
+\begin{matrix}
+V_{11} & & & 0\\
+& V_{22} & &\\
+& & \ddots &\\
+0 & & & V_{nn}\\
+\end{matrix}
+\end{equation}
+\]
+
+(2) Compound Symmetry 
+
+\[
+\begin{equation}
+V = 
+\begin{matrix}
+1 & \rho & \rho &\dots & \rho \\
+& 1 & \rho & \dots & \rho\\
+& & & \ddots & \rho\\
+& & & & 1\\
+\end{matrix}
+\end{equation}
+\]
+ 
+(3) AR(1) Find Order Aide Regression 
+
+\[
+\begin{equation}
+V = 
+\begin{matrix}
+1 & \rho & \rho^2 & \rho^3 & \dots & \rho^{n-1}\\
+& 1 & \rho & \rho^2 & \dots & \rho^{n-2}\\
+& & & & \ddots &e\\
+& & & & & 1\\
+\end{matrix}
+\end{equation}
+\]
+
+$\epsilon_0=\mu+\rho \epsilon_{t-1}+\delta$
+
+$\epsilon_?=\mu+\rho_1\epsilon_{t-1}+\rho_2\epsilon_{t-2}+\delta$
+
+![](img/img25.png)
+
+(4) Spatial Correlation 
+
+![](img/img26.png)
+
+(5) Unstructured Correlation 
+
+![](img/img27.png)
+
+### R Transformations
+
+```{r}
+# load data
+example51 <- read_excel("data/Chapter 5/Examples/data-ex-5-1 (Electric Utility).xls")
+# model (commented out bc/ error)
+# model51 <- lm(y ~ x, data = example51)
+# plot(fitted(model51),resid(model51),pch = 16);abline(0, 0,lty = 2)
+```
+
+compute square root of y and call it y*
+
+```{r}
+# example51$ystar <- sqrt(example51$y)
+# model51.1 = lm(ystar ~ x, data = example51)
+# plot(fitted(model51.1),resid(model51.1),pch = 16);abline(0, 0,lty = 2)
+```
+
+```{r}
+# load data
+example52 <- read_excel("data/Chapter 5/Examples/data-ex-5-2 (Windmill).xls")
+# model
+model52 = lm(example52$`DC Output, yi` ~ example52$`Wind Velocity, xi (mph)`, data = example52)
+# plot
+plot(fitted(model52),resid(model52),pch = 16);abline(0, 0,lty = 2)
+```
+
+```{r}
+boxcoxResult = boxcox(example52$`DC Output, yi` ~ example52$`Wind Velocity, xi (mph)`, data = example52, lambda = seq(-2,5,0.5))
+boxcox(example52$`DC Output, yi` ~ example52$`Wind Velocity, xi (mph)`, data = example52, lambda = seq(-2,5,0.5))
+```
+
+```{r}
+lambda = boxcoxResult$x[which.max(boxcoxResult$y)]
+example52$yboxcox = (example52$`DC Output, yi`^lambda-1)/lambda
+model52.1 = lm(yboxcox ~ example52$`Wind Velocity, xi (mph)`, data = example52)
+plot(fitted(model52.1),resid(model52.1),pch = 16);abline(0, 0,lty = 2)
+```
+
+```{r}
+example52$x2 = example52$`Wind Velocity, xi (mph)`^2
+model52.2 = lm(example52$`DC Output, yi` ~ example52$`Wind Velocity, xi (mph)` + x2, data = example52)
+plot(fitted(model52.2),resid(model52.2),pch = 16);abline(0, 0,lty = 2)
+```
+
+```{r}
+model52.3 = lm(example52$`DC Output, yi` ~ example52$`Wind Velocity, xi (mph)`, data = example52)
+example52$w = example52$`Wind Velocity, xi (mph)`*log(example52$`Wind Velocity, xi (mph)`)
+example52$xstar = (example52$`Wind Velocity, xi (mph)`+1)
+model52.4 = lm(example52$`DC Output, yi` ~ 0 + xstar + w, data = example52)
+alphaHat = model52.4$coefficients[2]/model52.3$coefficients[2]+1
+```
+
+The dashed line defines the 95% confidence interval of $\lambda$
+
+Next we show GLS and WLS
+
+```{r}
+# load data
+example53 = read.table("Table5_9.txt",header = T)
+# model
+model53 = lm(Income ~ Advertising_Expense,data = example53)
+# OLS Fit
+plot(fitted(model53),resid(model53),pch = 16);abline(0, 0,lty = 2);
+```
+
+```{r}
+# Investigate variance change
+example53$group = c(rep(1,3),rep(2,2),3,rep(4,5),rep(5,6),rep(6,6),rep(7,2),8,rep(9,4))
+example53.1 = aggregate(example53$Advertising_Expense,by = list(example53$group), mean)
+plot(example53$Advertising_Expense,example53$Income,pch = 16);abline(v = example53.1$x,lty = 3,col = 'blue')
+```
+
+```{r}
+ysd = aggregate(example53$Income,by = list(example53$group), sd)
+example53.1$yvar = ysd$x^2
+# Fit weight
+model53.variance = lm(yvar ~ x,data = example53.1)
+plot(fitted(model53.variance),resid(model53.variance),pch = 16);abline(0, 0,lty = 2);
+```
+
+```{r}
+weight = 1/predict(model53.variance,newdata = data.frame(x=example53$Advertising_Expense))
+# Fit WLS
+model53.2 = lm(Income ~ Advertising_Expense,data = example53, weights = weight)
+plot(x=example53$Advertising_Expense, y=example53$Income,
+     panel.last = c(lines(sort(example53$Advertising_Expense),
+                          fitted(model53)[order(example53$Advertising_Expense)], col="blue"),
+                    lines(sort(example53$Advertising_Expense),
+                          fitted(model53.2)[order(example53$Advertising_Expense)],col="red")))
+legend("topleft", col=c("blue","red"), lty=1,
+       inset=0.02, legend=c("OLS", "WLS"))
+```
+
+```{r}
+plot(fitted(model53.2)*sqrt(weight),resid(model53.2)*sqrt(weight),pch = 16);abline(0, 0,lty = 2);
+```
+
+```{r}
+summary(model53)
+```
+
+```{r}
+summary(model53.2)
+```
+
+```{r}
+# Straightforward way when we have other variance structure (gls in nlme packages)
+model53.3 = gls(Income ~ Advertising_Expense,data = example53,correlation = corAR1(form = ~ 1 ))
+summary(model53.3)
+```
+
+Phi : 0.068900994 is our rho
+
+# W8-D24 : Fri. Nov. 19th, 2021
