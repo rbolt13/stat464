@@ -3256,3 +3256,86 @@ summary(model53.3)
 Phi : 0.068900994 is our rho
 
 # W8-D24 : Fri. Nov. 19th, 2021
+
+Guest speaker this afternoon
+
+- will send zoom link to graduate students 
+
+- speaker is our professor's advisor 
+
+- today at 3:50 
+
+- topic may be hard, but it's important to learn what other people do
+
+- different styles : tell a story, or read a textbook 
+
+- learn how to speak and present 
+
+- first colloquium
+
+### Chapter 6 : Diagnostics for Leverage  and Inference 
+
+![](img/img28.png)
+
+- certain points will change our model a lot 
+
+- dont need to worry about black dot 
+
+### 6. 1 : Leverage
+
+$H\sim X(X^TX)^{-1}X^T$
+
+$h_{ii}$ (n diagnal elements of H) is the leverage of the ith observation. 
+
+- we don't want to observe $h_{ii}$ to be different from everything else
+
+- this leverage does not mean the point is an outlier, just that it might be far away from everything else. 
+
+We don't want too large $h_{ii}$. 
+
+Q : How large is too large? 
+
+Rank (H) = p and $tr(H)=rank(H)=p$
+
+$tr(H)=\sum\limits_{i=1}^nh_{ii}=P\sim\frac{p}{n}$
+
+A : $>\frac{2P}{n}$
+
+- so if we have a value larger than this value then we have a starnge value 
+
+Note that if we have too many predicitors we will not use leverage, but this quarter will foruc on p much smaller than n 
+
+### 6.2 : Measurement of Influence 
+
+1. Cook's Distance
+
+In R : 
+mod <- lm()
+plot(mod)
+
+- one of these plots is Cook's Distance 
+
+$D_i=\frac{(\hat\beta_{(i)}-\hat\beta)(X^TX)(\hat\beta_{(i)}-\hat\beta)}{pMSE}$
+
+$\hat\beta_{i}$ is the parameter estimate of $\beta$ without the ith observation. 
+
+- in other books this formula may look different in the middle, but we are focused on the ith observation (which we remove to see what happens)
+
+Let's rewrite this form
+
+$D_i=\frac{r_i^2}{p}\frac{Var(\hat y_{i})}{Var(e_i)}= \frac{r_i^2}{p}\frac{h_{ii}}{1-h_{ii}}$
+
+- $r_i$ is standardized residual 
+
+- leverage means how far data point is away from 
+
+- residual is ... 
+
+![](img/img29.png)
+
+# W9-D25 : Mon. Nov. 22nd, 2021
+
+
+
+
+
