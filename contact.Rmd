@@ -11,5 +11,3 @@ output:
 ---
 
 Like what you see or have a specific question? Check out other projects I've worked on via my personal website / blog [here](https://rbolt.netlify.app/), or send me an an email at **rbolt@pdx.edu**.
-
-$\beta\alpha\delta\delta\alpha\text{ }\beta\sigma\sigma\eta\eta$

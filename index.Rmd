@@ -3335,7 +3335,93 @@ $D_i=\frac{r_i^2}{p}\frac{Var(\hat y_{i})}{Var(e_i)}= \frac{r_i^2}{p}\frac{h_{ii
 
 # W9-D25 : Mon. Nov. 22nd, 2021
 
+1.  Cooks Distance 
 
+- this point will affect the whole model 
 
+### 2. DIFFTS & DFBETAS
 
+![](img/img30.png)
+
+$DFBETAS_{j,i}=\frac{\hat{\beta_j}-\hat{\beta_{j(i)}}}{\sqrt{S^2_{(i)}c_{jj}}}$
+
+i = 1, 2, 3, ... ,n
+
+j = 0, 1, 2, ..., p
+
+Cuttoff : $\frac{2}{\sqrt{n}}$
+
+$C_{jj}$ is the jth diagonal element of $(X^TX)^{-1}\hat\beta_{j(i)}$ is the the jth regression coefficient computed without the ith observation 
+
+$S^2_{ii}=\frac{(n-p)MSE-e^2_i/(1-h_{ii})}{n-p-1}$
+
+$DIFFTS_i=\frac{\hat y_i-\hat y_{(i)}}{\sqrt{s^2_{(i)}h_{(ii)}}}$
+
+$\hat y_{(i)}$ is the prediction at point $x_1$ based on model without $(y_i,x_i)$. 
+
+Cuttoff : $>\frac{2\sqrt{p}}{\sqrt{n}}\rightarrow$ influential point
+
+$DIFFTS_i=(\frac{h_{ii}}{1-h_{ii}})^{\frac{1}{2}}\cdot t_i$
+
+- where $t_i$ is studentized residual 
+
+$DFBETAS_{j,i}=\frac{r_{j,i}}{\sqrt{\overline{r}_j ^T\cdot\overline{r{_j}}}}\cdot\frac{t_i}{\sqrt{1-h_{ii}}}$
+
+$r_{j,i}$ is the jth row and ith column of $(X^TX)^{-1}X^T$ $\overline{r}_i^T$ is the jth row and of the $(X^TX)^{-1}X^T$.
+
+![](img/img31.png)
+
+### R Code 
+
+```{r}
+# average 
+plot(hatvalues(model31));abline(0.3,0,lty = 2)
+# cuttoff is 2p/n, for 0.3
+```
+
+```{r}
+# cooks distance 
+plot(cooks.distance(model31));abline(0.1,0,lty = 2)
+```
+
+```{r}
+# dffts
+plot(dffits(model31),pch = 16);abline(0.5,0,lty = 2)
+```
+
+```{r}
+# dfbetas
+plot(dfbetas(model31));abline(1,0,lty = 2)
+```
+
+```{r}
+plot(covratio(model31))
+# measures overal performance of model 
+```
+
+```{r}
+plot(model31)
+```
+
+plot 1 : residual (without scale) vs. fitted : check model adequacy 
+
+plot 2 : QQ norm, dotted line is theoretical standard normal distribution
+
+plot 3 : standardized residual squar root vs. beta : see observation 9 is problematic
+
+plot 4 : cooks distance : contours 
+
+When a point is influential we keep the model and show this point, and then show a new model without this point. In real data set, in real problem we go back to check what happened with this point. For example if we made a mistake entering data. 
+
+If you have a lot of influential points, then you may observe serveral large groups of cooks distance. 
+
+Last homework is due Wednesday after break. 
+
+Will give breif wrap up on Wednesday, then if we have no problem with final then we will get schedule with final today. 
+
+Final will be Friday after the break. 
+
+Next Wednesday will be review for questions, and class will be open 1. 
+
+# W9-D26 : Wed. Nov. 24th, 2021
 

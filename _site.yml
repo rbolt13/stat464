@@ -5,7 +5,7 @@ output:
   html_document:
     theme: spacelab
 navbar:
-  title: "STAT-464 : Applied Regression Analysis"
+  title: "Applied Regression Analysis"
   left:
     - text: "Notes"
       href: index.html
