@@ -3425,3 +3425,165 @@ Next Wednesday will be review for questions, and class will be open 1.
 
 # W9-D26 : Wed. Nov. 24th, 2021
 
+Next monday will be review, wednesday we will have off, and then Friday will be in person final. Take home final will be due finals week. 
+
+### 3.6.3 Measure of Model Performance 
+
+1. Generalized Variance of $\hat{\beta}$
+
+$Var(\hat S)=\sigma^2(X^TX)^{-1}$
+
+$GV(\hat\beta)=|\sigma^2(X^TX)^{-1}|$ $\leftarrow$ determinate 
+
+2. COVRATIO
+Precise estimation associated with the $i^{th}$ observation. 
+
+$COVRATIO_i=\frac{|(X^T_{(i)}X_{(i)})^{-1}S^2_{(i)}|}{|(X^TX)^{-1}MS|}$
+
+$s^2_{(i)}=\frac{(n-p)MSE-e_i^2/(1-h_{(i)})}{n-p-1}$
+
+- if this value is large then the ith value will improve our estimation 
+
+- if this value is small then the ith value is not improving our estimate
+
+- Cuttoff : $1+\frac{3P}{n}$ or $1-\frac{3P}{n}$ or 1 (to keep things simple)
+
+In R > COVRATIO(mod)
+
+```{r}
+covratio(model31)
+```
+### Model with Random Effect
+
+566 : Introduction of the Random Model
+
+$Y=\beta_0+\beta_1x+\epsilon$
+
+$E(Y)=\beta_0+\beta_1x$
+
+$\beta_0\sim N(\beta_0,\sigma^2_{\beta_0})$ , $\beta_!\sim N(\beta_1,\sigma^2_{\beta_1})$
+
+When $x=\mu$ hat Y at $x_0$ is mod $\beta_0$
+
+$Y=\beta_0+\delta+\beta_1x+\epsilon$
+
+$\delta\sim N(0,\sigma^2)$
+
+$\epsilon\sim N(0,\sigma^2)$
+
+![](img/img32.png)
+
+- black line is fixed effect 
+
+- randomness is a stright line slightly different observation to observation (blue lines)
+
+$Y=\beta_0+(\beta_1+\gamma)X+\epsilon$
+
+$Y\sim N(0,\sigma^2)$
+
+$\epsilon\sim N(0,\sigma^2)$
+
+# W10-D27 : Review 
+(Monday November 29th, 2021)
+
+- no class Wednesday, but will be in the classroom if we have any questions stop by and ask
+
+- written exam is Friday 
+
+  - no calculator, book, 
+  
+  - zoom need to log in and turn on camera, log in early and show professor area 
+  
+  - exam will end at 12:20
+  
+  - will have time to scan exam into D2L
+  
+  - 2 proofs on the exam 
+  
+  - all the proofs have been done in homework or in class
+  
+  - rigorous proofs 
+  
+  - don't need to prove new things, just reinforce memory of what we have done 
+  
+  - if you see the problem it will be very familar, but might change $x^2$ to $y^2$ 
+  
+- take home exam will be posted tonight, and due next Monday at midnight 
+
+  - if you have special situation, let professor know ASAP
+  
+- uploaded evaluation link on D2L under assignment tab, but doesn't count towards final grade 
+
+  - concerned we might go back virtual next term because of variation 
+  
+  - can do evaluation til December 14th 
+  
+### Homework Question 
+
+... 
+
+rewatch after finishing this problem 
+
+... 
+
+```{r}
+# random data set of y1, y2, y3 : we need standard deviation of three
+dataset = matrix(runif(30),10,3)
+dataset
+# running a funcction on this data set
+# 1 for each row
+apply(dataset, 1,sd)
+apply(dataset, 1,mean)
+# 2 for columns 
+apply(dataset, 2,sd)
+# create data frame with additional column after the original one 
+df = data.frame(dataset)
+df$s=apply(dataset, 1,sd)
+df
+# want the mean of only the first and third column 
+apply(dataset[,c(1,3)],1,mean)
+```
+
+```{r}
+# why we use apply more than column mean  
+a = array(0,c(2,3,4))
+a
+```
+
+Question : How do you know what transformation to use? 
+
+- know from physics or chemistry that there will be a cubic transfromation 
+
+- especially in physics we have the model derived from some sort of differential equations 
+
+- in most cases we dont have the "correct" transformation, but what we can do is try our best is to reduce non-constant variance issue. Most based on experience. Variance stabilitzation theory. If you know the formula of variance, and find derivative of transfromation (delta method) and the variance is constant then that is good. However we don't know the truth (problem), thats why based on our experience we find serveral transfomations to. 
+
+- Short answer : we don't know . Lond answer : run multiple models , look at graphs, and do transfomations accoridingly 
+
+- if after trasnfomation you find the residual vs. plotted is getting better then it is getting better
+
+- if you find that it is getting worse then you know it is wrong. 
+
+### Review 
+
+Problem & Data - skip (assume we already have these, and data is clean and not missing)
+
+$Y=x\beta+\epsilon\leftarrow\text{ build a model}$ 
+
+$\hat\beta,\hat\sigma=MSE\leftarrow\text{ fit the model}$
+
+$Y=0.3x_1+0.7x_2+\cdots+\epsilon$
+
+- if you find something wrong do you have some way to solve this? 
+
+- find some method of dealing with it 
+
+- after checking model assumption, do we have strange point. Leverage, outliers, influential points. 
+
+- what to check and how to check (especially outliers)
+
+Typically understanding for this class is that when we have a model like this, you need to dig into each term. What is the assumption, how to check assumption, how to deal with problem in data. What to do with x, hwo to deal with x if x is not good. What is possible response, possible issues with response, how to deal with issue with response if we find something. 
+
+Need to expand each point, what we learned, the theory behind it, and so on. 
+
+Office hours today and Thurseday 
